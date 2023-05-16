@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Instructor]
+(
+	[Id] INT NOT NULL PRIMARY KEY CLUSTERED IDENTITY(1, 1),
+	[FirstName] NVARCHAR(60) NOT NULL,
+	[LastName] NVARCHAR(60) NOT NULL,
+)

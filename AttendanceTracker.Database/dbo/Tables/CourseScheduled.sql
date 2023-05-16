@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[CourseScheduled]
+(
+	[Id] INT NOT NULL PRIMARY KEY CLUSTERED IDENTITY(1, 1),
+	[CourseId] INT NOT NULL REFERENCES Course(Id),
+	[InstructorId] INT NOT NULL REFERENCES Instructor(Id),
+	[BeginDateTimeUTC] DATETIME NOT NULL,
+	[EndDateTimeUTC] DATETIME NOT NULL,
+)
