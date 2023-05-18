@@ -3,23 +3,17 @@ using AttendanceTracker.Data.Implementation;
 
 namespace AttendanceTracker.Data.Tests.TestHelpers
 {
-    public abstract class DataTest
+    public abstract class DataTest : IDisposable
     {
         static protected readonly IDataAccess _dataAccess = new DataAccess(new DbConnectionFactory(Hidden.TestDatabaseConnectionString));
 
-        protected readonly Guid _testGuid;
-
-        protected readonly string _testString;
-
-        protected readonly RequestFactory _requestFactory;
+        protected readonly DataSeeder _dataSeeder;
 
         public DataTest()
         {
-            _testGuid = Guid.NewGuid();
-
-            _testString = _testGuid.ToString();
-
-            _requestFactory = new(_testGuid);
+            _dataSeeder = new(_dataAccess);
         }
+
+        public void Dispose() => _dataSeeder.PurgeSeededRecords().Wait();
     }
 }

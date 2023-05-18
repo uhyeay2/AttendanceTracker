@@ -4,6 +4,6 @@
     {
         public DeleteStudent(string studentCode) : base(studentCode) { }
 
-        public override string GetSql() => "DELETE FROM [dbo].[Student] WHERE StudentCode = @StudentCode";
+        public override string GetSql() => Delete.FromTable(TableNames.Student, where: "StudentCode = @StudentCode");
     }
 }

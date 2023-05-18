@@ -1,11 +1,13 @@
-﻿namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
+﻿using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
+
+namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
 {
     public class DeleteStudentTests : DataTest
     {
         [Fact]
         public async Task DeleteStudent_Given_StudentDoesNotExist_ShouldReturn_ZeroRowsAffected()
         {
-            var rowsAffected = await _dataAccess.ExecuteAsync(_requestFactory.DeleteStudent());
+            var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent("FakeStudentCode"));
 
             Assert.Equal(0, rowsAffected);
         }
@@ -13,12 +15,9 @@
         [Fact]
         public async Task DeleteStudent_Given_StudentIsDeleted_ShouldReturn_OneRowAffected()
         {
-            var insertRequest = _requestFactory.InsertStudent();
-            var deleteRequest = _requestFactory.DeleteStudent(insertRequest.Student.StudentCode);
+            var student = await _dataSeeder.NewStudent();
 
-            await _dataAccess.ExecuteAsync(insertRequest);
-
-            var rowsAffected = await _dataAccess.ExecuteAsync(deleteRequest);
+            var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent(student.StudentCode));
 
             Assert.Equal(1, rowsAffected);
         }

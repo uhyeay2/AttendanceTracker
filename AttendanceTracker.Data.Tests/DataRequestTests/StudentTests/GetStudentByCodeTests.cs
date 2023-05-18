@@ -1,34 +1,30 @@
-﻿namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
+﻿using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
+
+namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
 {
     public class GetStudentByCodeTests : DataTest
     {
         [Fact]
         public async Task GetStudentByCode_Given_StudentDoesNotExist_ShouldReturn_Null()
         {
-            Assert.Null(await _dataAccess.FetchAsync(_requestFactory.GetStudentByCode()));
+            Assert.Null(await _dataAccess.FetchAsync(new GetStudentByCode("StudentCodeNotExisting")));
         }
 
         [Fact]
         public async Task GetStudentByCode_Given_StudentExists_ShouldReturn_Student()
         {
-            var insertRequest = _requestFactory.InsertStudent();
+            var expected = await _dataSeeder.NewStudent();
 
-            await _dataAccess.ExecuteAsync(insertRequest);
-
-            var result = await _dataAccess.FetchAsync(_requestFactory.GetStudentByCode());
-
-            await _dataAccess.ExecuteAsync(_requestFactory.DeleteStudent());
-
-            var expected = insertRequest.Student;
+            var actual = await _dataAccess.FetchAsync(new GetStudentByCode(expected.StudentCode));
 
             Assert.Multiple(() =>
             {
-                Assert.NotNull(result);
+                Assert.NotNull(actual);
 
-                Assert.Equal(expected.StudentCode, result.StudentCode);
-                Assert.Equal(expected.DateOfBirth, result.DateOfBirth);
-                Assert.Equal(expected.FirstName, result.FirstName);
-                Assert.Equal(expected.LastName, result.LastName);
+                Assert.Equal(expected.StudentCode, actual.StudentCode);
+                Assert.Equal(expected.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(expected.FirstName, actual.FirstName);
+                Assert.Equal(expected.LastName, actual.LastName);
             });
         }
     }

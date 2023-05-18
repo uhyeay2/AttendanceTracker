@@ -4,6 +4,6 @@
     {
         public IsStudentCodeTaken(string studentCode) : base(studentCode) { }
 
-        public override string GetSql() => "SELECT CASE WHEN EXISTS (SELECT * FROM Student WHERE StudentCode = @StudentCode) THEN 1 ELSE 0 END";
+        public override string GetSql() => Select.Exists(TableNames.Student, "StudentCode = @StudentCode");
     }
 }

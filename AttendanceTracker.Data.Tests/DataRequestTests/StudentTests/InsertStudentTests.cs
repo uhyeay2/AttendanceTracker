@@ -1,4 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
+using AttendanceTracker.Domain.Constants;
+using System.Data.SqlClient;
 
 namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
 {
@@ -7,9 +9,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task InsertStudent_Given_StudentCode_IsNull_ShouldThrow_SqlException()
         {
-            var insertRequest = _requestFactory.InsertStudent();
-
-            insertRequest.Student.StudentCode = null!;
+            var insertRequest = new InsertStudent(studentCode: null!, "FirstName", "LastName", DateTime.Now);
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(insertRequest));
         }
@@ -17,26 +17,21 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task InsertStudent_Given_StudentCode_AlreadyExists_ShouldThrow_SqlException()
         {
-            var insertRequest = _requestFactory.InsertStudent();
+            var existingStudent = await _dataSeeder.NewStudent();
 
-            await _dataAccess.ExecuteAsync(insertRequest);
+            var insertRequestWithExistingStudentCode = new InsertStudent(existingStudent.StudentCode, "NewFirstName", "OtherLastName", DateTime.Now);
 
-            var insertRequestWithSameCode = _requestFactory.InsertStudent(insertRequest.Student.StudentCode);
-
-            var exception = await Record.ExceptionAsync(async () => await _dataAccess.ExecuteAsync(insertRequestWithSameCode));
-
-            await _dataAccess.ExecuteAsync(_requestFactory.DeleteStudent());
-
-            Assert.NotNull(exception);
-            Assert.IsType<SqlException>(exception);
+            await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(insertRequestWithExistingStudentCode));
         }
 
         [Fact]
         public async Task InsertStudent_Given_StudentIsInserted_ShouldReturn_One()
         {
-            var rowsAffected = await _dataAccess.ExecuteAsync(_requestFactory.InsertStudent());
+            var studentCode = Guid.NewGuid().ToString()[..StudentCodeConstants.ExpectedLength];
 
-            await _dataAccess.ExecuteAsync(_requestFactory.DeleteStudent());
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudent(studentCode, "FirstName", "LastName", DateTime.Now));
+
+            await _dataAccess.ExecuteAsync(new DeleteStudent(studentCode));
 
             Assert.Equal(1, rowsAffected);
         }

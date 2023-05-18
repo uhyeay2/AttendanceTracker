@@ -2,13 +2,24 @@
 {
     public class InsertStudent : IDataRequest
     {
-        public InsertStudent(Student student) => Student = student;
+        public InsertStudent(string studentCode, string firstName, string lastName, DateTime dateOfBirth)
+        {
+            StudentCode = studentCode;
+            FirstName = firstName;
+            LastName = lastName;
+            DateOfBirth = dateOfBirth;
+        }
 
-        public Student Student { get; set; }
+        public string StudentCode { get; set; }
 
-        public object? GetParameters() => new { Student.StudentCode, Student.FirstName, Student.LastName, Student.DateOfBirth };
+        public string FirstName { get; set; }
 
-        public string GetSql() => 
-            "INSERT INTO [dbo].[Student] (StudentCode, FirstName, LastName, DateOfBirth) VALUES ( @StudentCode, @FirstName, @LastName, @DateOfBirth )";
+        public string LastName { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
+        public object? GetParameters() => new { StudentCode, FirstName, LastName, DateOfBirth };
+
+        public string GetSql() => Insert.IntoTable(TableNames.Student, "StudentCode", "FirstName", "LastName", "DateOfBirth");
     }
 }

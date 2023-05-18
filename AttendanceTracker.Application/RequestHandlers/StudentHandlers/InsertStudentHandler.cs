@@ -30,7 +30,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
             do studentCode = StudentCodeGeneration.NewCode();
                 while (await _dataAccess.FetchAsync(new IsStudentCodeTaken(studentCode)));
 
-            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudent(new (studentCode, request.FirstName, request.LastName, request.DateOfBirth)));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudent(studentCode, request.FirstName, request.LastName, request.DateOfBirth));
 
             if(rowsAffected.NoRowsAreUpdated())
                 throw new ExpectationFailedException(nameof(InsertStudentRequest));

@@ -4,6 +4,6 @@
     {
         public GetStudentByCode(string studentCode) : base(studentCode) { }
 
-        public override string GetSql() => "SELECT TOP 1 * FROM [dbo].[Student] WHERE StudentCode = @StudentCode";
+        public override string GetSql() => Select.FromTable(TableNames.Student, where: "StudentCode = @StudentCode");
     }
 }

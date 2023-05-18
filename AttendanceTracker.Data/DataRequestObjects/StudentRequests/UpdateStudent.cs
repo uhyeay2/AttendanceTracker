@@ -2,7 +2,7 @@
 {
     public class UpdateStudent : StudentCode_DataRequest
     {
-        public UpdateStudent(string studentCode, string? firstName, string? lastName, DateTime? dateOfBirth) : base(studentCode)
+        public UpdateStudent(string studentCode, string? firstName = null, string? lastName = null, DateTime? dateOfBirth = null) : base(studentCode)
         {
             FirstName = firstName;
             LastName = lastName;

@@ -1,11 +1,13 @@
-﻿namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
+﻿using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
+
+namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
 {
     public class UpdateStudentTests : DataTest
     {
         [Fact]
         public async Task UpdateStudent_Given_StudentDoesNotExist_ShouldReturn_ZeroRowsAffected()
         {
-            var rowsAffected = await _dataAccess.ExecuteAsync(_requestFactory.UpdateStudent());
+            var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateStudent("StudentCodeNotExisting"));
 
             Assert.Equal(0, rowsAffected);
         }
@@ -13,11 +15,9 @@
         [Fact]
         public async Task UpdateStudent_Given_StudentExists_ShouldReturn_One()
         {
-            await _dataAccess.ExecuteAsync(_requestFactory.InsertStudent());
+            var student = await _dataSeeder.NewStudent();
 
-            var rowsAffected = await _dataAccess.ExecuteAsync(_requestFactory.UpdateStudent());
-
-            await _dataAccess.ExecuteAsync(_requestFactory.DeleteStudent());
+            var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateStudent(student.StudentCode));
 
             Assert.Equal(1, rowsAffected);
         }
@@ -25,23 +25,22 @@
         [Fact]
         public async Task UpdateStudent_Given_NewValuesProvided_ShouldUpdate_RecordWithMatchingStudentCode()
         {
-            await _dataAccess.ExecuteAsync(_requestFactory.InsertStudent());
+            var student = await _dataSeeder.NewStudent(firstName: "OriginalFirstName", lastName: "OriginalLastName", dateOfBirth: DateTime.Today);
 
-            var updateRequest = _requestFactory.UpdateStudent(firstName: "NewFirstName", lastName: "NewLastName", dateOfBirth: DateTime.Today.AddDays(1));
+            var expected = new UpdateStudent(student.StudentCode, firstName: "NewFirstName", lastName: "NewLastName", dateOfBirth: DateTime.Today.AddDays(1));
 
-            await _dataAccess.ExecuteAsync(updateRequest);
+            // execute UpdateStudent Data Transaction
+            await _dataAccess.ExecuteAsync(expected);
 
-            var recordAfterUpdating = await _dataAccess.FetchAsync(_requestFactory.GetStudentByCode());
-
-            await _dataAccess.ExecuteAsync(_requestFactory.DeleteStudent());
+            var actual = await _dataAccess.FetchAsync(new GetStudentByCode(expected.StudentCode));
 
             Assert.Multiple(() =>
             {
-                Assert.NotNull(recordAfterUpdating);
+                Assert.NotNull(actual);
 
-                Assert.Equal(updateRequest.FirstName, recordAfterUpdating.FirstName);
-                Assert.Equal(updateRequest.LastName, recordAfterUpdating.LastName);
-                Assert.Equal(updateRequest.DateOfBirth, recordAfterUpdating.DateOfBirth);
+                Assert.Equal(expected.FirstName, actual.FirstName);
+                Assert.Equal(expected.LastName, actual.LastName);
+                Assert.Equal(expected.DateOfBirth, actual.DateOfBirth);
             });
         }
     }

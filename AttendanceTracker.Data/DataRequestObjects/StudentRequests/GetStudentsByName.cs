@@ -15,14 +15,11 @@
         public object? GetParameters() => new { FirstName, LastName };
 
         public string GetSql() =>
-        @"
-            IF (@FirstName IS NOT NULL OR @LastName IS NOT NULL)
-
-                SELECT * FROM [dbo].[Student] WITH(NOLOCK)
-
-                    WHERE (FirstName LIKE '%' + @FirstName + '%' OR @FirstName IS NULL)
-
-                      AND (LastName LIKE '%' + @LastName + '%' OR @LastName IS NULL)
-        ";
+            Select.FromTable(TableNames.Student, 
+            where: @"
+                (@FirstName IS NOT NULL OR @LastName IS NOT NULL) AND
+                (@FirstName IS NULL OR FirstName LIKE '%' + @FirstName + '%' ) AND
+                (@LastName  IS NULL OR LastName  LIKE '%' + @LastName  + '%' )
+            ");
     }
 }
