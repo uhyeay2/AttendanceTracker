@@ -1,4 +1,5 @@
 ﻿using AttendanceTracker.Data.Implementation;
+using AttendanceTracker.Domain.Factories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AttendanceTracker.Application.Implementation
@@ -14,13 +15,15 @@ namespace AttendanceTracker.Application.Implementation
 
             services.InjectDataAccess(connectionString);
 
-            services.AddSingleton<IOrchestrator, Orchestrator>();
-
             services.AddTransient(_ => services);
 
             services.AddSingleton(GetHandlers());
 
             services.AddSingleton<IHandlerFactory, HandlerFactory>();
+
+            services.AddSingleton<IOrchestrator, Orchestrator>();
+
+            services.AddSingleton<IRandomCharacterFactory, RandomCharacterFactory>();
 
             return services;
         }

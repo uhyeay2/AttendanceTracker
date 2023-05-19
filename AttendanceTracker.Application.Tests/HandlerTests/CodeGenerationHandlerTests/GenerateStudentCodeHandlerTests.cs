@@ -1,11 +1,12 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers;
 using AttendanceTracker.Domain.Constants;
+using AttendanceTracker.Domain.Factories;
 
 namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandlerTests
 {
     public class GenerateStudentCodeHandlerTests
     {
-        private readonly GenerateStudentCodeHandler _handler = new();
+        private readonly GenerateStudentCodeHandler _handler = new(new RandomCharacterFactory());
 
         [Fact]
         public void GenerateStudentCode_Should_GenerateCode_WithExpectedLength()

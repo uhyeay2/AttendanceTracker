@@ -1,6 +1,5 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers;
 using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
-using AttendanceTracker.Data.Abstraction.Interfaces;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 using AttendanceTracker.Domain.Constants;
 using Moq;
@@ -14,7 +13,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         public GetUniqueStudentCodeHandlerTests() => _handler = new(_mockDataAccess.Object, _mockOrchestrator.Object);
 
         [Fact]
-        public async Task GetUniqueStudentCode_Given_GeneratedCodeIsNotTaken_Should_ReturnCode()
+        public async Task GetUniqueStudentCode_Given_GeneratedCodeIsNotTaken_ShouldReturn_CodeGenerated()
         {
             var expectedCode = "GeneratedCode";
 
@@ -27,7 +26,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         }
 
         [Fact]
-        public async Task GetUniqueStudentCode_Given_GeneratedCodeIsTaken_Should_ThrowException_AfterMaxAttempts()
+        public async Task GetUniqueStudentCode_Given_GeneratedCodeIsTaken_ShouldThrow_ExpectationFailedException_AfterMaxAttempts()
         {
             SetupFetchAsync<IsStudentCodeTaken, bool>(true);
 

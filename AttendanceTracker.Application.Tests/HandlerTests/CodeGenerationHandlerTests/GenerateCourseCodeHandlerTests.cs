@@ -1,11 +1,12 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers;
 using AttendanceTracker.Domain.Constants;
+using AttendanceTracker.Domain.Factories;
 
 namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandlerTests
 {
     public class GenerateCourseCodeHandlerTests
     {
-        private readonly GenerateCourseCodeHandler _handler = new();
+        private readonly GenerateCourseCodeHandler _handler = new(new RandomCharacterFactory());
 
         public static readonly IEnumerable<object[]> TestSubjectCodes = new[] 
         {
@@ -33,7 +34,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
             {
                 Assert.All(endingDigits, _ => char.IsDigit(_));
 
-                Assert.Equal(CourseCodeConstants.NumberOfEndingDigits, endingDigits.Count());
+                Assert.Equal(CourseCodeConstants.NumberOfEndingNumbers, endingDigits.Count());
             });
         }
 
@@ -49,7 +50,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
 
                 Assert.Equal(CourseCodeConstants.MaxLength, generatedCode.Length);
 
-                Assert.All(generatedCode.TakeLast(CourseCodeConstants.NumberOfEndingDigits), _ => char.IsDigit(_));
+                Assert.All(generatedCode.TakeLast(CourseCodeConstants.NumberOfEndingNumbers), _ => char.IsDigit(_));
             });
         }
     }

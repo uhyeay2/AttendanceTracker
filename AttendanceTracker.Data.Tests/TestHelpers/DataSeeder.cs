@@ -47,7 +47,7 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
         {
             var randomCourse = A.New<Course_DTO>();
 
-            courseCode ??= "GenerateNewCode";
+            courseCode ??= Guid.NewGuid().ToString()[..CourseCodeConstants.MaxLength]; ;
 
             await _dataAccess.ExecuteAsync(new InsertCourse(courseCode, name ?? randomCourse.Name));
 
