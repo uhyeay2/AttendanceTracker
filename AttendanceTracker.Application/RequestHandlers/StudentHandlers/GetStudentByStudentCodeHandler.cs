@@ -4,7 +4,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
     public class GetStudentByStudentCodeRequest : RequiredStudentCodeRequest<Student> { }
 
-    internal class GetStudentByStudentCodeHandler : DataTaskHandler<GetStudentByStudentCodeRequest, Student>
+    internal class GetStudentByStudentCodeHandler : DataHandler<GetStudentByStudentCodeRequest, Student>
     {
         public GetStudentByStudentCodeHandler(IDataAccess dataAccess) : base(dataAccess) { }
 

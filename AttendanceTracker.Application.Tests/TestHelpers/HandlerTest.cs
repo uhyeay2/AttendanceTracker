@@ -1,4 +1,5 @@
-﻿using AttendanceTracker.Data.Abstraction.Interfaces;
+﻿using AttendanceTracker.Application.Abstraction.Interfaces;
+using AttendanceTracker.Data.Abstraction.Interfaces;
 using Moq;
 
 namespace AttendanceTracker.Application.Tests.TestHelpers
@@ -6,6 +7,7 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
     public abstract class HandlerTest
     {
         protected readonly Mock<IDataAccess> _mockDataAccess;
+        protected readonly Mock<IOrchestrator> _mockOrchestrator;
 
         protected const int OneRowUpdated = 1;
 
@@ -14,9 +16,10 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
         public HandlerTest()
         {
             _mockDataAccess = new();
+            _mockOrchestrator = new();
         }
 
-        #region Helpers for Setting up FetchListAsync through mocked DataAccess
+        #region Helpers for Setup on Mock Data Access
 
         /// <summary>
         /// Setup IDataAccess.FetchListAsync() given any Type of TRequest will return response provided.
@@ -30,10 +33,6 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
         protected void SetupFetchListAsync<TRequest, TResponse>(TRequest request, IEnumerable<TResponse> response) where TRequest : IDataRequest<TResponse> =>
             _mockDataAccess.Setup(_ => _.FetchListAsync(request)).Returns(Task.FromResult(response));
 
-        #endregion
-
-        #region Helpers for Setting up FetchAsync through mocked DataAccess
-
         /// <summary>
         /// Setup IDataAccess.FetchAsync() given any Type of TRequest will return the response provided.
         /// </summary>
@@ -46,10 +45,6 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
         protected void SetupFetchAsync<TRequest, TResponse>(TRequest request, TResponse response) where TRequest : IDataRequest<TResponse> =>
             _mockDataAccess.Setup(_ => _.FetchAsync(request)).Returns(Task.FromResult(response));
 
-        #endregion
-
-        #region Helpers for setting up ExecuteAsync through mocked DataAccess
-
         /// <summary>
         /// Setup IDataAccess.ExecuteAsync() given any Type of TRequest will return the int provided.
         /// </summary>
@@ -57,5 +52,16 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
             _mockDataAccess.Setup(_ => _.ExecuteAsync(It.IsAny<TRequest>())).Returns(Task.FromResult(response));
 
         #endregion
+
+        #region Helpers for Setup on Mock Orchestrator
+
+        /// <summary>
+        /// Setup IOrchestrator.GetResponse() given any Type of TRequest will return TResponse provided.
+        /// </summary>
+        protected void SetupGetResponse<TRequest, TResponse>(TResponse response) where TRequest : IRequest<TResponse> =>
+            _mockOrchestrator.Setup(_ => _.GetResponse<TRequest, TResponse>(It.IsAny<TRequest>())).Returns(response);
+
+        #endregion
+
     }
 }

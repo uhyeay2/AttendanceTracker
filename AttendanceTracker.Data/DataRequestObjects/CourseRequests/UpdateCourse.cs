@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
+﻿namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
 {
-    internal class UpdateCourse
+    internal class UpdateCourse : CourseCode_DataRequest
     {
+        public UpdateCourse(string courseCode) : base(courseCode) { }
+
+        public override string GetSql() => Update.CoalesceTable(TableNames.Course, 
+            where: "CourseCode = @CourseCode", 
+            columnNamesMatchingParameterNames: "Name");
     }
 }

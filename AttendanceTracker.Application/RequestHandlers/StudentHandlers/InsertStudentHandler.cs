@@ -1,5 +1,4 @@
 ﻿using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
-using AttendanceTracker.Domain.Policy.CodeGeneration;
 
 namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
@@ -19,16 +18,13 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
             .IsValidWhenNoFailures();
     }
 
-    internal class InsertStudentHandler : DataTaskHandler<InsertStudentRequest, Student>
+    internal class InsertStudentHandler : DataOrchestratorHandler<InsertStudentRequest, Student>
     {
-        public InsertStudentHandler(IDataAccess dataAccess) : base(dataAccess) { }
+        public InsertStudentHandler(IDataAccess dataAccess, IOrchestrator orchestrator) : base(dataAccess, orchestrator) { }
 
         public override async Task<Student> HandleRequestAsync(InsertStudentRequest request)
         {
-            string? studentCode;
-
-            do studentCode = StudentCodeGeneration.NewCode();
-                while (await _dataAccess.FetchAsync(new IsStudentCodeTaken(studentCode)));
+            var studentCode = await _orchestrator.GetResponseAsync<GetUniqueStudentCodeRequest, string>(new());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudent(studentCode, request.FirstName, request.LastName, request.DateOfBirth));
 

@@ -1,7 +1,7 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 
-namespace AttendanceTracker.Application.Tests.HandlerTests
+namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 {
     public class UpdateStudentHandlerTests : HandlerTest
     {

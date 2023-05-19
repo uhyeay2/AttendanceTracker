@@ -17,17 +17,8 @@
 
         public override object? GetParameters() => new { StudentCode, FirstName, LastName, DateOfBirth };
 
-        public override string GetSql() =>
-        @"
-            UPDATE [dbo].[Student] SET
-
-                FirstName = COALESCE(@FirstName, FirstName),
-
-                LastName = COALESCE(@LastName, LastName),
-
-                DateOfBirth = COALESCE(@DateOfBirth, DateOfBirth)
-
-            WHERE StudentCode = @StudentCode
-        ";
+        public override string GetSql() => Update.CoalesceTable(TableNames.Student,
+            where: "StudentCode = @StudentCode",
+            "FirstName", "LastName", "DateOfBirth");
     }
 }

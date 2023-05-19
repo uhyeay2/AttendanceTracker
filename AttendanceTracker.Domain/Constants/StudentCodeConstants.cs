@@ -4,8 +4,10 @@
     {
         public const int LengthOfLeadingLetters = 3;
 
-        public const int LengthOfEndingNumbers = 4;
+        public static int ExpectedLength => 7;
 
-        public static int ExpectedLength => LengthOfLeadingLetters + LengthOfEndingNumbers;
+        public const int MaxAttemptsToGenerate = 5;
+
+        public const string MaxAttemptsExceededErrorMessage = "Exceeded Max Attempts To Generate Student Code";
     }
 }

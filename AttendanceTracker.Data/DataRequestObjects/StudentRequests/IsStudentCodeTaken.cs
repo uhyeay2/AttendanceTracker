@@ -4,6 +4,6 @@
     {
         public IsStudentCodeTaken(string studentCode) : base(studentCode) { }
 
-        public override string GetSql() => Select.Exists(TableNames.Student, "StudentCode = @StudentCode");
+        public override string GetSql() => Select.Exists(TableNames.Student, where: "StudentCode = @StudentCode");
     }
 }

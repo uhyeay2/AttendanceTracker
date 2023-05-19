@@ -2,7 +2,7 @@
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 using AttendanceTracker.Domain.Exceptions;
 
-namespace AttendanceTracker.Application.Tests.HandlerTests
+namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 {
     public class DeleteStudentHandlerTests : HandlerTest
     {

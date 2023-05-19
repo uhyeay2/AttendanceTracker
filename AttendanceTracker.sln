@@ -17,9 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C6F9DE97
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttendanceTracker.Data.Tests", "AttendanceTracker.Data.Tests\AttendanceTracker.Data.Tests.csproj", "{983926BB-D529-4034-82F2-982AC6CA607C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttendanceTracker.Domain.Tests", "AttendanceTracker.Domain.Tests\AttendanceTracker.Domain.Tests.csproj", "{52E5CFD5-C73F-4F5B-B9F2-204B1A161F85}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceTracker.Application.Tests", "AttendanceTracker.Application.Tests\AttendanceTracker.Application.Tests.csproj", "{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttendanceTracker.Application.Tests", "AttendanceTracker.Application.Tests\AttendanceTracker.Application.Tests.csproj", "{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +51,6 @@ Global
 		{983926BB-D529-4034-82F2-982AC6CA607C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{983926BB-D529-4034-82F2-982AC6CA607C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{983926BB-D529-4034-82F2-982AC6CA607C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52E5CFD5-C73F-4F5B-B9F2-204B1A161F85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52E5CFD5-C73F-4F5B-B9F2-204B1A161F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52E5CFD5-C73F-4F5B-B9F2-204B1A161F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52E5CFD5-C73F-4F5B-B9F2-204B1A161F85}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,7 +61,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{983926BB-D529-4034-82F2-982AC6CA607C} = {C6F9DE97-61C7-40FD-8E59-7544B9D2A1B9}
-		{52E5CFD5-C73F-4F5B-B9F2-204B1A161F85} = {C6F9DE97-61C7-40FD-8E59-7544B9D2A1B9}
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A} = {C6F9DE97-61C7-40FD-8E59-7544B9D2A1B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

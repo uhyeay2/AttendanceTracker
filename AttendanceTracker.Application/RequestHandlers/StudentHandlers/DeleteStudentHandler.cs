@@ -4,7 +4,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
     public class DeleteStudentRequest : RequiredStudentCodeRequest { }
 
-    internal class DeleteStudentHandler : DataTaskHandler<DeleteStudentRequest>
+    internal class DeleteStudentHandler : DataHandler<DeleteStudentRequest>
     {
         public DeleteStudentHandler(IDataAccess dataAccess) : base(dataAccess) { }
 

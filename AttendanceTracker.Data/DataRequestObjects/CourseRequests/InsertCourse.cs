@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
+﻿namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
 {
-    internal class InsertCourse
+    public class InsertCourse : IDataRequest
     {
+        public InsertCourse(string courseCode, string name)
+        {
+            CourseCode = courseCode;
+            Name = name;
+        }
+
+        public string CourseCode { get; set; }
+
+        public string Name { get; set; }
+
+        public object? GetParameters() => new { Name, CourseCode }; 
+
+        public string GetSql() => Insert.IntoTable(TableNames.Course, "Name", "CourseCode");
     }
 }

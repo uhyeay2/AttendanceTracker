@@ -2,7 +2,7 @@
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 using AttendanceTracker.Domain.Models;
 
-namespace AttendanceTracker.Application.Tests.HandlerTests
+namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 {
     public class GetStudentsByNameHandlerTests : HandlerTest
     {
@@ -21,9 +21,9 @@ namespace AttendanceTracker.Application.Tests.HandlerTests
         [Fact]
         public async Task GetStudentsByName_Given_StudentsFound_ShouldReturn_StudentsFound()
         {
-            var dto = A.ListOf<Student_DTO>();
+            var dto = GenFu.GenFu.ListOf<Student_DTO>();
 
-            var expected = dto.Select(_ => 
+            var expected = dto.Select(_ =>
                 new Student(studentCode: _.StudentCode, firstName: _.FirstName, lastName: _.LastName, dateOfBirth: _.DateOfBirth));
 
             SetupFetchListAsync<GetStudentsByName, Student_DTO>(dto);

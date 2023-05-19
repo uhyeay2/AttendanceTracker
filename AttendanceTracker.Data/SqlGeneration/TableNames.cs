@@ -3,5 +3,7 @@
     internal static class TableNames
     {
         public const string Student = "Student";
+
+        public const string Course = "Course";
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
+﻿namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
 {
-    internal class DeleteCourse
+    public class DeleteCourse : CourseCode_DataRequest
     {
+        public DeleteCourse(string courseCode) : base(courseCode) { }
+
+        public override string GetSql() => Delete.FromTable(TableNames.Course, where: "CourseCode = @CourseCode");
     }
 }

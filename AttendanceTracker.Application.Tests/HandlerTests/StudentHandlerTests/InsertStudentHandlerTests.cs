@@ -1,20 +1,19 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 
-namespace AttendanceTracker.Application.Tests.HandlerTests
+namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 {
     public class InsertStudentHandlerTests : HandlerTest
     {
         private readonly InsertStudentHandler _handler;
 
-        public InsertStudentHandlerTests() => _handler = new(_mockDataAccess.Object);
+        public InsertStudentHandlerTests() => _handler = new(_mockDataAccess.Object, _mockOrchestrator.Object);
 
         [Fact]
         public async Task InsertStudent_Given_RowIsUpdated_ShouldReturn_StudentInserted()
         {
-            var expected = A.New<Student_DTO>();
+            var expected = GenFu.GenFu.New<Student_DTO>();
 
-            SetupFetchAsync<IsStudentCodeTaken, bool>(false);
             SetupExecuteAsync<InsertStudent>(OneRowUpdated);
             SetupFetchAsync<GetStudentByCode, Student_DTO>(expected);
 
@@ -34,7 +33,6 @@ namespace AttendanceTracker.Application.Tests.HandlerTests
         [Fact]
         public async Task InsertStudent_Given_NoRowsUpdated_ShouldThrow_ExpectationFailedException()
         {
-            SetupFetchAsync<IsStudentCodeTaken, bool>(false);
             SetupExecuteAsync<InsertStudent>(NoRowsUpdated);
 
             await Assert.ThrowsAsync<ExpectationFailedException>(async () => await _handler.HandleRequestAsync(new()));

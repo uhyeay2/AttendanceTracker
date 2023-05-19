@@ -14,7 +14,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
             .IsValidWhenNoFailures();
     }
 
-    internal class GetStudentsByNameHandler : DataTaskHandler<GetStudentsByNameRequest, IEnumerable<Student>>
+    internal class GetStudentsByNameHandler : DataHandler<GetStudentsByNameRequest, IEnumerable<Student>>
     {
         public GetStudentsByNameHandler(IDataAccess dataAccess) : base(dataAccess) { }
 

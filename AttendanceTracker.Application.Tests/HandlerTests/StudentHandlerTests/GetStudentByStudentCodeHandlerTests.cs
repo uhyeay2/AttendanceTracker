@@ -1,14 +1,14 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 
-namespace AttendanceTracker.Application.Tests.HandlerTests
+namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 {
     public class GetStudentByStudentCodeHandlerTests : HandlerTest
     {
         private readonly GetStudentByStudentCodeHandler _handler;
 
         public GetStudentByStudentCodeHandlerTests() => _handler = new(_mockDataAccess.Object);
-        
+
         [Fact]
         public async Task GetStudentByStudentCode_Given_StudentIsFound_ShouldThrow_NotFoundException()
         {

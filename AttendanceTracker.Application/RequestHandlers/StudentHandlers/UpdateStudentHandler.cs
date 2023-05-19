@@ -9,7 +9,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
         public DateTime? DateOfBirth { get; set; }
     }
 
-    internal class UpdateStudentHandler : DataTaskHandler<UpdateStudentRequest>
+    internal class UpdateStudentHandler : DataHandler<UpdateStudentRequest>
     {
         public UpdateStudentHandler(IDataAccess dataAccess) : base(dataAccess) { }
 
