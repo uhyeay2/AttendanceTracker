@@ -5,9 +5,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
     public class InsertStudentRequest : IRequest<Student>, IValidatable
     {
         public string FirstName { get; set; } = null!;
-        
         public string LastName { get; set; } = null!;
-
         public DateTime DateOfBirth { get; set; }
 
         public bool IsValid(out List<string> validationFailures) =>

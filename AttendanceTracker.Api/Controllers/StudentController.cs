@@ -5,18 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceTracker.Api.Controllers
 {
-    public class StudentController : Controller
+    public class StudentController : BaseController
     {
-        private readonly IOrchestrator _orchestrator;
-
-        public StudentController(IOrchestrator orchestrator) => _orchestrator = orchestrator;
+        public StudentController(IOrchestrator orchestrator) : base(orchestrator) { }
 
         [HttpPost("InsertStudent")]
         public async Task<Student> InsertStudent(InsertStudentRequest request) => 
             await _orchestrator.GetResponseAsync<InsertStudentRequest, Student>(request);
 
         [HttpPost("DeleteStudent")]
-        public async Task Deletetudent(DeleteStudentRequest request) => 
+        public async Task DeleteStudent(DeleteStudentRequest request) => 
             await _orchestrator.ExecuteRequestAsync(request);
 
         [HttpGet("GetStudentByStudentCode")]
@@ -26,5 +24,9 @@ namespace AttendanceTracker.Api.Controllers
         [HttpGet("GetStudentsByName")]
         public async Task<IEnumerable<Student>> GetStudentsByName(GetStudentsByNameRequest request) => 
             await _orchestrator.GetResponseAsync<GetStudentsByNameRequest, IEnumerable<Student>>(request);
+
+        [HttpPost("UpdateStudent")]
+        public async Task UpdateStudent(UpdateStudentRequest request) =>
+            await _orchestrator.ExecuteRequestAsync(request);
     }
 }

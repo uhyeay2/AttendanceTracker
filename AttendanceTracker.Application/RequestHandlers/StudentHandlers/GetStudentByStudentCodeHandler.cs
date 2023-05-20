@@ -2,7 +2,7 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
-    public class GetStudentByStudentCodeRequest : RequiredStudentCodeRequest<Student> { }
+    public class GetStudentByStudentCodeRequest : RequiredCodeRequest<Student> { }
 
     internal class GetStudentByStudentCodeHandler : DataHandler<GetStudentByStudentCodeRequest, Student>
     {
@@ -10,10 +10,10 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 
         public override async Task<Student> HandleRequestAsync(GetStudentByStudentCodeRequest request)
         {
-            var dto = await _dataAccess.FetchAsync(new GetStudentByCode(request.StudentCode));
+            var dto = await _dataAccess.FetchAsync(new GetStudentByCode(request.Code));
 
             return dto == null
-                ? throw new DoesNotExistException(typeof(Student), request.StudentCode, nameof(request.StudentCode))
+                ? throw new DoesNotExistException(typeof(Student), request.Code, nameof(request.Code))
                 : new Student(dto.StudentCode, dto.FirstName, dto.LastName, dto.DateOfBirth);
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
 {
-    internal class UpdateCourse : CourseCode_DataRequest
+    public class UpdateCourse : CourseCode_DataRequest
     {
         public UpdateCourse(string courseCode, string? name = null) : base(courseCode) => Name = name;
 

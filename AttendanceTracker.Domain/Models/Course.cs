@@ -2,8 +2,16 @@
 {
     public class Course
     {
-        public string CourseCode { get; set; } = string.Empty;
+        public Course() { }
 
-        public string Name { get; set; } = string.Empty;
+        public Course(string courseCode, string name)
+        {
+            CourseCode = courseCode;
+            Name = name;
+        }
+
+        public string CourseCode { get; set; } = null!;
+
+        public string Name { get; set; } = null!;
     }
 }

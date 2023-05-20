@@ -2,7 +2,7 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
-    public class DeleteStudentRequest : RequiredStudentCodeRequest { }
+    public class DeleteStudentRequest : RequiredCodeRequest { }
 
     internal class DeleteStudentHandler : DataHandler<DeleteStudentRequest>
     {
@@ -10,13 +10,13 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 
         public override async Task HandleRequestAsync(DeleteStudentRequest request)
         {
-            var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent(request.StudentCode));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent(request.Code));
 
             if (rowsAffected.NoRowsAreUpdated())
             {
-                throw await _dataAccess.FetchAsync(new IsStudentCodeTaken(request.StudentCode)) ?
+                throw await _dataAccess.FetchAsync(new IsStudentCodeTaken(request.Code)) ?
                     new ExpectationFailedException(nameof(DeleteStudentRequest))
-                    : new DoesNotExistException(typeof(Student), (request.StudentCode, nameof(request.StudentCode)));
+                    : new DoesNotExistException(typeof(Student), (request.Code, nameof(request.Code)));
             }
         }
     }

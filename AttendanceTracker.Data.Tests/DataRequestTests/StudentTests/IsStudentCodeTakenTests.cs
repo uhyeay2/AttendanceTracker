@@ -7,7 +7,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task IsStudentCodeTaken_Given_StudentCodeNotTaken_ShouldReturn_False()
         {
-            Assert.False(await _dataAccess.FetchAsync(new IsStudentCodeTaken("StudentCodeNotExisting")));
+            Assert.False(await _dataAccess.FetchAsync(new IsStudentCodeTaken(RandomString())));
         }
 
         [Fact]

@@ -2,7 +2,7 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
-    public class UpdateStudentRequest : RequiredStudentCodeRequest
+    public class UpdateStudentRequest : RequiredCodeRequest
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -15,13 +15,13 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 
         public override async Task HandleRequestAsync(UpdateStudentRequest request)
         {
-            var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateStudent(request.StudentCode, request.FirstName, request.LastName, request.DateOfBirth));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateStudent(request.Code, request.FirstName, request.LastName, request.DateOfBirth));
 
             if (rowsAffected.NoRowsAreUpdated())
             {
-                throw await _dataAccess.FetchAsync(new IsStudentCodeTaken(request.StudentCode)) ?
+                throw await _dataAccess.FetchAsync(new IsStudentCodeTaken(request.Code)) ?
                     new ExpectationFailedException(nameof(UpdateStudentRequest))
-                    : new DoesNotExistException(typeof(Student), request.StudentCode, nameof(request.StudentCode));
+                    : new DoesNotExistException(typeof(Student), request.Code, nameof(request.Code));
             }
         }
     }
