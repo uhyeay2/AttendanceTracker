@@ -1,9 +1,10 @@
-﻿using AttendanceTracker.Application.Abstraction.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace AttendanceTracker.Application.Implementation
 {
-     internal class HandlerFactory : IHandlerFactory
+
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    internal class HandlerFactory : IHandlerFactory
     {
         private readonly IEnumerable<Type> _handlers;
 
@@ -30,7 +31,7 @@ namespace AttendanceTracker.Application.Implementation
 
         private Type GetHandler<TRequest, THandler>() => 
             _handlers.FirstOrDefault(_ => _.IsAssignableTo(typeof(THandler))) 
-            ?? throw new Domain.Exceptions.DoesNotExistException(typeNotExisting: typeof(THandler), value: nameof(TRequest), nameOfField: nameof(IRequest));
+            ?? throw new DoesNotExistException(typeNotExisting: typeof(THandler), value: nameof(TRequest), nameOfField: nameof(IRequest));
 
         private THandler Instantiate<TRequest, THandler>() =>
             (THandler)ActivatorUtilities.CreateInstance(_serviceProvider, GetHandler<TRequest, THandler>());

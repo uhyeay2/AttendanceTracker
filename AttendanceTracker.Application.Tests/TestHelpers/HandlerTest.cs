@@ -30,8 +30,8 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
         /// <summary>
         /// Setup IDataAccess.FetchListAsync() given request provided will return response provided.
         /// </summary>
-        protected void SetupFetchListAsync<TRequest, TResponse>(TRequest request, IEnumerable<TResponse> response) where TRequest : IDataRequest<TResponse> =>
-            _mockDataAccess.Setup(_ => _.FetchListAsync(request)).Returns(Task.FromResult(response));
+        //protected void SetupFetchListAsync<TRequest, TResponse>(TRequest request, IEnumerable<TResponse> response) where TRequest : IDataRequest<TResponse> =>
+        //    _mockDataAccess.Setup(_ => _.FetchListAsync(request)).Returns(Task.FromResult(response));
 
         /// <summary>
         /// Setup IDataAccess.FetchAsync() given any Type of TRequest will return the response provided.
@@ -42,8 +42,8 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
         /// <summary>
         /// Setup IDataAccess.FetchAsync() given request provided will return response provided.
         /// </summary>
-        protected void SetupFetchAsync<TRequest, TResponse>(TRequest request, TResponse response) where TRequest : IDataRequest<TResponse> =>
-            _mockDataAccess.Setup(_ => _.FetchAsync(request)).Returns(Task.FromResult(response));
+        //protected void SetupFetchAsync<TRequest, TResponse>(TRequest request, TResponse response) where TRequest : IDataRequest<TResponse> =>
+        //    _mockDataAccess.Setup(_ => _.FetchAsync(request)).Returns(Task.FromResult(response));
 
         /// <summary>
         /// Setup IDataAccess.ExecuteAsync() given any Type of TRequest will return the int provided.

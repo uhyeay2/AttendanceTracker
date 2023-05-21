@@ -1,6 +1,5 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
-using AttendanceTracker.Domain.Exceptions;
 
 namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 {
@@ -11,7 +10,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         public DeleteStudentHandlerTests() => _handler = new(_mockDataAccess.Object);
 
         [Fact]
-        public async Task DeleteStudent_Given_ExecuteAsync_ReturnsRowsUpdated_Should_ThrowNoException()
+        public async Task DeleteStudent_Given_ExecuteAsync_ReturnsRowsUpdated_ShouldNot_ThrowException()
         {
             SetupExecuteAsync<DeleteStudent>(OneRowUpdated);
 
@@ -19,7 +18,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         }
 
         [Fact]
-        public async Task DeleteStudent_Given_ExecuteAsync_ReturnsNoRowsUpdated_AndStudentCodeExists_Should_ThrowExpectationFailedException()
+        public async Task DeleteStudent_Given_ExecuteAsync_ReturnsNoRowsUpdated_AndStudentCodeExists_ShouldThrow_ExpectationFailedException()
         {
             SetupExecuteAsync<DeleteStudent>(NoRowsUpdated);
             SetupFetchAsync<IsStudentCodeTaken, bool>(true);
@@ -28,7 +27,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         }
 
         [Fact]
-        public async Task DeleteStudent_Given_ExecuteAsync_ReturnsNoRowsUpdated_AndStudentCodeNotExists_Should_ThrowDoesNotExistException()
+        public async Task DeleteStudent_Given_ExecuteAsync_ReturnsNoRowsUpdated_AndStudentCodeNotExists_ShouldThrow_DoesNotExistException()
         {
             SetupExecuteAsync<DeleteStudent>(NoRowsUpdated);
             SetupFetchAsync<IsStudentCodeTaken, bool>(false);

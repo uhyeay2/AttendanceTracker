@@ -20,21 +20,23 @@ namespace AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers
 
         public override string HandleRequest(GenerateCourseCodeRequest request)
         {
-            var maxLengthForSubjectCode = CourseCodeConstants.MaxLength - CourseCodeConstants.NumberOfEndingNumbers;
+            const string hyphen = "-";
+
+            var maxLengthForSubjectCode = CourseCodeConstants.MaxLength - CourseCodeConstants.CountOfEndingNumbers - hyphen.Length;
 
             if (request.SubjectCode.Length > maxLengthForSubjectCode)
             {
                 request.SubjectCode = request.SubjectCode[..maxLengthForSubjectCode];
             }
 
-            var endingNumbers = new char[CourseCodeConstants.NumberOfEndingNumbers];
+            var endingNumbers = new char[CourseCodeConstants.CountOfEndingNumbers];
             
             for (int i = 0; i < endingNumbers.Length; i++)
             {
                 endingNumbers[i] = _randomCharacterFactory.GetRandomNumber();
             }
 
-            return request.SubjectCode + new string(endingNumbers);
+            return $"{request.SubjectCode}{hyphen}{new string(endingNumbers)}";
         }
     }
 }

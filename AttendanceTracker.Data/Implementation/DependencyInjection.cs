@@ -2,6 +2,7 @@
 
 namespace AttendanceTracker.Data.Implementation
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public static class DependencyInjection
     {
         public static IServiceCollection InjectDataAccess(this IServiceCollection services, string connectionString)

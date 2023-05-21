@@ -12,7 +12,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         [Fact]
         public async Task InsertStudent_Given_RowIsUpdated_ShouldReturn_StudentInserted()
         {
-            var expected = GenFu.GenFu.New<Student_DTO>();
+            var expected = A.New<Student_DTO>();
 
             SetupExecuteAsync<InsertStudent>(OneRowUpdated);
             SetupFetchAsync<GetStudentByCode, Student_DTO>(expected);

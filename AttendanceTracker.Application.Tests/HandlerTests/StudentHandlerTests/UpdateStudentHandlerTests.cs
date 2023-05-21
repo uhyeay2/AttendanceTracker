@@ -10,7 +10,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         public UpdateStudentHandlerTests() => _handler = new(_mockDataAccess.Object);
 
         [Fact]
-        public async Task UpdateStudent_Given_RowIsUpdated_ShouldThrow_NoException()
+        public async Task UpdateStudent_Given_RowIsUpdated_ShouldNot_ThrowException()
         {
             SetupExecuteAsync<UpdateStudent>(OneRowUpdated);
 

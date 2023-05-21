@@ -28,14 +28,9 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
         {
             var generatedCode = _handler.HandleRequest(new(subjectCode));
 
-            var endingDigits = generatedCode.Skip(subjectCode.Length);
+            var endingDigits = generatedCode.TakeLast(CourseCodeConstants.CountOfEndingNumbers);
 
-            Assert.Multiple(() =>
-            {
-                Assert.All(endingDigits, _ => char.IsDigit(_));
-
-                Assert.Equal(CourseCodeConstants.NumberOfEndingNumbers, endingDigits.Count());
-            });
+            Assert.All(endingDigits, _ => char.IsDigit(_));
         }
 
         [Fact]
@@ -50,7 +45,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
 
                 Assert.Equal(CourseCodeConstants.MaxLength, generatedCode.Length);
 
-                Assert.All(generatedCode.TakeLast(CourseCodeConstants.NumberOfEndingNumbers), _ => char.IsDigit(_));
+                Assert.All(generatedCode.TakeLast(CourseCodeConstants.CountOfEndingNumbers), _ => char.IsDigit(_));
             });
         }
     }

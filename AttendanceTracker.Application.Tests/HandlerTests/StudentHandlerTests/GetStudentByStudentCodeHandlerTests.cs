@@ -10,7 +10,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         public GetStudentByStudentCodeHandlerTests() => _handler = new(_mockDataAccess.Object);
 
         [Fact]
-        public async Task GetStudentByStudentCode_Given_StudentIsFound_ShouldThrow_NotFoundException()
+        public async Task GetStudentByStudentCode_Given_FetchReturnsStudent_ShouldReturn_StudentFetched()
         {
             var expected = A.New<Student_DTO>();
 
@@ -30,7 +30,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         }
 
         [Fact]
-        public async Task GetStudentByStudentCode_Given_StudentNotFound_ShouldThrow_NotFoundException()
+        public async Task GetStudentByStudentCode_Given_FetchReturnsNoStudent_ShouldThrow_NotFoundException()
         {
             SetupFetchAsync<GetStudentByCode, Student_DTO>(null!);
 
