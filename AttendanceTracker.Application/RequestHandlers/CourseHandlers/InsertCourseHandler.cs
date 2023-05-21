@@ -1,4 +1,5 @@
 ﻿using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
+using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
 
 namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
 {
@@ -20,6 +21,11 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
 
         public override async Task<Course> HandleRequestAsync(InsertCourseRequest request)
         {
+            if (!await _dataAccess.FetchAsync(new IsSubjectCodeExisting(request.SubjectCode)))
+            {
+                throw new DoesNotExistException(typeof(Subject), request.SubjectCode, nameof(request.SubjectCode));
+            }
+
             var courseCode = await _orchestrator.GetResponseAsync<GetUniqueCourseCodeRequest, string>(new(request.SubjectCode));
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new InsertCourse(courseCode, request.CourseName));
