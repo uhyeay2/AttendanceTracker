@@ -1,0 +1,20 @@
+﻿using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
+
+namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
+{
+    public class GetSubjectByCodeRequest : RequiredCodeRequest<Subject> { }
+
+    internal class GetSubjectByCodeHandler : DataHandler<GetSubjectByCodeRequest, Subject>
+    {
+        public GetSubjectByCodeHandler(IDataAccess dataAccess) : base(dataAccess) { }
+
+        public async override Task<Subject> HandleRequestAsync(GetSubjectByCodeRequest request)
+        {
+            var dto = await _dataAccess.FetchAsync(new GetSubjectByCode(request.Code));
+
+            return dto == null
+                ? throw new DoesNotExistException(typeof(Subject), request.Code, nameof(request.Code))
+                : new Subject(dto.SubjectCode, dto.Name);
+        }
+    }
+}
