@@ -24,7 +24,7 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
        
         public async Task<Student_DTO> NewStudentAsync(string studentCode, string firstName, string lastName, DateTime dateOfBirth) =>
             await SeedFetchAndQueueForDeletion(
-                new InsertStudent(studentCode, firstName, lastName, dateOfBirth), new GetStudentByCode(studentCode!), new DeleteStudent(studentCode!));
+                new InsertStudent(studentCode, firstName, lastName, dateOfBirth), new GetStudentByCode(studentCode), new DeleteStudent(studentCode));
 
         public async Task<Subject_DTO> NewSubjectAsync(string subjectCode, string name) =>
             await SeedFetchAndQueueForDeletion( 
