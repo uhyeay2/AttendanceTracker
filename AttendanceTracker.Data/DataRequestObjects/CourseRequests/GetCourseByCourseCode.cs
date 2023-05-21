@@ -1,9 +1,9 @@
 ﻿namespace AttendanceTracker.Data.DataRequestObjects.CourseRequests
 {
-    public class GetCourseByCourseCode : CourseCode_DataRequest<Course_DTO>
+    public class GetCourseByCourseCode : Code_DataRequest<Course_DTO>
     {
-        public GetCourseByCourseCode(string courseCode) : base(courseCode) { }
+        public GetCourseByCourseCode(string code) : base(code) { }
 
-        public override string GetSql() => Select.FromTable(TableNames.Course, where: "CourseCode = @CourseCode");
+        public override string GetSql() => Select.FromTable(TableNames.Course, where: "CourseCode = @Code");
     }
 }

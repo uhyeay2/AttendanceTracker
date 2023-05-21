@@ -1,9 +1,9 @@
 ﻿namespace AttendanceTracker.Data.DataRequestObjects.StudentRequests
 {
-    public class DeleteStudent : StudentCode_DataRequest
+    public class DeleteStudent : Code_DataRequest
     {
         public DeleteStudent(string studentCode) : base(studentCode) { }
 
-        public override string GetSql() => Delete.FromTable(TableNames.Student, where: "StudentCode = @StudentCode");
+        public override string GetSql() => Delete.FromTable(TableNames.Student, where: "StudentCode = @Code");
     }
 }

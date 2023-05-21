@@ -1,6 +1,7 @@
 ﻿using AttendanceTracker.Data.Abstraction.Interfaces;
 using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
+using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
 using AttendanceTracker.Data.DataTransferObjects;
 using AttendanceTracker.Domain.Constants;
 using GenFu;
@@ -15,6 +16,7 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
         
         private readonly List<string> _seededStudentCodes = new();
         private readonly List<string> _seededCourseCodes = new();
+        private readonly List<string> _seededSubjectCodes = new();
 
         public async Task PurgeSeededRecords()
         {
@@ -26,6 +28,11 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
             foreach (var courseCode in _seededCourseCodes)
             {
                 await _dataAccess.ExecuteAsync(new DeleteCourse(courseCode));
+            }
+
+            foreach (var subjectCode in _seededSubjectCodes)
+            {
+                await _dataAccess.ExecuteAsync(new DeleteSubject(subjectCode));
             }
         }
 
@@ -41,6 +48,19 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
             _seededStudentCodes.Add(studentCode!);
 
             return await _dataAccess.FetchAsync(new GetStudentByCode(studentCode!));
+        }
+
+        public async Task<Subject_DTO> NewSubject(string? subjectCode = null, string? name = null)
+        {
+            var randomSubject = A.New<Subject_DTO>();
+
+            subjectCode ??= Guid.NewGuid().ToString()[..10];
+
+            await _dataAccess.ExecuteAsync(new InsertSubject(subjectCode, name ?? randomSubject.Name));
+
+            _seededSubjectCodes.Add(subjectCode);
+
+            return await _dataAccess.FetchAsync(new GetSubjectByCode(subjectCode));
         }
 
         public async Task<Course_DTO> NewCourse(string? courseCode = null, string? name = null)

@@ -32,7 +32,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
             // execute UpdateStudent Data Transaction
             await _dataAccess.ExecuteAsync(expected);
 
-            var actual = await _dataAccess.FetchAsync(new GetStudentByCode(expected.StudentCode));
+            var actual = await _dataAccess.FetchAsync(new GetStudentByCode(expected.Code));
 
             Assert.Multiple(() =>
             {

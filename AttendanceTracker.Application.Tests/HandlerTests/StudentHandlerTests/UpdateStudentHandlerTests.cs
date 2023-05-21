@@ -21,7 +21,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         public async Task UpdateStudent_Given_NoRowsUpdated_And_StudentCodeNotTaken_ShouldThrow_DoesNotExistException()
         {
             SetupExecuteAsync<UpdateStudent>(NoRowsUpdated);
-            SetupFetchAsync<IsStudentCodeTaken, bool>(false);
+            SetupFetchAsync<IsStudentCodeExisting, bool>(false);
 
             await Assert.ThrowsAsync<DoesNotExistException>(async () => await _handler.HandleRequestAsync(new()));
         }
@@ -30,7 +30,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         public async Task UpdateStudent_Given_NoRowsUpdated_And_StudentCodeIsTaken_ShouldThrow_ExpectationFailedException()
         {
             SetupExecuteAsync<UpdateStudent>(NoRowsUpdated);
-            SetupFetchAsync<IsStudentCodeTaken, bool>(true);
+            SetupFetchAsync<IsStudentCodeExisting, bool>(true);
 
             await Assert.ThrowsAsync<ExpectationFailedException>(async () => await _handler.HandleRequestAsync(new()));
         }

@@ -19,7 +19,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 
             if (rowsAffected.NoRowsAreUpdated())
             {
-                throw await _dataAccess.FetchAsync(new IsStudentCodeTaken(request.Code)) ?
+                throw await _dataAccess.FetchAsync(new IsStudentCodeExisting(request.Code)) ?
                     new ExpectationFailedException(nameof(UpdateStudentRequest))
                     : new DoesNotExistException(typeof(Student), request.Code, nameof(request.Code));
             }

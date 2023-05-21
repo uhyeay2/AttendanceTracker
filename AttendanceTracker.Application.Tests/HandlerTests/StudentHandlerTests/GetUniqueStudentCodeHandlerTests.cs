@@ -18,7 +18,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
             var expectedCode = "GeneratedCode";
 
             SetupGetResponse<GenerateStudentCodeRequest, string>(expectedCode);
-            SetupFetchAsync<IsStudentCodeTaken, bool>(false);
+            SetupFetchAsync<IsStudentCodeExisting, bool>(false);
 
             var result = await _handler.HandleRequestAsync(new());
 
@@ -28,7 +28,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
         [Fact]
         public async Task GetUniqueStudentCode_Given_GeneratedCodeIsTaken_ShouldThrow_ExpectationFailedException_AfterMaxAttempts()
         {
-            SetupFetchAsync<IsStudentCodeTaken, bool>(true);
+            SetupFetchAsync<IsStudentCodeExisting, bool>(true);
 
             var exception = await Record.ExceptionAsync(async () => await _handler.HandleRequestAsync(new()));
 
@@ -38,7 +38,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentHandlerTests
 
                 Assert.EndsWith(StudentCodeConstants.MaxAttemptsExceededErrorMessage, exception.Message);
 
-                _mockDataAccess.Verify(_ => _.FetchAsync(It.IsAny<IsStudentCodeTaken>()), 
+                _mockDataAccess.Verify(_ => _.FetchAsync(It.IsAny<IsStudentCodeExisting>()), 
                           Times.Exactly(StudentCodeConstants.MaxAttemptsToGenerate));
             });
         }

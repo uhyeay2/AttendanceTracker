@@ -68,6 +68,7 @@
     <Build Include="dbo\Tables\StudentCourseScheduled.sql" />
     <Build Include="dbo\Tables\StudentAttendanceOccurence.sql" />
     <Build Include="dbo\Tables\AttendanceOccurence.sql" />
+    <Build Include="dbo\Tables\Subject.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\AttendanceTracker.Database.TestEnv.publish.xml" />

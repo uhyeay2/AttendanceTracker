@@ -7,7 +7,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task DeleteStudent_Given_StudentDoesNotExist_ShouldReturn_ZeroRowsAffected()
         {
-            var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent("FakeStudentCode"));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent(RandomString()));
 
             Assert.Equal(0, rowsAffected);
         }

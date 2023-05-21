@@ -16,7 +16,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
             {
                 var code = _orchestrator.GetResponse<GenerateStudentCodeRequest, string>(new GenerateStudentCodeRequest());
 
-                if(!await _dataAccess.FetchAsync(new IsStudentCodeTaken(code)))
+                if(!await _dataAccess.FetchAsync(new IsStudentCodeExisting(code)))
                 {
                     return code;
                 }
