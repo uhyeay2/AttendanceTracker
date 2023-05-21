@@ -16,7 +16,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task DeleteCourse_Given_CourseExists_ShouldReturn_RowsUpdated()
         {
-            var course = await _dataSeeder.NewCourse();
+            var course = await GetSeededCourseAsync();
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteCourse(course.CourseCode));
 

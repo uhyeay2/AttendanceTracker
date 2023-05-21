@@ -3,8 +3,6 @@ using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
 using AttendanceTracker.Data.DataTransferObjects;
-using AttendanceTracker.Domain.Constants;
-using GenFu;
 
 namespace AttendanceTracker.Data.Tests.TestHelpers
 {
@@ -14,66 +12,35 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
 
         private readonly IDataAccess _dataAccess;
         
-        private readonly List<string> _seededStudentCodes = new();
-        private readonly List<string> _seededCourseCodes = new();
-        private readonly List<string> _seededSubjectCodes = new();
+        private readonly List<IDataRequest> _deleteSeededRecordRequests = new();
 
         public async Task PurgeSeededRecords()
         {
-            foreach (var studentCode in _seededStudentCodes)
+            foreach (var request in _deleteSeededRecordRequests)
             {
-                await _dataAccess.ExecuteAsync(new DeleteStudent(studentCode));
-            }
-
-            foreach (var courseCode in _seededCourseCodes)
-            {
-                await _dataAccess.ExecuteAsync(new DeleteCourse(courseCode));
-            }
-
-            foreach (var subjectCode in _seededSubjectCodes)
-            {
-                await _dataAccess.ExecuteAsync(new DeleteSubject(subjectCode));
+                await _dataAccess.ExecuteAsync(request);
             }
         }
+       
+        public async Task<Student_DTO> NewStudentAsync(string studentCode, string firstName, string lastName, DateTime dateOfBirth) =>
+            await SeedFetchAndQueueForDeletion(
+                new InsertStudent(studentCode, firstName, lastName, dateOfBirth), new GetStudentByCode(studentCode!), new DeleteStudent(studentCode!));
 
-        public async Task<Student_DTO> NewStudent(string? studentCode = null, string? firstName = null, string? lastName = null, DateTime? dateOfBirth = null)
+        public async Task<Subject_DTO> NewSubjectAsync(string subjectCode, string name) =>
+            await SeedFetchAndQueueForDeletion( 
+                new InsertSubject(subjectCode, name), new GetSubjectByCode(subjectCode), new DeleteSubject(subjectCode));
+
+        public async Task<Course_DTO> NewCourseAsync(string courseCode, string name) => 
+             await SeedFetchAndQueueForDeletion(
+                 new InsertCourse(courseCode, name), new GetCourseByCourseCode(courseCode), new DeleteCourse(courseCode));
+
+        private async Task<TResponse> SeedFetchAndQueueForDeletion<TResponse>(IDataRequest insertRequest, IDataRequest<TResponse> fetchRequest, IDataRequest deleteRequest)
         {
-            var randomStudent = A.New<Student_DTO>();
-           
-            studentCode ??= Guid.NewGuid().ToString()[..StudentCodeConstants.ExpectedLength];
+            await _dataAccess.ExecuteAsync(insertRequest);
 
-            await _dataAccess.ExecuteAsync(new InsertStudent(studentCode ?? randomStudent.StudentCode,
-                firstName ?? randomStudent.FirstName, lastName ?? randomStudent.LastName, dateOfBirth ?? randomStudent.DateOfBirth));
+            _deleteSeededRecordRequests.Add(deleteRequest);
 
-            _seededStudentCodes.Add(studentCode!);
-
-            return await _dataAccess.FetchAsync(new GetStudentByCode(studentCode!));
-        }
-
-        public async Task<Subject_DTO> NewSubject(string? subjectCode = null, string? name = null)
-        {
-            var randomSubject = A.New<Subject_DTO>();
-
-            subjectCode ??= Guid.NewGuid().ToString()[..10];
-
-            await _dataAccess.ExecuteAsync(new InsertSubject(subjectCode, name ?? randomSubject.Name));
-
-            _seededSubjectCodes.Add(subjectCode);
-
-            return await _dataAccess.FetchAsync(new GetSubjectByCode(subjectCode));
-        }
-
-        public async Task<Course_DTO> NewCourse(string? courseCode = null, string? name = null)
-        {
-            var randomCourse = A.New<Course_DTO>();
-
-            courseCode ??= Guid.NewGuid().ToString()[..CourseCodeConstants.MaxLength]; ;
-
-            await _dataAccess.ExecuteAsync(new InsertCourse(courseCode, name ?? randomCourse.Name));
-
-            _seededCourseCodes.Add(courseCode!);
-
-            return await _dataAccess.FetchAsync(new GetCourseByCourseCode(courseCode));
+            return await _dataAccess.FetchAsync(fetchRequest);
         }
     }
 }

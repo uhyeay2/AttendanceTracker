@@ -13,7 +13,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         [Fact]
         public async Task IsSubjectCodeExisting_Given_CodeIsExisting_ShouldReturn_True()
         {
-            var subject = await _dataSeeder.NewSubject();
+            var subject = await GetSeededSubjectAsync();
 
             Assert.True(await _dataAccess.FetchAsync(new IsSubjectCodeExisting(subject.SubjectCode)));
         }

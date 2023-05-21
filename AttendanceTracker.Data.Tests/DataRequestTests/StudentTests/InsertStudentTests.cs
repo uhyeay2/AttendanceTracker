@@ -9,7 +9,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task InsertStudent_Given_StudentCode_IsNull_ShouldThrow_SqlException()
         {
-            var insertRequest = new InsertStudent(studentCode: null!, "FirstName", "LastName", DateTime.Now);
+            var insertRequest = new InsertStudent(studentCode: null!, RandomString(), RandomString(), DateTime.Now);
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(insertRequest));
         }
@@ -17,9 +17,9 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task InsertStudent_Given_StudentCode_AlreadyExists_ShouldThrow_SqlException()
         {
-            var existingStudent = await _dataSeeder.NewStudent();
+            var existingStudent = await GetSeededStudentAsync();
 
-            var insertRequestWithExistingStudentCode = new InsertStudent(existingStudent.StudentCode, "NewFirstName", "OtherLastName", DateTime.Now);
+            var insertRequestWithExistingStudentCode = new InsertStudent(existingStudent.StudentCode, RandomString(), RandomString(), DateTime.Now);
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(insertRequestWithExistingStudentCode));
         }
@@ -29,7 +29,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         {
             var studentCode = Guid.NewGuid().ToString()[..StudentCodeConstants.ExpectedLength];
 
-            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudent(studentCode, "FirstName", "LastName", DateTime.Now));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudent(studentCode, RandomString(), RandomString(), DateTime.Now));
 
             await _dataAccess.ExecuteAsync(new DeleteStudent(studentCode));
 

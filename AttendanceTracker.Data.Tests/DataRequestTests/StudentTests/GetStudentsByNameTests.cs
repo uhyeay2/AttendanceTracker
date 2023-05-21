@@ -7,7 +7,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task GetStudentsByName_Given_NoFirstOrLastName_ShouldReturn_EmptyList()
         {
-            await _dataSeeder.NewStudent();
+            _ = await GetSeededStudentAsync();
 
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(null, null));
 
@@ -20,11 +20,11 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
             var lastNameToSearchBy = RandomString();
 
             // Insert Student w/ LastName
-            await _dataSeeder.NewStudent(lastName: lastNameToSearchBy);
-            await _dataSeeder.NewStudent(lastName: lastNameToSearchBy);
+            _ = await GetSeededStudentAsync(lastName: lastNameToSearchBy);
+            _ = await GetSeededStudentAsync(lastName: lastNameToSearchBy);
 
             // Insert Third Student - Not using LastName
-            await _dataSeeder.NewStudent(lastName: RandomString());
+            _ = await GetSeededStudentAsync();
 
             // Expect only two records back
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(lastName: lastNameToSearchBy));
@@ -43,11 +43,11 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         {
             var firstNameToSearchBy = RandomString();
 
-            await _dataSeeder.NewStudent(firstName: firstNameToSearchBy);
-            await _dataSeeder.NewStudent(firstName: firstNameToSearchBy);
+            _ = await GetSeededStudentAsync(firstName: firstNameToSearchBy);
+            _ = await GetSeededStudentAsync(firstName: firstNameToSearchBy);
 
             // Insert Third Student - Not using FirstName
-            await _dataSeeder.NewStudent(firstName: RandomString());
+            _ = await GetSeededStudentAsync();
 
             // Expect only two records back
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(firstName: firstNameToSearchBy));

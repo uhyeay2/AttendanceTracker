@@ -13,7 +13,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task IsStudentCodeExisting_Given_StudentCodeIsTaken_ShouldReturn_True()
         {
-            var student = await _dataSeeder.NewStudent();
+            var student = await GetSeededStudentAsync();
 
             Assert.True(await _dataAccess.FetchAsync(new IsStudentCodeExisting(student.StudentCode)));
         }

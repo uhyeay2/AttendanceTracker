@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task DeleteStudent_Given_StudentIsDeleted_ShouldReturn_OneRowAffected()
         {
-            var student = await _dataSeeder.NewStudent();
+            var student = await GetSeededStudentAsync();
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteStudent(student.StudentCode));
 

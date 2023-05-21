@@ -21,7 +21,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task InsertCourse_Given_CourseCodeAlreadyTaken_ShouldThrow_SqlException()
         {
-            var courseAlreadyExisting = await _dataSeeder.NewCourse();
+            var courseAlreadyExisting = await GetSeededCourseAsync();
 
             var exception = await Record.ExceptionAsync(async () => await _dataAccess
                                         .ExecuteAsync(new InsertCourse(courseAlreadyExisting.CourseCode, RandomString())));

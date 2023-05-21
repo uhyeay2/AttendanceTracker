@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         [Fact]
         public async Task DeleteSubject_Given_SubjectIsDeleted_ShouldReturn_OneRowAffected()
         {
-            var subject = await _dataSeeder.NewSubject();
+            var subject = await GetSeededSubjectAsync();
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteSubject(subject.SubjectCode));
 

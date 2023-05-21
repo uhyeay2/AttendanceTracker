@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         [Fact]
         public async Task GetSubjectByCode_Given_SubjectIsExisting_Should_ReturnSubject()
         {
-            var expected = await _dataSeeder.NewSubject();
+            var expected = await GetSeededSubjectAsync();
 
             var result = await _dataAccess.FetchAsync(new GetSubjectByCode(expected.SubjectCode));
 

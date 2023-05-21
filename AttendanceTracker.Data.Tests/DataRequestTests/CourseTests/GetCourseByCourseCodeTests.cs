@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task GetCourseByCourseCode_Given_CourseIsExisting_Should_ReturnCourse()
         {
-            var expected = await _dataSeeder.NewCourse();
+            var expected = await GetSeededCourseAsync();
 
             var result = await _dataAccess.FetchAsync(new GetCourseByCourseCode(expected.CourseCode));
 

@@ -17,7 +17,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         [Fact]
         public async Task InsertSubject_Given_SubjectCode_AlreadyExists_ShouldThrow_SqlException()
         {
-            var existingSubject = await _dataSeeder.NewSubject();
+            var existingSubject = await GetSeededSubjectAsync();
 
             var insertRequestWithExistingSubjectCode = new InsertSubject(existingSubject.SubjectCode, "OtherSubject");
 
