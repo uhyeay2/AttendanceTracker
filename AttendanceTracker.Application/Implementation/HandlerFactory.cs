@@ -2,8 +2,6 @@
 
 namespace AttendanceTracker.Application.Implementation
 {
-
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     internal class HandlerFactory : IHandlerFactory
     {
         private readonly IEnumerable<Type> _handlers;
