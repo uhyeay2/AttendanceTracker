@@ -13,7 +13,7 @@ namespace AttendanceTracker.Api.Controllers
         public async Task<Subject> InsertSubject(InsertSubjectRequest request) =>
           await _orchestrator.GetResponseAsync<InsertSubjectRequest, Subject>(request);
 
-        [HttpPost("DeleteSubject")]
+        [HttpDelete("DeleteSubject")]
         public async Task Deletetudent(DeleteSubjectRequest request) =>
             await _orchestrator.ExecuteRequestAsync(request);
 
