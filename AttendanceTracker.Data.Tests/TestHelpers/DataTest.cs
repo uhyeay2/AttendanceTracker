@@ -23,7 +23,10 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
         protected string RandomString(int length = 10) =>
             new(Enumerable.Range(0, length).Select(_ => _randomCharacterFactory.GetRandomLetterOrNumber()).ToArray());
 
-        protected async Task<Course_DTO> GetSeededCourseAsync(string? subjectCode = null, string ? courseCode = null, string? name = null) =>
+        protected async Task<Instructor_DTO> GetSeededInstructorAsync(string? instructorCode = null, string? firstName = null, string? lastName = null) =>
+            await _dataSeeder.NewInstructorAsync(instructorCode ?? RandomString(InstructorCodeConstants.MaxLength), firstName ?? RandomString(), lastName ?? RandomString());
+
+        protected async Task<Course_DTO> GetSeededCourseAsync(string? subjectCode = null, string? courseCode = null, string? name = null) =>
             await _dataSeeder.NewCourseAsync(courseCode ?? RandomString(CourseCodeConstants.MaxLength), subjectCode ?? (await GetSeededSubjectAsync()).SubjectCode, name ?? RandomString());
 
         protected async Task<Student_DTO> GetSeededStudentAsync(string? studentCode = null, string? firstName = null, string? lastName = null, DateTime? dateOfBirth = null) =>

@@ -7,5 +7,7 @@
         public const string Subject = "Subject";
 
         public const string Student = "Student";
+
+        public const string Instructor = "Instructor";
     }
 }

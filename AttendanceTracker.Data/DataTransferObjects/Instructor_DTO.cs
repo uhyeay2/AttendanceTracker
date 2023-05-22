@@ -2,6 +2,8 @@
 {
     public class Instructor_DTO
     {
+        public int Id { get; set; }
+
         public string InstructorCode { get; set; } = string.Empty;
 
         public string FirstName { get; set; } = string.Empty;

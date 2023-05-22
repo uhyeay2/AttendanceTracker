@@ -7,7 +7,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task GetStudentByCode_Given_StudentDoesNotExist_ShouldReturn_Null()
         {
-            Assert.Null(await _dataAccess.FetchAsync(new GetStudentByCode("StudentCodeNotExisting")));
+            Assert.Null(await _dataAccess.FetchAsync(new GetStudentByCode(RandomString())));
         }
 
         [Fact]
