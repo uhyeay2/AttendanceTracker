@@ -1,4 +1,5 @@
 ﻿using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
+using AttendanceTracker.Domain.Constants;
 
 namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
 {
@@ -9,7 +10,8 @@ namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
 
         public bool IsValid(out List<string> validationFailures) =>
             Validation.Initialize(out validationFailures)
-                .AddFailureIfNullOrWhiteSpace(SubjectCode, nameof(SubjectCode))
+                .AddFailureIfOutsideRange(SubjectCode, nameof(SubjectCode), SubjectCodeConstants.MinLength, SubjectCodeConstants.MaxLength)
+                .AddFailureIfAnyCharactersAreNotLetters(SubjectCode, nameof(SubjectCode))
                 .AddFailureIfNullOrWhiteSpace(Name, nameof(Name))
             .IsValidWhenNoFailures();
     }
