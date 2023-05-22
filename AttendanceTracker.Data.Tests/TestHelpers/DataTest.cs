@@ -30,7 +30,7 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
             await _dataSeeder.NewStudentAsync(studentCode ?? RandomString(StudentCodeConstants.ExpectedLength), firstName ?? RandomString(), lastName ?? RandomString(), dateOfBirth ?? DateTime.Now);
 
         protected async Task<Subject_DTO> GetSeededSubjectAsync(string? subjectCode = null, string? name = null) =>
-            await _dataSeeder.NewSubjectAsync(subjectCode ?? RandomString(), name ?? RandomString());
+            await _dataSeeder.NewSubjectAsync(subjectCode ?? RandomString(SubjectCodeConstants.MaxLength), name ?? RandomString());
 
         public void Dispose() => _dataSeeder.PurgeSeededRecords().ConfigureAwait(true);
     }
