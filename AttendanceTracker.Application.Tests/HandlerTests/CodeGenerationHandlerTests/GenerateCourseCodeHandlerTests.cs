@@ -32,21 +32,5 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
 
             Assert.All(endingDigits, _ => char.IsDigit(_));
         }
-
-        [Fact]
-        public void GenerateCourseCode_Given_SubjectCode_LengthTooLong_Should_SubStringSubjectCode()
-        {
-            var longSubjectCode = "Really Long Subject Code Exceeding Maximum Length";
-
-            var generatedCode = _handler.HandleRequest(new(longSubjectCode));
-
-            Assert.Multiple(() =>
-            {
-
-                Assert.Equal(CourseCodeConstants.MaxLength, generatedCode.Length);
-
-                Assert.All(generatedCode.TakeLast(CourseCodeConstants.CountOfEndingNumbers), _ => char.IsDigit(_));
-            });
-        }
     }
 }

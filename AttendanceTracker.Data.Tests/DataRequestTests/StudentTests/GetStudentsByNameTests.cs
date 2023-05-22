@@ -19,14 +19,11 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         {
             var lastNameToSearchBy = RandomString();
 
-            // Insert Student w/ LastName
-            _ = await GetSeededStudentAsync(lastName: lastNameToSearchBy);
-            _ = await GetSeededStudentAsync(lastName: lastNameToSearchBy);
+            await GetSeededStudentAsync();
+            await GetSeededStudentAsync(lastName: lastNameToSearchBy);
+            await GetSeededStudentAsync(lastName: lastNameToSearchBy);
 
-            // Insert Third Student - Not using LastName
-            _ = await GetSeededStudentAsync();
-
-            // Expect only two records back
+            // Expect only the two records w/ lastNameToSearchBy to be returned
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(lastName: lastNameToSearchBy));
 
             Assert.Multiple(() =>
@@ -43,13 +40,11 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         {
             var firstNameToSearchBy = RandomString();
 
-            _ = await GetSeededStudentAsync(firstName: firstNameToSearchBy);
-            _ = await GetSeededStudentAsync(firstName: firstNameToSearchBy);
+            await GetSeededStudentAsync();
+            await GetSeededStudentAsync(firstName: firstNameToSearchBy);
+            await GetSeededStudentAsync(firstName: firstNameToSearchBy);
 
-            // Insert Third Student - Not using FirstName
-            _ = await GetSeededStudentAsync();
-
-            // Expect only two records back
+            // Expect only the two records w/ firstNameToSearchBy to be returned
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(firstName: firstNameToSearchBy));
 
             Assert.Multiple(() =>

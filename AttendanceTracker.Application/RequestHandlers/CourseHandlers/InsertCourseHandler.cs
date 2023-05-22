@@ -28,7 +28,7 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
 
             var courseCode = await _orchestrator.GetResponseAsync<GetUniqueCourseCodeRequest, string>(new(request.SubjectCode));
 
-            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertCourse(courseCode, request.CourseName));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertCourse(courseCode, request.SubjectCode, request.CourseName));
 
             if (rowsAffected.NoRowsAreUpdated())
             {

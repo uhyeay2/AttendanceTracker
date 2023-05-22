@@ -9,7 +9,7 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
 {
     public abstract class DataTest : IDisposable
     {
-        static protected readonly IDataAccess _dataAccess = new DataAccess(new DbConnectionFactory(Hidden.TestDatabaseConnectionString));
+        protected readonly IDataAccess _dataAccess = new DataAccess(new DbConnectionFactory(Hidden.TestDatabaseConnectionString));
 
         private readonly DataSeeder _dataSeeder;
 
@@ -23,8 +23,8 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
         protected string RandomString(int length = 10) =>
             new(Enumerable.Range(0, length).Select(_ => _randomCharacterFactory.GetRandomLetterOrNumber()).ToArray());
 
-        protected async Task<Course_DTO> GetSeededCourseAsync(string? courseCode = null, string? name = null) =>
-            await _dataSeeder.NewCourseAsync(courseCode ?? RandomString(CourseCodeConstants.MaxLength), name ?? RandomString());
+        protected async Task<Course_DTO> GetSeededCourseAsync(string? subjectCode = null, string ? courseCode = null, string? name = null) =>
+            await _dataSeeder.NewCourseAsync(courseCode ?? RandomString(CourseCodeConstants.MaxLength), subjectCode ?? (await GetSeededSubjectAsync()).SubjectCode, name ?? RandomString());
 
         protected async Task<Student_DTO> GetSeededStudentAsync(string? studentCode = null, string? firstName = null, string? lastName = null, DateTime? dateOfBirth = null) =>
             await _dataSeeder.NewStudentAsync(studentCode ?? RandomString(StudentCodeConstants.ExpectedLength), firstName ?? RandomString(), lastName ?? RandomString(), dateOfBirth ?? DateTime.Now);
@@ -32,6 +32,6 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
         protected async Task<Subject_DTO> GetSeededSubjectAsync(string? subjectCode = null, string? name = null) =>
             await _dataSeeder.NewSubjectAsync(subjectCode ?? RandomString(), name ?? RandomString());
 
-        public void Dispose() => _dataSeeder.PurgeSeededRecords().Wait();
+        public void Dispose() => _dataSeeder.PurgeSeededRecords().ConfigureAwait(true);
     }
 }

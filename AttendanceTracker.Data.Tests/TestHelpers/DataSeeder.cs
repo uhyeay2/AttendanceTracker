@@ -6,7 +6,7 @@ using AttendanceTracker.Data.DataTransferObjects;
 
 namespace AttendanceTracker.Data.Tests.TestHelpers
 {
-    public class DataSeeder
+    public class DataSeeder 
     {
         public DataSeeder(IDataAccess dataAccess) => _dataAccess = dataAccess;
 
@@ -16,9 +16,16 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
 
         public async Task PurgeSeededRecords()
         {
-            foreach (var request in _deleteSeededRecordRequests)
+            // Loop backwards through requests deleting seeded records. Backwards to try to avoid Foreign Key Conflicts
+            for (int i = _deleteSeededRecordRequests.Count - 1; i >= 0; i--)
             {
-                await _dataAccess.ExecuteAsync(request);
+                try
+                {
+                    // attempt to delete record, remove from list if successful
+                    await _dataAccess.ExecuteAsync(_deleteSeededRecordRequests[i]);
+                    _deleteSeededRecordRequests.RemoveAt(i);
+                }
+                catch (Exception) { /* TODO: Log Purge Failures ? */ }
             }
         }
        
@@ -30,9 +37,9 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
             await SeedFetchAndQueueForDeletion( 
                 new InsertSubject(subjectCode, name), new GetSubjectByCode(subjectCode), new DeleteSubject(subjectCode));
 
-        public async Task<Course_DTO> NewCourseAsync(string courseCode, string name) => 
+        public async Task<Course_DTO> NewCourseAsync(string courseCode,string subjectCode, string name) => 
              await SeedFetchAndQueueForDeletion(
-                 new InsertCourse(courseCode, name), new GetCourseByCourseCode(courseCode), new DeleteCourse(courseCode));
+                 new InsertCourse(courseCode, subjectCode, name), new GetCourseByCourseCode(courseCode), new DeleteCourse(courseCode));
 
         private async Task<TResponse> SeedFetchAndQueueForDeletion<TResponse>(IDataRequest insertRequest, IDataRequest<TResponse> fetchRequest, IDataRequest deleteRequest)
         {
