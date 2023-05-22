@@ -1,6 +1,6 @@
-﻿namespace AttendanceTracker.Domain.Models
+﻿namespace AttendanceTracker.Data.DataTransferObjects
 {
-    public class Instructor
+    public class Instructor_DTO
     {
         public string InstructorCode { get; set; } = string.Empty;
 

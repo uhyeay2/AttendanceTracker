@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Instructor]
 (
 	[Id] INT NOT NULL PRIMARY KEY CLUSTERED IDENTITY(1, 1),
-	[InstructorCode] NVARCHAR(15) UNIQUE NOT NULL,
+	[InstructorCode] NVARCHAR(7) UNIQUE NOT NULL,
 	[FirstName] NVARCHAR(60) NOT NULL,
 	[LastName] NVARCHAR(60) NOT NULL,
 )
