@@ -1,5 +1,6 @@
 ﻿using AttendanceTracker.Data.Abstraction.Interfaces;
 using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
+using AttendanceTracker.Data.DataRequestObjects.CourseScheduledRequests;
 using AttendanceTracker.Data.DataRequestObjects.InstructorRequests;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
@@ -45,6 +46,10 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
         public async Task<Course_DTO> NewCourseAsync(string courseCode,string subjectCode, string name) => 
              await SeedFetchAndQueueForDeletion(
                  new InsertCourse(courseCode, subjectCode, name), new GetCourseByCourseCode(courseCode), new DeleteCourse(courseCode));
+
+        public async Task<CourseScheduled_DTO> NewCourseScheduledAsync(Guid guid, string courseCode, string instructorCode, DateTime startDate, DateTime endDate) =>
+             await SeedFetchAndQueueForDeletion(
+                 new InsertCourseScheduled(guid, courseCode, instructorCode, startDate, endDate), new GetCourseScheduledByGuid(guid), new DeleteCourseScheduled(guid));
 
         private async Task<TResponse> SeedFetchAndQueueForDeletion<TResponse>(IDataRequest insertRequest, IDataRequest<TResponse> fetchRequest, IDataRequest deleteRequest)
         {
