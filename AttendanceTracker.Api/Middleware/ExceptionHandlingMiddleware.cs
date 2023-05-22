@@ -31,7 +31,7 @@ namespace AttendanceTracker.Api.Middleware
 
         private static string GetContent(Exception exception) => exception switch
         {
-            ValidationFailedException e => JsonSerializer.Serialize(e.ValidationFailures),
+            ValidationFailedException e => JsonSerializer.Serialize(e.ValidationFailures.Distinct()),
             DoesNotExistException e => JsonSerializer.Serialize(e.ValuesSearchedBy),
             AlreadyExistsException e => JsonSerializer.Serialize(e.Conflicts),
             _ => "Message: " + exception.Message + Environment.NewLine + "StackTrace: " + exception.StackTrace
