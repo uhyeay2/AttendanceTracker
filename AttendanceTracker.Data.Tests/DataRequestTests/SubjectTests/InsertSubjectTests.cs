@@ -1,4 +1,5 @@
 ﻿using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
+using AttendanceTracker.Domain.Constants;
 using AttendanceTracker.Domain.Extensions;
 using System.Data.SqlClient;
 
@@ -19,7 +20,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         {
             var existingSubject = await GetSeededSubjectAsync();
 
-            var insertRequestWithExistingSubjectCode = new InsertSubject(existingSubject.SubjectCode, "OtherSubject");
+            var insertRequestWithExistingSubjectCode = new InsertSubject(existingSubject.SubjectCode, RandomString(SubjectCodeConstants.MaxLength));
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(insertRequestWithExistingSubjectCode));
         }
@@ -27,7 +28,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         [Fact]
         public async Task InsertSubject_Given_SubjectIsInserted_ShouldReturn_RowsUpdated()
         {
-            var subjectCode = RandomString();
+            var subjectCode = RandomString(SubjectCodeConstants.MaxLength);
 
             var result = await _dataAccess.ExecuteAsync(new InsertSubject(subjectCode, RandomString()));
 
