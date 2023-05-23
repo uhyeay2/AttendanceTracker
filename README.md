@@ -11,11 +11,17 @@ ASP.Net Core Api for tracking Students/Instructors Courses Attended/Instructed, 
 
 ## Overview
 
-This Application is...
+This Application is an Asp.Net Core Api built using Clean Architecture. The primary purpose for this application is to track Attendance Occurences for Students/Instructors in Scheduled Courses. To support this functionality, the application also allows a user to create records for Students/Instructors, Subjects/Courses, and of course the data needed to track Attendance in any Courses Scheduled to be taught by an instructor to attended by a Student.
 
 ### What Does This Application Allow A User To Do?
 
-This Application allows a user to....
+As mentioned previously, the primary functionality for this application is to tracker Student/Instructor Attendance Occurences. However, there are several other features exposed by this Api. Here's a brief list of what you can do with the Api:
+
+- Students: Create/Read/Update/Delete
+- Instructors: Create/Read/Update/Delete
+- Subjects: Create/Read/Delete
+- Courses: Create/Read/Update/Delete/IsExistingByCode
+- CoursesScheduled: Create/Read/Delete
 
 ### What Was Used To Build This Application?
 
