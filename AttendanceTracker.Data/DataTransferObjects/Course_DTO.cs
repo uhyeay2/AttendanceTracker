@@ -7,5 +7,7 @@
         public string CourseCode { get; set; } = null!;
 
         public string Name { get; set; } = null!;
+
+        public Course AsCourse() => new(CourseCode, Name);
     }
 }

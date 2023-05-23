@@ -31,7 +31,7 @@ namespace AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers
                 endingNumbers[i] = _randomCharacterFactory.GetRandomNumber();
             }
 
-            return startingCharacters + endingNumbers.ToString();
+            return startingCharacters + new string(endingNumbers);
         }
     }
 }

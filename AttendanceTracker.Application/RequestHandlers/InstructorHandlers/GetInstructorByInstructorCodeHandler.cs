@@ -12,9 +12,7 @@ namespace AttendanceTracker.Application.RequestHandlers.InstructorHandlers
         {
             var dto = await _dataAccess.FetchAsync(new GetInstructorByCode(request.Code));
 
-            return dto == null
-                ? throw new DoesNotExistException(typeof(Instructor), request.Code, nameof(request.Code))
-                : new Instructor(dto.InstructorCode, dto.FirstName, dto.LastName);
+            return dto != null ? dto.AsInstructor() : throw new DoesNotExistException(typeof(Instructor), request.Code, nameof(request.Code));
         }
     }
 }

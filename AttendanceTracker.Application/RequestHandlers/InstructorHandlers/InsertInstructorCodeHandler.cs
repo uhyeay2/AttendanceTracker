@@ -20,7 +20,7 @@ namespace AttendanceTracker.Application.RequestHandlers.InstructorHandlers
 
         public override async Task<Instructor> HandleRequestAsync(InsertInstructorRequest request)
         {
-            var instructorCode = await _orchestrator.GetResponseAsync<GetUniqueInstructorCodeRequest, string>(new());
+            var instructorCode = await _orchestrator.GetResponseAsync<GetUniqueInstructorCodeRequest, string>(new(request.LastName));
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new InsertInstructor(instructorCode, request.FirstName, request.LastName));
 

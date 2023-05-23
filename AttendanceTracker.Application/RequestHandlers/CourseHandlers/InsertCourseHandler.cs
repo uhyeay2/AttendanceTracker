@@ -35,13 +35,9 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
                 throw new ExpectationFailedException(nameof(InsertCourseRequest));
             }
 
-            var course = await _dataAccess.FetchAsync(new GetCourseByCourseCode(courseCode));
+            var dto = await _dataAccess.FetchAsync(new GetCourseByCourseCode(courseCode));
 
-            return new Course()
-            {
-                CourseCode = course.CourseCode,
-                Name = course.Name
-            };
+            return dto.AsCourse();
         }
     }
 }
