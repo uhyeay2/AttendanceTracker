@@ -2,7 +2,7 @@
 
 ASP.Net Core Api for tracking Students/Instructors, Courses Attended/Instructed, and Attendance Occurences for Students/Instructors.
 
-## Contents
+## Table Of Contents
 
 * [Overview](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#overview)
 * [Projects](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#projects)
@@ -23,7 +23,7 @@ As mentioned previously, the primary functionality for this application is to tr
 - Courses: Create/Read/Update/Delete/IsExistingByCode
 - CoursesScheduled: Create/Read/Delete
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### What Was Used To Build This Application?
 
