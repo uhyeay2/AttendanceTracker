@@ -23,7 +23,7 @@ Created by Daniel Aguirre - [Let's Connect On LinkedIn](https://www.linkedin.com
   - [Course](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#course)
   - [Student](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#student)
   - [Instructor](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#instructor)
-  - [CourseScheduled](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#courseccheduled)
+  - [CourseScheduled](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#coursescheduled)
 - [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
 
 ## Overview
