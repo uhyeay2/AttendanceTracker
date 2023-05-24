@@ -23,6 +23,8 @@ As mentioned previously, the primary functionality for this application is to tr
 - Courses: Create/Read/Update/Delete/IsExistingByCode
 - CoursesScheduled: Create/Read/Delete
 
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+
 ### What Was Used To Build This Application?
 
 This Application was built using the following frameworks/nuget packages:
@@ -50,6 +52,8 @@ This Application was built using the following frameworks/nuget packages:
 - Genfu 
   - Dependency In AttendenceTracker.Application.Tests
   - This tool is helpful for Generating Fake Data to use in Unit Tests.
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ### How Is This Application Structured
 
@@ -87,7 +91,6 @@ This Application is structured following the Clean Architecture (or sometimes re
   - Implements Global ExceptionHandling Middleware
   - The AttendanceTracker.Api project depends on AttendanceTracker.Domain and AttendanceTracker.Application
         
-
 #### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ## Projects
@@ -96,11 +99,104 @@ With this application following Clean Architecture (or sometimes referred to as 
 
 ### AttendanceTracker.Domain
 
+The Domain, as mentioned previously, is the core of the application. This project does not depend on any other projects, and most other projects actually depend on this one. Below is some more information regarding what can be found in the Domain project.
+
+- Constants
+  - Constant Values related to Subjects, Courses, Students, and Instructors.
+- Enums
+  - At this time the only Enum is AttendanceOccurenceTypes, such as Absent, LateArrival, or EarlyLeave.
+- Exceptions
+  - Custom Exception classes created for AlreadyExists, DoesNotExist, ExpectationFailed, and ValidationFailed scenarios.
+- Extensions
+  - Extension Methods are stored in this namespace to expose common functionality to any dependencies that may need it.
+- Factories
+  - At this time the only Factory stored here is the RandomCharacterFactory which implements IRandomCharacterFactory
+- Interfaces
+  - This namespace would house interface or contracts essential across the application.
+  - At this time, IValidatable and IRandomCharacterFactory are the only Interfaces stored in this project.
+- Models
+  - These Models would be the Domain Object (Not Database Copy) of objects required for this application.
+    - For Example, the Course_DTO would expose the Id, but the Course (Domain Object) would not.
+    - Domain Objects may have other Domain (Complex) Objects as properties, whereas DTO's in the Data Layer would have primitive values.
+- Policy
+  - This namespace defines business Logic/Rules
+  - Validation is defined in this area of the Application.
+    - Validate{DataType} Classes have Extension Methods related to Validating Parameters of the specified Type.
+    - Validation.cs provides helpers for Initializing/Checking List of ValidationFailureMessages (strings)
+    - ValidationFailureMessage.cs provides helpers for generating messages regarding reason for Validation Failures.
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+
 ### AttendanceTracker.Database
+
+The Sql Server Database Project is really cool because it not only allows you to track source control for changes made to a database, but it also allows you to publish changes for your Database. So for example, whenever I create a new Table in my Database, I will actually first create the table in my Database project in Visual Studios, and then I will publish that Database Change to Sql Server through Visual Studios. Below is more information on this project:
+
+- dbo (This is the source control for the Database Schema)
+  - Tables
+    - Create Statements for each Table
+- PostDeploymentScripts
+  - Not Yet Developed - In upcoming work this section will include Scripts for Seeding Data into the Database.
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ### AttendanceTracker.Data
 
+The Data Project encapsulates the Sql Transactions sent to the Database. This is where the Application has a dependency on Dapper (ORM) for sending requests to the Database. DataRequests (Queries/Commands to send to the Database) are defined as IDataRequests. Meanwhile, data fetched from the Database are defined as DataTransferObjects. This Class Library is where the  [DataAccess.cs](https://github.com/uhyeay2/AttendanceTracker/blob/main/AttendanceTracker.Data/Implementation/DataAccess.cs) class is implemented. This class will handle any IDataRequest.
+
+- Abstraction
+  - BaseRequests
+    - This is where Abstract classes are stored for common Request Objects, such as Guid_DataRequest or Id_DataRequest.
+  - Interfaces
+    - IDataAccess
+      - This is the Interface abstracting the calls to Dapper.
+      - ExecuteAsync() - This method will take in an IDataRequest and return an int representing the number of rows affected by the command.
+      - FetchAsync() - This method will take in an IDataRequest < TResponse > and will return a QueryFirstOrDefaultAsync() for the TResponse defined in the IDataRequest.
+      - FetchListAsync() - This method will take in an IDataRequest < TResponse> and will QueryAsync() an IEnumerable < TResponse > for the TResponse defined in the IDataRequest.
+    - IDataRequest
+      - This interface defines that any IDataRequest class must be able to GetSql() and GetParameters() to execute a Sql Query/Command.
+      - There is an IDataRequest < TResponse > which allows an IDataRequest Object to define what type of DTO it would Fetch/FetchList of.      
+    - IDbConnectionFactory
+      - This interface allows us to abstract out the implementation for how a new SqlConnection is created for each Sql Query/Command.
+  - DataRequestObjects
+    - This is where classes that implement the IDataRequest interface reside.
+    - Requests are split into seperate features, IE: StudentRequest, InstructorRequests, CourseRequests.
+    - Every IDataRequest will define methods to GetSql() and GetParameters()
+  - DataTransferObjects
+    - This is where classes that represent the data fetched from the database reside.
+    - All IDataRequest < TResponse > objects will define a TResponse from the DataTransferObjects namespace.
+      - These DataTransferObjects (DTO's) are an exact match to the query that fetches them.
+  - Implementation
+    - DataAccess
+      - This is the only reference to Dapper in the entire project. Every Sql Transaction goes through this class.
+      - Breaks down all Sql Transactions into: ExecuteAsync(), FetchAsync(), FetchListAsync().
+      - Depends on IDbConnectionFactory to instantiate IDbConnections to the Database at runtime.
+     - DbConnectionFactory
+       - This class is responsible for creating a new SqlConnection() at runtime.
+       - Depends on Database ConnectionString that is stored as a private member to use at runtime.
+     - DependencyInjection
+       - This Extension Class injects dependencies to an IServiceCollection using Microsoft.Extensions.DependencyInjection.Abstraction
+       - IDbConnectionFactory Added as Singleton using DbConnectionFactory
+       - IDataAccess added as Scoped using DataAccess
+  - SqlGeneration
+    - Delete - Sql Generation For deleting from a table with a where condition.
+    - Insert - Sql Generation For Insert Commands
+      - IntoTable() - Pass in the TableName and (ColumnName, ValueName)[] Array to generate an Insert Statement.
+        - Overload for only passing in only ColumnNames when ParameterNames match ColumnNames.
+      - SelectIntoTable() - SqlGeneration Similar to IntoTable() but allows you to select values from another table for insert transaction.
+    - Select - Sql Generation for Select Queries
+      - FromTable() - Define Table to select from, optionally define columns, and optionally define where statement. Defaults to use WITH(NOLOCK)
+      - Exists() - Define Table and where statement, optionally define columns and defaults to use WITH(NOLOCK)
+    - Update - Sql Generation For Update Commands
+      - CoalesceTable() - Define Table and Where statement with (ColumnName, ValueName)[] Array of items to COALESCE.
+        - Overload for passing in only ColumnNames when ParameterNames match ColumnNames
+    - TableNames (Constants)
+      - This is a static class to hold constants representing the different Table names.
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+
 ### AttendanceTracker.Application
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ### AttendanceTracker.Api
 
@@ -114,17 +210,25 @@ Features are an important...
 
 Create, Read, and Delete Functionality....
 
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+
 ### Course
 
 Create, Read, Update, Delete...
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ### Student
 
 Create, Read, Update, Delete...
 
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+
 ### Instructor
 
 Create, Read, Update, Delete....
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ### CourseScheduled
 
@@ -132,7 +236,7 @@ Create, Read, Delete....
 
 #### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
-## TestingStrategies
+## Testing
 
 Testing is an important aspect of every application. This application ensures stability using....
 
@@ -140,9 +244,13 @@ Testing is an important aspect of every application. This application ensures st
 
 Data Tests are integrated with the Sql Server Database. This can often times be challenging, however....
 
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+
 ### Application Tests (Unit Testing w/ Moq)
 
 True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The Tests for the Application layer are set up to Mock dependencies using the Moq framework.
+
+#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
 
 ### Api Tests (Integration Smoke Testing)
 
