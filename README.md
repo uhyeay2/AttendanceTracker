@@ -19,6 +19,11 @@ Created by Daniel Aguirre - [Let's Connect On LinkedIn](https://www.linkedin.com
   - [AttendanceTracker.Application](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapplication)
   - [AttendanceTracker.Api](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapi)
 - [Features](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#features)
+  -[Subject](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#subject)
+  -[Course](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#course)
+  -[Student](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#student)
+  -[Instructor](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#instructor)
+  -[CourseScheduled](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#courseccheduled)
 - [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
 
 ## Overview
