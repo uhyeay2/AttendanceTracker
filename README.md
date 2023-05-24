@@ -9,9 +9,15 @@ ASP.Net Core Api for tracking Students/Instructors, Courses Attended/Instructed,
   - [What Was Used To Build This Application?](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#what-was-used-to-build-this-application)
   - [How Is This Application Structured?](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#how-is-this-application-structured)
 - [Projects](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#projects)
-  - [AttendanceTracker.Domain](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#AttendanceTracker.Domain)
+  - [AttendanceTracker.Domain](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerdomain)
+  - [AttendanceTracker.Database](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerdatabase)
+  - [AttendanceTracker.Data](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerdata)
+  - [AttendanceTracker.Application](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapplication)
+  - [AttendanceTracker.Api](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapi)
 - [Features](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#features)
 - [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
+
+
 
 ## Overview
 
@@ -63,7 +69,7 @@ This Application was built using the following frameworks/nuget packages:
 
 ### How Is This Application Structured
 
-This Application is structured following the Clean Architecture (or sometimes referred to as Ports and Adapters) Pattern. The Api also utilizes the Mediator pattern to separate the api from any of the logic on how requests are handled. This means that for each endpoint there is a Request object, which is tied to a Handler object. Each Handler defines how that request is handled. Below is a breakdown of the projects (excluded test projects) in this application and how they fit into the structure.
+This Application is structured following the Clean Architecture (or sometimes referred to as Ports and Adapters) Pattern. The Api also utilizes the Mediator pattern to separate the api from any of the logic on how requests are handled. This means that for each endpoint there is a Request object, which is tied to a Handler object. Each Handler defines how that request is handled. Below is a breakdown of the projects (excluding test projects) in this application and how they fit into the structure.
 
 - AttendanceTracker.Domain
   - Class Library (.Net 6) 
