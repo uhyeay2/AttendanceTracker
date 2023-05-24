@@ -4,14 +4,20 @@ ASP.Net Core Api for tracking Students/Instructors, Courses Attended/Instructed,
 
 ## Table Of Contents
 
-* [Overview](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#overview)
-* [Projects](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#projects)
-* [Features](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#features)
-* [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
+- [Overview](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#overview)
+  - [What Does This Application Allow A User To Do?](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#what-does-this-application-allow-a-user-to-do)
+  - [What Was Used To Build This Application?](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#what-was-used-to-build-this-application)
+  - [How Is This Application Structured?](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#how-is-this-application-structured)
+- [Projects](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#projects)
+  - [AttendanceTracker.Domain](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#AttendanceTracker.Domain)
+- [Features](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#features)
+- [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
 
 ## Overview
 
 This Application is an Asp.Net Core Api built using Clean Architecture. The primary purpose for this application is to track Attendance Occurences for Students/Instructors in Scheduled Courses. To support this functionality, the application also allows a user to create records for Students/Instructors, Subjects/Courses, and of course the data needed to track Attendance in any Courses Scheduled to be taught by an instructor to attended by a Student.
+
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### What Does This Application Allow A User To Do?
 
@@ -23,7 +29,7 @@ As mentioned previously, the primary functionality for this application is to tr
 - Courses: Create/Read/Update/Delete/IsExistingByCode
 - CoursesScheduled: Create/Read/Delete
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### What Was Used To Build This Application?
 
@@ -53,7 +59,7 @@ This Application was built using the following frameworks/nuget packages:
   - Dependency In AttendenceTracker.Application.Tests
   - This tool is helpful for Generating Fake Data to use in Unit Tests.
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### How Is This Application Structured
 
@@ -91,11 +97,13 @@ This Application is structured following the Clean Architecture (or sometimes re
   - Implements Global ExceptionHandling Middleware
   - The AttendanceTracker.Api project depends on AttendanceTracker.Domain and AttendanceTracker.Application
         
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ## Projects
 
 With this application following Clean Architecture (or sometimes referred to as Ports And Adapters), each project would represent a different Port for this Application. The Domain is the core of the Application, so it has no dependencies on any other projects. Each of the other Projects/Ports would encapsulate functionality to a different section of the Application. For example, all interactions with the Database are encapsulated in the AttendanceTracker.Data project. In the below sections we will discuss each projects responsibility and any notes to highlight from that project.
+
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### AttendanceTracker.Domain
 
@@ -125,7 +133,7 @@ The Domain, as mentioned previously, is the core of the application. This projec
     - Validation.cs provides helpers for Initializing/Checking List of ValidationFailureMessages (strings)
     - ValidationFailureMessage.cs provides helpers for generating messages regarding reason for Validation Failures.
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### AttendanceTracker.Database
 
@@ -137,7 +145,7 @@ The Sql Server Database Project is really cool because it not only allows you to
 - PostDeploymentScripts
   - Not Yet Developed - In upcoming work this section will include Scripts for Seeding Data into the Database.
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### AttendanceTracker.Data
 
@@ -192,68 +200,72 @@ The Data Project encapsulates the Sql Transactions sent to the Database. This is
     - TableNames (Constants)
       - This is a static class to hold constants representing the different Table names.
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### AttendanceTracker.Application
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### AttendanceTracker.Api
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ## Features
 
 Features are an important...
 
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
+
 ### Subject
 
 Create, Read, and Delete Functionality....
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Course
 
 Create, Read, Update, Delete...
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Student
 
 Create, Read, Update, Delete...
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Instructor
 
 Create, Read, Update, Delete....
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### CourseScheduled
 
 Create, Read, Delete....
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ## Testing
 
 Testing is an important aspect of every application. This application ensures stability using....
 
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
+
 ### Data Tests (Database Intergation Testing)
 
 Data Tests are integrated with the Sql Server Database. This can often times be challenging, however....
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Application Tests (Unit Testing w/ Moq)
 
 True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The Tests for the Application layer are set up to Mock dependencies using the Moq framework.
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Api Tests (Integration Smoke Testing)
 
 Smoke Testing To Come....
 
-#### [Return To Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#contents)
+#### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
