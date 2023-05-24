@@ -1,6 +1,10 @@
 # AttendanceTracker
 
-ASP.Net Core Api for tracking Students/Instructors, Courses Attended/Instructed, and Attendance Occurences for Students/Instructors.
+ASP.Net Core Api for tracking Students/Instructors, Courses Attended/Instructed, and Attendance Occurences for scheduled courses.
+
+This is an Application built using Clean Architecture and the Mediator Pattern. This application is also well tested with both Integration and Unit testing.
+
+Created by Daniel Aguirre - [Let's Connect On LinkedIn](https://www.linkedin.com/in/daniel-aguirre-/)
 
 ## Table Of Contents
 
@@ -16,8 +20,6 @@ ASP.Net Core Api for tracking Students/Instructors, Courses Attended/Instructed,
   - [AttendanceTracker.Api](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapi)
 - [Features](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#features)
 - [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
-
-
 
 ## Overview
 
@@ -147,7 +149,8 @@ The Sql Server Database Project is really cool because it not only allows you to
 
 - dbo (This is the source control for the Database Schema)
   - Tables
-    - Create Statements for each Table
+    - Create Table Statements are stored here.
+    - When you publish the Database through Visual Studios it will use these .sql files.
 - PostDeploymentScripts
   - Not Yet Developed - In upcoming work this section will include Scripts for Seeding Data into the Database.
 
@@ -168,7 +171,7 @@ The Data Project encapsulates the Sql Transactions sent to the Database. This is
       - FetchListAsync() - This method will take in an IDataRequest < TResponse> and will QueryAsync() an IEnumerable < TResponse > for the TResponse defined in the IDataRequest.
     - IDataRequest
       - This interface defines that any IDataRequest class must be able to GetSql() and GetParameters() to execute a Sql Query/Command.
-      - There is an IDataRequest < TResponse > which allows an IDataRequest Object to define what type of DTO it would Fetch/FetchList of.      
+      - There is an IDataRequest \<TResponse> which allows an IDataRequest Object to define what type of DTO it would Fetch/FetchList of.      
     - IDbConnectionFactory
       - This interface allows us to abstract out the implementation for how a new SqlConnection is created for each Sql Query/Command.
   - DataRequestObjects
@@ -177,7 +180,7 @@ The Data Project encapsulates the Sql Transactions sent to the Database. This is
     - Every IDataRequest will define methods to GetSql() and GetParameters()
   - DataTransferObjects
     - This is where classes that represent the data fetched from the database reside.
-    - All IDataRequest < TResponse > objects will define a TResponse from the DataTransferObjects namespace.
+    - All IDataRequest \<TResponse> objects will define a TResponse from the DataTransferObjects namespace.
       - These DataTransferObjects (DTO's) are an exact match to the query that fetches them.
   - Implementation
     - DataAccess
@@ -201,7 +204,7 @@ The Data Project encapsulates the Sql Transactions sent to the Database. This is
       - FromTable() - Define Table to select from, optionally define columns, and optionally define where statement. Defaults to use WITH(NOLOCK)
       - Exists() - Define Table and where statement, optionally define columns and defaults to use WITH(NOLOCK)
     - Update - Sql Generation For Update Commands
-      - CoalesceTable() - Define Table and Where statement with (ColumnName, ValueName)[] Array of items to COALESCE.
+      - CoalesceTable() - Define Table and Where statement with (ColumnName, ValueName)[] Array of items to Coalesce.
         - Overload for passing in only ColumnNames when ParameterNames match ColumnNames
     - TableNames (Constants)
       - This is a static class to hold constants representing the different Table names.
@@ -210,9 +213,72 @@ The Data Project encapsulates the Sql Transactions sent to the Database. This is
 
 ### AttendanceTracker.Application
 
+The Application Project encapsulates the logic on how requests are handled. This is where I implemented the Mediator Pattern. For those that are familiar with MediatR (Nuget Package), you may notice some similarities with the IRequest, IHandler, and IOrchestrator interfaces. The IOrchestrator will receive an IRequest, and use an IHandlerFactory to instantiate the appropriate Handler at runtime. There is also RequestValidation that is automatically processed for any IRequest object that also implements the AttendenaceTracker.Domain.IValidatabale interface.
+
+- Abstraction
+  - BaseHandlers
+    - This is where abstract classes are stored for consistently used dependencies, such as the DataHandler which depends on IDataAccess to interact with the Database.
+  - BaseRequests
+    - This is another place where abstract classes reside. An example would be RequiredGuidRequest which is an IRequest that has a 'Guid' Property expected in the body.
+      - These 'Required' BaseRequests help to reduce repeated code on Request Validation Rules.
+  - Interfaces
+    - IHandler
+      - IHandler\<TRequest> and IHandler\<TRequest, TResponse> interfaces define contracts for handling synchronous requests.
+      - ITaskHandler\<TRequest> and ITaskHandler\<TRequest, TResponse> interfaces are for asynchronous requests.
+    - IHandlerFactory
+      - This interface defines the method called for instantiating a Handler at runtime.
+    - IOrchestrator
+      - This is the interface that projects which depend on the AttendanceTracker.Application will use.
+      - Asynchronous requests will either call GetResponseAsync() or ExecuteRequestAsync()
+      - Synchronous requests will use GetResponse() or ExecuteRequest()
+      - Classes depending on this interface will define the TRequest and TResponse when making a call, but the Handler will be hidden from the caller.
+    - IRequest
+      - Each Handler will be tied to a class that implements the IRequest interface.
+      - Handlers that return an object will implement the IRequest\<TResponse> interface.
+ - Implementation
+   - DependencyInjection
+     - This Extension Class injects dependencies to an IServiceCollection using Microsoft.Extensions.DependencyInjection.Abstraction
+     - Will use Reflection once to get a List\<Type> of all IHandlers to add to the ServiceCollection as a Singleton.
+     - IHandlerFactory added as Singleton using HandlerFactory
+     - IOrhcestrator added as Singleton using Orchestrator
+     - IRandomCharacterFactory added as Singleton from RandomCharacterFactory
+   - HandlerFactory
+     - Helper Method GetHandler\<TRequest, THandler>() returns the first Type that implements the IHandler\<TRequest> or IHandler\<TRequest, TResponse> passed in.
+       - Also works for the ITaskHandler\<TRequest> and ITaskHandler\<TRequest, TResponse>
+     - Helper method for Instantiate\<TRequest, THandler> which will create an instance of the THandler requested using the IServiceProvider built from the applications IServiceCollection.
+     - This class depends on the List\<Type> that's generated using Reflection at Startup, and the Microsoft.Extensions.DependencyInjection.ActivatorUtiltiies to instantiate (handler) objects at runtime.
+   - Orchestrator
+     - This class implements the IOrchestrator interface that IRequest's would be sent to (Similar to the IMediator interface from MedaitR)
+     - Request Validation happens here before a Handler is instantiated for a request.
+     - This class depends on the IHandlerFactory to instantiate a handler when a request is received.
+ - RequestHandlers
+   - This is where classes that implement the IHandler interfaces reside.
+   - Handlers are broken down into features (such as Subject, Course, Student).
+   - Each Handler.cs file will also contain the Request class that is tied to that handler.
+     - The Request objects are public, but the Handlers are always internal.
+       - The (Types of) Handlers are added to the IServiceCollection through the DependencyInjection, so they do not need to be exposed outside the assembly.
+
 #### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### AttendanceTracker.Api
+
+The Api Application is the outermost layer of the application. This is what exposes the functionality of the application to the user. Although the core purpose of this application is to track Student/Instructor Attendance Occurences, there are several other features exposed through the api. This section will review the endpoints exposed through the Api, and the Middleware that was integrated into the Application.
+
+- Middleware
+  - ExceptionHandlingMiddleware
+    - This Middleware will wrap requests to globally catch any exceptions throw in the application
+      - This is used to ensure the correct statuse codes are sent and appropriate information is attached to the content of the Api response.
+ - Controllers
+   - StudentController
+     - '.../InsertStudent/' - Generates a Unique StudentCode and inserts a record into database. Returns the Student (Domain Object) for the record inserted.
+     - '.../DeleteStudent/' - Delete the student in database with StudentCode matching the one provided.
+     - '.../GetStudentByStudentCode/' - Fetch a Student from Database using StudentCode and translates that DTO into the Student Domain Object.
+     - '.../GetStudentsByName/' - Fetch an IEnumerable\<Student> using a LIKE query with the FirstName and/or LastName provided.
+     - '.../UpdateStudent/' - Update the Student with the StudentCode provided using a Coalesce on the table for any fields provided (Such as FirstName or LastName).     
+   - InstructorController
+   - SubjectController
+   - CourseController
+   - CourseScheduledController
 
 #### [Return To Table OF Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
