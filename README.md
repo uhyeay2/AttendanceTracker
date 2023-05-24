@@ -31,10 +31,10 @@ This Application is an Asp.Net Core Api built using Clean Architecture. The prim
 
 As mentioned previously, the primary functionality for this application is to tracker Student/Instructor Attendance Occurences. However, there are several other features exposed by this Api. Here's a brief list of what you can do with the Api:
 
-- Students: Create/Read/Update/Delete
-- Instructors: Create/Read/Update/Delete
 - Subjects: Create/Read/Delete
 - Courses: Create/Read/Update/Delete/IsExistingByCode
+- Students: Create/Read/Update/Delete
+- Instructors: Create/Read/Update/Delete
 - CoursesScheduled: Create/Read/Delete
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
@@ -325,19 +325,19 @@ The primary functionality for this application is to allow a user to track Stude
 
 ### Subject
 
-Create, Read, and Delete Functionality....
+A Subject groups common courses. When creating a Subject a unique SubjectCode must be provided, as well as the Subject's Name. Once the Subject is created, then Courses can be created using the SubjectCode. Other than creating Subjects, you can also Fetch them from the database and delete them using the SubjectCode.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Course
 
-Create, Read, Update, Delete...
+A Course can be defined as a Class that pertains to a Subject. For example, the 'Math' subject, could have multiple Courses such as 'Algebra 1', 'Geometry 1', etc. When a course is created, a SubjectCode is provided (along with a Name). A unique CourseCode is generated using the SubjectCode and a short series of random numbers. Once the Course is created, then an Instructor can create a CourseScheduled that they would teach. Other than creating Courses, you can also Fetch, Update, and Delete them using the CourseCode as an identifier.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Student
 
-Create, Read, Update, Delete...
+A Student is someone who would attend a CoursesScheduled to be taught by an Instructor. 
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
