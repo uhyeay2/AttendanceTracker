@@ -34,7 +34,7 @@ This Application is an Asp.Net Core Api built using Clean Architecture. The prim
 
 ### What Does This Application Allow A User To Do?
 
-As mentioned previously, the primary functionality for this application is to tracker Student/Instructor Attendance Occurences. However, there are several other features exposed by this Api. Here's a brief list of what you can do with the Api:
+As mentioned previously, the primary functionality for this application is to track Student/Instructor Attendance Occurences. However, there are several other features exposed by this Api. Here's a brief list of what you can do with the Api:
 
 - Subjects: Create/Read/Delete
 - Courses: Create/Read/Update/Delete/IsExistingByCode
@@ -342,42 +342,61 @@ A Course can be defined as a Class that pertains to a Subject. For example, the 
 
 ### Student
 
-A Student is someone who would attend a CoursesScheduled to be taught by an Instructor. 
+A Student is someone who would attend a CoursesScheduled to be taught by an Instructor. When a Student is created in the application, a random unique StudentCode will be generated that is a fixed size of random letters then numbers. Students can be created, fetched, updated, and deleted. Most requests use the StudentCode, but you can also search for students using their First and/or Last names.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Instructor
 
-Create, Read, Update, Delete....
+An Instructor would be an individual who teaches a course. When an Instructor is inserted a random unique InstructorCode is generated using their last name and a fixed length of random numbers. After the instructor has been created you can use their InstructorCode to insert a CourseScheduled that they would teach. Instructors can also be fetched, updated, and deleted.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### CourseScheduled
 
-Create, Read, Delete....
+A CourseScheduled can be defined as a Course that an Instructor will teach within a specified date range. When a CourseScheduled is inserted, a CourseCode and InstructorCode are provided to identify who will be teaching what course, as well as the StartTime/EndTime. You can also fetch and delete CourseScheduled records.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ## Testing
 
-Testing is an important aspect of every application. This application ensures stability using....
+Testing is an important aspect of every application. This application ensures stability using both Integration and Unit tests with the popular framework xUnit. Each test project is responsible for testing a separate Port (Class Library) for the application. In this section we will review the test coverage for this project.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Data Tests (Database Intergation Testing)
 
-Data Tests are integrated with the Sql Server Database. This can often times be challenging, however....
+Data Tests are integrated with the Sql Server Database. This can often times be challenging, however this Test Project makes use of a DataSeeder that will not only insert new records and fetch them to be used in a test, but will also set queue the record to be deleted after the test runs. This helped a lot with reducing repeated code related to setting up a record to test with.
+
+This xUnit Test project is broken up into the following:
+
+- DataRequestTests
+  - This is where tests can be found for Data Transactions (ExecuteAsync(), FetchAsync(), FetchListAsync() from IDataAccess).
+  - RequestTests are split up into a separate namespace for each Feature, and one test Class per DataTransaction.
+  - Each test here will inherit from the base class DataTest.cs that can be found in the TestHelpers namespace.
+- SqlGenerationTests
+  - This is where the tests for SqlGeneration reside.
+  - There is one test class per SqlGeneration Class.
+- TestHelpers
+  - DataSeeder
+    - This class has a helper which takes in three IDataRequests (Insert, Fetch, and Delete). This is used to Seed any records necessary, fetch them to be used in the test, and queue for deletion.
+    - There is a method for PurgingSeededRecords which will delete all of the IDataRequests that have been queued for deletion.
+    - A method exists for each table that can be inserted.
+  - DataTest
+    - Each DataRequest Test will implement this abstract base class.
+    - This class provides the IDataAccess that will be needed to process each IDataRequest that is being tested.
+    - The DataSeeder is kept as a property of this abstract class so that it is available in all Data tests.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Application Tests (Unit Testing w/ Moq)
 
-True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The Tests for the Application layer are set up to Mock dependencies using the Moq framework.
+True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The Tests for the Application layer are set up to Mock dependencies using the popular Moq framework. 
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
 ### Api Tests (Integration Smoke Testing)
 
-Smoke Testing To Come....
+Api Integration/Smoke Testing To Come....
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
