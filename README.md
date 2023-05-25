@@ -391,7 +391,21 @@ This xUnit Test project is broken up into the following:
 
 ### Application Tests (Unit Testing w/ Moq)
 
-True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The Tests for the Application layer are set up to Mock dependencies using the popular Moq framework. 
+True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The tests for the Application layer are set up to Mock dependencies using the popular Moq framework. So basically, since the Application.Data.Tests project is already testing DataTransactions, we don't really call them in these tests. Instead we Mock those calls to set up specific scenarios so we can test that the Handlers act the way they're supposed to in different events.
+
+This xUnit Test Project is broken up into the following:
+
+- HandlerTests
+  - This is where the IHandler for each type of IRequest that the Api handles will be tested.
+  - Handler tests are split up into a separate namespace for each Feature, and one test class per Handler.
+  - Each HandlerTest will inherit from a base abstract class HandlerTest, which is used to reduce repeated code.
+- TestHelpers
+  - HandlerTest
+    - Each Handler Test will implement this abstract base class.
+    - This class provides Mock objects for the different dependencies used in the HandlerTests
+      - Such as Mock\<IDataAccess> and Mock\<IOrchestrator>
+    - This class also provided helper methods for doing Setup on Mocked objects.
+      - For example, instead of having to type _mockedObject.Setup(_ => _.ExecuteAsync(inputToReceive)).Returns(Task.FromResult(outputToReturn)), you would just call SetupExecute(input, output);
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
