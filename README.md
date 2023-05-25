@@ -25,6 +25,9 @@ Created by Daniel Aguirre - [Let's Connect On LinkedIn](https://www.linkedin.com
   - [Instructor](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#instructor)
   - [CourseScheduled](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#coursescheduled)
 - [Testing](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#testing)
+  - [AttendanceTracker.Data.Tests](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerdatatests)
+  - [AttendanceTracker.Application.Tests](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapplicationtests)
+  - [AttendanceTracker.Api.Tests](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#attendancetrackerapitests)
 
 ## Overview
 
@@ -364,9 +367,9 @@ Testing is an important aspect of every application. This application ensures st
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
-### Data Tests (Database Intergation Testing)
+### AttendanceTracker.Data.Tests
 
-Data Tests are integrated with the Sql Server Database. This can often times be challenging, however this Test Project makes use of a DataSeeder that will not only insert new records and fetch them to be used in a test, but will also set queue the record to be deleted after the test runs. This helped a lot with reducing repeated code related to setting up a record to test with.
+The Data Tests are integrated with the Sql Server Database. This can often times be challenging, however this Test Project makes use of a DataSeeder that will not only insert new records and fetch them to be used in a test, but will also set queue the record to be deleted after the test runs. This helped a lot with reducing repeated code related to setting up a record to test with.
 
 This xUnit Test project is broken up into the following:
 
@@ -389,9 +392,9 @@ This xUnit Test project is broken up into the following:
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
-### Application Tests (Unit Testing w/ Moq)
+### AttendanceTracker.Application.Tests
 
-True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The tests for the Application layer are set up to Mock dependencies using the popular Moq framework. So basically, since the Application.Data.Tests project is already testing DataTransactions, we don't really call them in these tests. Instead we Mock those calls to set up specific scenarios so we can test that the Handlers act the way they're supposed to in different events.
+The Application tests are set up as unit tests. True Unit Testing will Mock Dependencies to ensure that a 'System Under Test' (SUT) is not testing any of its dependencies functionality, but instead only testing its own logic. The tests for the Application layer are set up to Mock dependencies using the popular Moq framework. So basically, since the Application.Data.Tests project is already testing DataTransactions, we don't really call them in these tests. Instead we Mock those calls to set up specific scenarios so we can test that the Handlers act the way they're supposed to in different events.
 
 This xUnit Test Project is broken up into the following:
 
@@ -409,7 +412,7 @@ This xUnit Test Project is broken up into the following:
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
-### Api Tests (Integration Smoke Testing)
+### AttendanceTracker.Api.Tests
 
 Api Integration/Smoke Testing To Come....
 
