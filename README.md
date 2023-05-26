@@ -160,7 +160,12 @@ The Sql Server Database Project is really cool because it not only allows you to
     - Create Table Statements are stored here.
     - When you publish the Database through Visual Studios it will use these .sql files.
 - PostDeploymentScripts
-  - Not Yet Developed - In upcoming work this section will include Scripts for Seeding Data into the Database.
+  - Scripts/Post-Deployment
+    - SeedTableScripts
+      - This is where the individual scripts for seeding data into each table reside.
+      - Each Seed Table Script uses a Merge statement that will Insert new records if they don't exist, or Update them to match the data in the Post Deployment Script if it has been changed (Matches by Id)
+    - Script.PostDeployment.Sql
+      - This is the PostDeploymentScript. It references each of the individual SeedTableScripts to run them one at a time in the specified order.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
