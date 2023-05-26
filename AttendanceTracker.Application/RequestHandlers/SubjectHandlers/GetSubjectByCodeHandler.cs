@@ -12,9 +12,7 @@ namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
         {
             var dto = await _dataAccess.FetchAsync(new GetSubjectByCode(request.Code));
 
-            return dto == null
-                ? throw new DoesNotExistException(typeof(Subject), request.Code, nameof(request.Code))
-                : new Subject(dto.SubjectCode, dto.Name);
+            return dto != null ? dto.AsSubject() : throw new DoesNotExistException(typeof(Subject), request.Code, nameof(request.Code));
         }
     }
 }

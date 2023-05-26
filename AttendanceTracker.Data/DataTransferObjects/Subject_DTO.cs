@@ -7,5 +7,7 @@
         public string SubjectCode { get; set; } = null!;
 
         public string Name { get; set; } = null!;
+
+        public Subject AsSubject() => new (SubjectCode, Name);
     }
 }

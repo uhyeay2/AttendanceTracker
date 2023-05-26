@@ -1,7 +1,4 @@
-﻿using AttendanceTracker.Application.Abstraction.Interfaces;
-using AttendanceTracker.Application.RequestHandlers.SubjectHandlers;
-using AttendanceTracker.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using AttendanceTracker.Application.RequestHandlers.SubjectHandlers;
 
 namespace AttendanceTracker.Api.Controllers
 {
@@ -16,6 +13,10 @@ namespace AttendanceTracker.Api.Controllers
         [HttpDelete("DeleteSubject")]
         public async Task Deletetudent(DeleteSubjectRequest request) =>
             await _orchestrator.ExecuteRequestAsync(request);
+
+        [HttpGet("GetAllSubjects")]
+        public async Task<IEnumerable<Subject>> GetAllSubjects() =>
+          await _orchestrator.GetResponseAsync<GetAllSubjectsRequest, IEnumerable<Subject>>(new());
 
         [HttpGet("GetSubjectBySubjectCode")]
         public async Task<Subject> GetSubjectBySubjectCode(GetSubjectByCodeRequest request) =>
