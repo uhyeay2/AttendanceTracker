@@ -14,8 +14,8 @@ namespace AttendanceTracker.Api.Controllers
             await _orchestrator.GetResponseAsync<InsertInstructorRequest, Instructor>(request);
 
         [HttpDelete("DeleteInstructor")]
-        public async Task DeleteInstructor(DeleteInstructorRequest request) =>
-            await _orchestrator.ExecuteRequestAsync(request);
+        public async Task DeleteInstructor(string instructorCode) =>
+            await _orchestrator.ExecuteRequestAsync(new DeleteInstructorRequest(instructorCode));
 
         [HttpGet("GetInstructorByInstructorCode")]
         public async Task<Instructor> GetInstructorByInstructorCode(GetInstructorByInstructorCodeRequest request) =>

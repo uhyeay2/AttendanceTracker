@@ -22,7 +22,7 @@ namespace AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers
 
         public override string HandleRequest(GenerateInstructorCodeRequest request)
         {
-            var startingCharacters = request.InstructorLastName[..InstructorCodeConstants.CountOfStartingCharacters];
+            var startingCharacters = request.InstructorLastName[..InstructorCodeConstants.CountOfStartingCharacters].ToUpper();
 
             var endingNumbers = new char[InstructorCodeConstants.CountOfEndingNumbers];
 

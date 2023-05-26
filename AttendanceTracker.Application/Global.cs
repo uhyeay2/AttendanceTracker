@@ -11,4 +11,5 @@ global using AttendanceTracker.Domain.Models;
 global using AttendanceTracker.Domain.Policy.Validation;
 
 using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("AttendanceTracker.Api.Tests")]
 [assembly: InternalsVisibleTo("AttendanceTracker.Application.Tests")]

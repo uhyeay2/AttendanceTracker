@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttendanceTracker.Data.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttendanceTracker.Application.Tests", "AttendanceTracker.Application.Tests\AttendanceTracker.Application.Tests.csproj", "{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceTracker.Api.Tests", "AttendanceTracker.Api.Tests\AttendanceTracker.Api.Tests.csproj", "{B4A7DC6E-53C6-421C-837B-D83BCD6B146D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A7DC6E-53C6-421C-837B-D83BCD6B146D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A7DC6E-53C6-421C-837B-D83BCD6B146D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A7DC6E-53C6-421C-837B-D83BCD6B146D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A7DC6E-53C6-421C-837B-D83BCD6B146D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{983926BB-D529-4034-82F2-982AC6CA607C} = {C6F9DE97-61C7-40FD-8E59-7544B9D2A1B9}
 		{C6470C57-1BB8-4B3D-88BF-26975DF1AF2A} = {C6F9DE97-61C7-40FD-8E59-7544B9D2A1B9}
+		{B4A7DC6E-53C6-421C-837B-D83BCD6B146D} = {C6F9DE97-61C7-40FD-8E59-7544B9D2A1B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43DEA196-43D0-4352-9032-0D6E2A3C6CF9}

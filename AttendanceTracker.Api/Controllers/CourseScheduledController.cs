@@ -17,8 +17,8 @@ namespace AttendanceTracker.Api.Controllers
         public async Task Deletetudent(DeleteCourseScheduledRequest request) =>
             await _orchestrator.ExecuteRequestAsync(request);
 
-        [HttpGet("GetCourseScheduledByCourseScheduledCode")]
-        public async Task<CourseScheduled> GetCourseScheduledByCourseScheduledCode(GetCourseScheduledByGuidRequest request) =>
+        [HttpGet("GetCourseScheduledByGuid")]
+        public async Task<CourseScheduled> GetCourseScheduledByGuid(GetCourseScheduledByGuidRequest request) =>
             await _orchestrator.GetResponseAsync<GetCourseScheduledByGuidRequest, CourseScheduled>(request);
     }
 }
