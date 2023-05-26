@@ -2,7 +2,12 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
 {
-    public class IsSubjectCodeExistingRequest : RequiredCodeRequest<bool> { }
+    public class IsSubjectCodeExistingRequest : RequiredCodeRequest<bool>
+    {
+        public IsSubjectCodeExistingRequest() { }
+
+        public IsSubjectCodeExistingRequest(string code) : base(code) { }
+    }
 
     internal class IsSubjectCodeExistingHandler : DataHandler<IsSubjectCodeExistingRequest, bool>
     {

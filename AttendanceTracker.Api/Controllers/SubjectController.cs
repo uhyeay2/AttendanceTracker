@@ -11,19 +11,19 @@ namespace AttendanceTracker.Api.Controllers
           await _orchestrator.GetResponseAsync<InsertSubjectRequest, Subject>(request);
 
         [HttpDelete("DeleteSubject")]
-        public async Task Deletetudent(DeleteSubjectRequest request) =>
-            await _orchestrator.ExecuteRequestAsync(request);
+        public async Task DeleteSubject(string subjectCode) =>
+            await _orchestrator.ExecuteRequestAsync(new DeleteSubjectRequest(subjectCode));
 
         [HttpGet("GetAllSubjects")]
         public async Task<IEnumerable<Subject>> GetAllSubjects() =>
           await _orchestrator.GetResponseAsync<GetAllSubjectsRequest, IEnumerable<Subject>>(new());
 
         [HttpGet("GetSubjectBySubjectCode")]
-        public async Task<Subject> GetSubjectBySubjectCode(GetSubjectByCodeRequest request) =>
-            await _orchestrator.GetResponseAsync<GetSubjectByCodeRequest, Subject>(request);
+        public async Task<Subject> GetSubjectBySubjectCode(string subjectCode) =>
+            await _orchestrator.GetResponseAsync<GetSubjectByCodeRequest, Subject>(new GetSubjectByCodeRequest(subjectCode));
 
         [HttpGet("IsSubjectCodeExisting")]
-        public async Task<bool> IsSubjectCodeExisting(IsSubjectCodeExistingRequest request) =>
-            await _orchestrator.GetResponseAsync<IsSubjectCodeExistingRequest, bool>(request);
+        public async Task<bool> IsSubjectCodeExisting(string subjectCode) =>
+            await _orchestrator.GetResponseAsync<IsSubjectCodeExistingRequest, bool>(new IsSubjectCodeExistingRequest(subjectCode));
     }
 }

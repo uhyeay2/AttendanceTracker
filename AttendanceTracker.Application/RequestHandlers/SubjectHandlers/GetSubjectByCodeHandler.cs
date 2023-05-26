@@ -2,7 +2,12 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
 {
-    public class GetSubjectByCodeRequest : RequiredCodeRequest<Subject> { }
+    public class GetSubjectByCodeRequest : RequiredCodeRequest<Subject>
+    {
+        public GetSubjectByCodeRequest() { }
+
+        public GetSubjectByCodeRequest(string code) : base(code) { }
+    }
 
     internal class GetSubjectByCodeHandler : DataHandler<GetSubjectByCodeRequest, Subject>
     {
