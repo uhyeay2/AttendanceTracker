@@ -1,3 +1,7 @@
+global using AttendanceTracker.Application.Abstraction.Interfaces;
+global using AttendanceTracker.Domain.Models;
+global using Microsoft.AspNetCore.Mvc;
+
 using AttendanceTracker.Api.Middleware;
 using AttendanceTracker.Application.Implementation;
 

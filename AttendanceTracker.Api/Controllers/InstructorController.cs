@@ -1,7 +1,4 @@
-﻿using AttendanceTracker.Application.Abstraction.Interfaces;
-using AttendanceTracker.Application.RequestHandlers.InstructorHandlers;
-using AttendanceTracker.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using AttendanceTracker.Application.RequestHandlers.InstructorHandlers;
 
 namespace AttendanceTracker.Api.Controllers
 {
