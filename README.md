@@ -419,6 +419,15 @@ This xUnit Test Project is broken up into the following:
 
 ### AttendanceTracker.Api.Tests
 
-Api Integration/Smoke Testing To Come....
+The Api is the outermost layer of the application. This is what is exposing functionality to the user. With the pattern that this project uses, the Controller methods really don't have any logic of their own. They call the IOrchestrator for their requests to be handled, and that has been unit tested in the Application.Tests project, meanwhile the Data transactions were integration tested with the database already. So I decided for the Api.Tests project to implement integration testing that ensures everything connects from one piece to the other without any issues. This testing is light, and I would consider to be kind of smoke testing that tests all the pieces together instead of individually testing one piece.
+
+This xUnit Test Project is broken up into the following:
+
+-IntegrationTests
+  - This is where ControllerTests reside. Each of these are set up to run as integration tests using their dependencies concrete implementations, not Mocked objects.
+  - Each test method inside a ControllerTest class will test a scenario, often times calling multiple controller methods.
+-TestHelpers
+  - ControllerTest
+    - This base abstract class helps reduce repeated code for initializing the IOrchestrator dependency that all controllers share.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
