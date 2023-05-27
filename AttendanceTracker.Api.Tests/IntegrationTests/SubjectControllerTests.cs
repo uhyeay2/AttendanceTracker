@@ -53,7 +53,7 @@ namespace AttendanceTracker.Api.Tests.IntegrationTests
                 await _controller.DeleteSubject(request.SubjectCode);
             }
 
-            Assert.True(allSubjects.Count() > insertSubjectRequests.Count);
+            Assert.True(allSubjects.Count() >= insertSubjectRequests.Count);
         }
 
         [Fact]

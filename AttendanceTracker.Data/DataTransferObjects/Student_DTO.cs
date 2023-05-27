@@ -11,5 +11,7 @@
         public string LastName { get; set; } = string.Empty;
 
         public DateTime DateOfBirth { get; set; }
+
+        public Student AsStudent() => new(StudentCode, FirstName, LastName, DateOfBirth);
     }
 }

@@ -10,6 +10,8 @@
 
         public const string Student = "Student";
 
+        public const string StudentCourseScheduled = "StudentCourseScheduled";
+
         public const string Instructor = "Instructor";
     }
 }

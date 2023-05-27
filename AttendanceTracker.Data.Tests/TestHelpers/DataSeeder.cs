@@ -2,6 +2,7 @@
 using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
 using AttendanceTracker.Data.DataRequestObjects.CourseScheduledRequests;
 using AttendanceTracker.Data.DataRequestObjects.InstructorRequests;
+using AttendanceTracker.Data.DataRequestObjects.StudentCourseScheduledRequests;
 using AttendanceTracker.Data.DataRequestObjects.StudentRequests;
 using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
 using AttendanceTracker.Data.DataTransferObjects;
@@ -30,6 +31,10 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
                 catch (Exception) { /* TODO: Log Purge Failures ? */ }
             }
         }
+
+        public async Task<CourseScheduled_DTO> NewStudentCourseScheduled(string studentCode, Guid courseScheduledGuid) =>
+            await SeedFetchAndQueueForDeletion(
+                new InsertStudentCourseScheduled(studentCode, courseScheduledGuid), new GetStudentCourseScheduled(studentCode, courseScheduledGuid), new DeleteStudentCourseScheduled(studentCode, courseScheduledGuid));
 
         public async Task<Instructor_DTO> NewInstructorAsync(string instructorCode, string firstName, string lastName) =>
             await SeedFetchAndQueueForDeletion(
