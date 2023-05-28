@@ -26,7 +26,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentCourseScheduledTe
         }
 
         [Fact]
-        public async Task InsertStudentCourseScheduled_Given_ExistingStudentCodeAndCourseScheduledGuid_ShouldReturn_RowsUpdated()
+        public async Task InsertStudentCourseScheduled_Given_StudentCodeAndCourseScheduledGuid_ShouldReturn_RowsUpdated()
         {
             var existingStudent = await SeedAsync(new SeedStudentRequest());
 
@@ -37,6 +37,18 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentCourseScheduledTe
             await _dataAccess.ExecuteAsync(new DeleteStudentCourseScheduled(existingStudent.StudentCode, existingCourseScheduled.Guid));
 
             Assert.True(rowsAffected.AnyRowsAreUpdated());
+        }
+
+        [Fact]
+        public async Task InsertStudentCourseScheduled_Given_StudentCodeAndCourseScheduledGuidAlreadyExisting_ShouldReturn_NoRowsUpdated()
+        {
+            var existingStudent = await SeedAsync(new SeedStudentRequest());
+
+            var existingStudentCourseScheduled = await SeedAsync(new SeedStudentCourseScheduledRequest(existingStudent.StudentCode));
+
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertStudentCourseScheduled(existingStudent.StudentCode, existingStudentCourseScheduled.Guid));
+
+            Assert.True(rowsAffected.NoRowsAreUpdated());
         }
     }
 }

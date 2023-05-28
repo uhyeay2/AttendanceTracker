@@ -80,6 +80,8 @@
     <None Include="Scripts\Post-Deployment\SeedTableScripts\SeedTable_Course.sql" />
     <None Include="Scripts\Post-Deployment\SeedTableScripts\SeedTable_Student.sql" />
     <None Include="Scripts\Post-Deployment\SeedTableScripts\SeedTable_Instructor.sql" />
+    <None Include="Scripts\Post-Deployment\SeedTableScripts\SeedTable_CourseScheduled.sql" />
+    <None Include="Scripts\Post-Deployment\SeedTableScripts\SeedTable_StudentCourseScheduled.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment.sql" />

@@ -2,17 +2,17 @@
 {
     public class GetStudentCourseScheduled : IDataRequest<CourseScheduled_DTO>
     {
-        public GetStudentCourseScheduled(string studentCode, Guid scheduledCourseGuid)
+        public GetStudentCourseScheduled(string studentCode, Guid courseScheduledGuid)
         {
             StudentCode = studentCode;
-            ScheduledCourseGuid = scheduledCourseGuid;
+            CourseScheduledGuid = courseScheduledGuid;
         }
 
         public string StudentCode { get; set; }
 
-        public Guid ScheduledCourseGuid { get; set; }
+        public Guid CourseScheduledGuid { get; set; }
 
-        public object? GetParameters() => new { StudentCode, ScheduledCourseGuid };
+        public object? GetParameters() => new { StudentCode, CourseScheduledGuid };
 
         public string GetSql() => Select.JoinFromTable(
             table: TableNames.Student,
@@ -22,9 +22,7 @@
                 LEFT JOIN {TableNames.CourseScheduled} WITH(NOLOCK) ON {TableNames.StudentCourseScheduled}.CourseScheduledId = {TableNames.CourseScheduled}.Id
             ", 
             columns: $"{TableNames.CourseScheduled}.*",
-            where:
-            $@"
-                {TableNames.Student}.StudentCode = @Code AND 
-            ");
+            where: $"{TableNames.Student}.StudentCode = @StudentCode AND {TableNames.CourseScheduled}.Guid = @CourseScheduledGuid"
+        );
     }
 }

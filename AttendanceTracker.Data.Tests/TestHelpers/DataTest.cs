@@ -24,6 +24,6 @@ namespace AttendanceTracker.Data.Tests.TestHelpers
 
         protected async Task<TResponse> SeedAsync<TResponse>(DataSeederRequest<TResponse> seedRequest) => await seedRequest.ExecuteAsync(_dataSeeder);
 
-        public void Dispose() => _dataSeeder.PurgeSeededRecordsAsync().ConfigureAwait(true);
+        public void Dispose() => _dataSeeder.Dispose();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace AttendanceTracker.Tests.Shared.DataSeeder
 {
-    public class DataSeeder
+    public class DataSeeder : IDisposable
     {
         public DataSeeder(IDataAccess dataAccess) => _dataAccess = dataAccess;
 
@@ -19,7 +19,7 @@ namespace AttendanceTracker.Tests.Shared.DataSeeder
             return await _dataAccess.FetchAsync(fetchRequest);
         }
 
-        public async Task PurgeSeededRecordsAsync()
+        private async Task PurgeSeededRecordsAsync()
         {
             const int maxCyclesToAttemptDeletingRecords = 5;
             var currentCycle = 0;
@@ -40,5 +40,7 @@ namespace AttendanceTracker.Tests.Shared.DataSeeder
                 }
             }
         }
+
+        public void Dispose() => PurgeSeededRecordsAsync().ConfigureAwait(true);
     }
 }
