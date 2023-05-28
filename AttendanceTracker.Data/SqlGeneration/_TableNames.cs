@@ -13,5 +13,7 @@
         public const string StudentCourseScheduled = "StudentCourseScheduled";
 
         public const string Instructor = "Instructor";
+
+        public const string ResponseTimeLog = "Log_ResponseTime";
     }
 }

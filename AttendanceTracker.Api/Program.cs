@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.InjectOrchestration(builder.Configuration.GetConnectionString("Default"));
 
+builder.Services.AddTransient<ResponseTimeLoggingMiddleware>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
@@ -33,6 +34,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseMiddleware<ResponseTimeLoggingMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();
