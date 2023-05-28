@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /AttendanceTracker.Data.Tests/TestHelpers/Hidden.cs
 /AttendanceTracker.Api/appsettings.json
 /AttendanceTracker.Api.Tests/TestHelpers/Hidden.cs
+/AttendanceTracker.Tests.Shared/Hidden.cs
