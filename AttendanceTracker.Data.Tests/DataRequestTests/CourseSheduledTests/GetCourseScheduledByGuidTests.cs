@@ -16,13 +16,13 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseSheduledTests
         public async Task GetCourseScheduledByGuid_Given_CourseIsExisting_Should_ReturnCourse()
         {
             var expectedGuid = Guid.NewGuid();
-            var expectedCourse = await GetSeededCourseAsync();
-            var expectedInstructor = await GetSeededInstructorAsync();
+            var expectedCourse = await SeedAsync(new SeedCourseRequest());
+            var expectedInstructor = await SeedAsync(new SeedInstructorRequest());
             var expectedStartDate = new DateTime(2023, 5, 22);
             var expectedEndDate = new DateTime(2023, 7, 20);
 
-            var expected = await GetSeededCourseScheduledAsync(expectedGuid, expectedCourse.CourseCode, expectedInstructor.InstructorCode, 
-                                                               expectedStartDate, expectedEndDate);
+            var expected = await SeedAsync(new SeedCourseScheduledRequest(expectedGuid, expectedCourse.CourseCode, expectedInstructor.InstructorCode, 
+                                                                          expectedStartDate, expectedEndDate));
 
             var result = await _dataAccess.FetchAsync(new GetCourseScheduledByGuid(expectedGuid));
 

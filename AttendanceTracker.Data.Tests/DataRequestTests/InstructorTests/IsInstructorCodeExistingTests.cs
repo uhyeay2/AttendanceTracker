@@ -13,7 +13,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.InstructorTests
         [Fact]
         public async Task IsInstructorCodeExisting_Given_InstructorCodeIsTaken_ShouldReturn_True()
         {
-            var existingInstructor = await GetSeededInstructorAsync();
+            var existingInstructor = await SeedAsync(new SeedInstructorRequest());
 
             Assert.True(await _dataAccess.FetchAsync(new IsInstructorCodeExisting(existingInstructor.InstructorCode)));
         }

@@ -1,64 +1,29 @@
 ﻿using AttendanceTracker.Data.Abstraction.Interfaces;
-using AttendanceTracker.Data.DataTransferObjects;
 using AttendanceTracker.Data.Implementation;
-using AttendanceTracker.Domain.Constants;
 using AttendanceTracker.Domain.Factories;
-using AttendanceTracker.Domain.Interfaces;
 
 namespace AttendanceTracker.Data.Tests.TestHelpers
 {
     public abstract class DataTest : IDisposable
     {
-        protected readonly IDataAccess _dataAccess = new DataAccess(new DbConnectionFactory(Hidden.TestDatabaseConnectionString));
+        public DataTest()
+        {
+            _dataAccess = new DataAccess(new DbConnectionFactory(Hidden.TestDatabaseConnectionString));
+
+            _dataSeeder = new(_dataAccess);
+        }
+        
+        protected readonly IDataAccess _dataAccess;
 
         private readonly DataSeeder _dataSeeder;
 
-        private readonly IRandomCharacterFactory _randomCharacterFactory = new RandomCharacterFactory();
-
-        public DataTest() => _dataSeeder = new(_dataAccess);
-
         /// <summary>
-        /// Return a RandomString of the specified length for using in tests
+        /// Helper for fetching a RandomString to use in tests. Defaults to length of ten. String generated using RandomStringFactory.SharedInstance
         /// </summary>
-        protected string RandomString(int length = 10) =>
-            new(Enumerable.Range(0, length).Select(_ => _randomCharacterFactory.GetRandomLetterOrNumber()).ToArray());
+        protected static string RandomString(int length = 10) => RandomStringFactory.SharedInstance.RandomStringLettersOrNumbers(length);
 
-        #region Helpers for Data Seeder
+        protected async Task<TResponse> SeedAsync<TResponse>(DataSeederRequest<TResponse> seedRequest) => await seedRequest.ExecuteAsync(_dataSeeder);
 
-        protected async Task<Instructor_DTO> GetSeededInstructorAsync(string? instructorCode = null, string? firstName = null, string? lastName = null) =>
-            await _dataSeeder.NewInstructorAsync(
-                instructorCode ?? RandomString(InstructorCodeConstants.MaxLength), 
-                firstName ?? RandomString(), 
-                lastName ?? RandomString());
-
-        protected async Task<Course_DTO> GetSeededCourseAsync(string? subjectCode = null, string? courseCode = null, string? name = null) =>
-            await _dataSeeder.NewCourseAsync(
-                courseCode ?? RandomString(CourseCodeConstants.MaxLength), 
-                subjectCode ?? (await GetSeededSubjectAsync()).SubjectCode, 
-                name ?? RandomString());
-       
-        protected async Task<CourseScheduled_DTO> GetSeededCourseScheduledAsync(Guid? guid = null, string? courseCode = null, string? instructorCode = null, DateTime? startDate = null, DateTime? endDate = null) =>
-           await _dataSeeder.NewCourseScheduledAsync(
-               guid ?? Guid.NewGuid(), 
-               courseCode ?? (await GetSeededCourseAsync()).CourseCode, 
-               instructorCode ?? (await GetSeededInstructorAsync()).InstructorCode, 
-               startDate ?? DateTime.Now.AddDays(-10), 
-               endDate ?? DateTime.Now.AddDays(10));
-
-        protected async Task<Student_DTO> GetSeededStudentAsync(string? studentCode = null, string? firstName = null, string? lastName = null, DateTime? dateOfBirth = null) =>
-            await _dataSeeder.NewStudentAsync(
-                studentCode ?? RandomString(StudentCodeConstants.ExpectedLength), 
-                firstName ?? RandomString(), 
-                lastName ?? RandomString(), 
-                dateOfBirth ?? DateTime.Now);
-
-        protected async Task<Subject_DTO> GetSeededSubjectAsync(string? subjectCode = null, string? name = null) =>
-            await _dataSeeder.NewSubjectAsync(
-                subjectCode ?? RandomString(SubjectCodeConstants.MaxLength), 
-                name ?? RandomString());
-
-        #endregion
-
-        public void Dispose() => _dataSeeder.PurgeSeededRecords().ConfigureAwait(true);
+        public void Dispose() => _dataSeeder.PurgeSeededRecordsAsync().ConfigureAwait(true);
     }
 }

@@ -17,7 +17,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task InsertStudent_Given_StudentCode_AlreadyExists_ShouldThrow_SqlException()
         {
-            var existingStudent = await GetSeededStudentAsync();
+            var existingStudent = await SeedAsync(new SeedStudentRequest());
 
             var insertRequestWithExistingStudentCode = new InsertStudent(existingStudent.StudentCode, RandomString(), RandomString(), DateTime.Now);
 

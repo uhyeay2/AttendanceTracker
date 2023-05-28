@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task UpdateStudent_Given_StudentExists_ShouldReturn_One()
         {
-            var student = await GetSeededStudentAsync();
+            var student = await SeedAsync(new SeedStudentRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateStudent(student.StudentCode));
 
@@ -25,7 +25,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task UpdateStudent_Given_NewValuesProvided_ShouldUpdate_RecordWithMatchingStudentCode()
         {
-            var student = await GetSeededStudentAsync();
+            var student = await SeedAsync(new SeedStudentRequest());
 
             var expected = new UpdateStudent(student.StudentCode, firstName: "NewFirstName", lastName: "NewLastName", dateOfBirth: DateTime.Today.AddDays(1));
 

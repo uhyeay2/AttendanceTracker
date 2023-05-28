@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.InstructorTests
         [Fact]
         public async Task UpdateInstructor_Given_InstructorExists_ShouldReturn_One()
         {
-            var Instructor = await GetSeededInstructorAsync();
+            var Instructor = await SeedAsync(new SeedInstructorRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateInstructor(Instructor.InstructorCode));
 
@@ -25,7 +25,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.InstructorTests
         [Fact]
         public async Task UpdateInstructor_Given_NewValuesProvided_ShouldUpdate_RecordWithMatchingInstructorCode()
         {
-            var seededInstructor = await GetSeededInstructorAsync();
+            var seededInstructor = await SeedAsync(new SeedInstructorRequest());
 
             var expected = new UpdateInstructor(seededInstructor.InstructorCode, firstName: "NewFirstName", lastName: "NewLastName");
 

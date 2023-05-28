@@ -11,8 +11,8 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
         {
             var guid = Guid.NewGuid();
 
-            var course = await GetSeededCourseAsync();
-            var instructor = await GetSeededInstructorAsync();
+            var course = await SeedAsync(new SeedCourseRequest());
+            var instructor = await SeedAsync(new SeedInstructorRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new InsertCourseScheduled(guid, course.CourseCode, instructor.InstructorCode, DateTime.Now, DateTime.Now));
 
@@ -26,14 +26,14 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
         {
             var guid = Guid.NewGuid();
 
-            var courseScheduledAlreadyExisting = await GetSeededCourseScheduledAsync(guid);
+            var courseScheduledAlreadyExisting = await SeedAsync(new SeedCourseScheduledRequest(guid));
 
             // Get different Course/Instructor
-            var course = await GetSeededCourseAsync();
-            var instructor = await GetSeededInstructorAsync();
+            var course = await SeedAsync(new SeedCourseRequest());
+            var instructor = await SeedAsync(new SeedInstructorRequest());
 
             var exception = await Record.ExceptionAsync(async () => await _dataAccess.ExecuteAsync(
-                                new InsertCourseScheduled(courseScheduledAlreadyExisting.Guid,course.CourseCode, instructor.InstructorCode, DateTime.Now, DateTime.Now)));
+                                new InsertCourseScheduled(courseScheduledAlreadyExisting.Guid, course.CourseCode, instructor.InstructorCode, DateTime.Now, DateTime.Now)));
             Assert.Multiple(() =>
             {
                 Assert.NotNull(exception);
@@ -45,7 +45,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
         [Fact]
         public async Task InsertCourseScheduled_Given_CourseCodeNotExisting_ShouldThrow_SqlException()
         {
-            var instructor = await GetSeededInstructorAsync();
+            var instructor = await SeedAsync(new SeedInstructorRequest());
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(
                 new InsertCourseScheduled(Guid.NewGuid(), courseCode: RandomString(), instructor.InstructorCode, DateTime.Now, DateTime.Now)));
@@ -54,7 +54,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
         [Fact]
         public async Task InsertCourseScheduled_Given_InstructorCodeNotExisting_ShouldThrow_SqlException()
         {
-            var course = await GetSeededCourseAsync();
+            var course = await SeedAsync(new SeedCourseRequest());
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(
                 new InsertCourseScheduled(Guid.NewGuid(), courseCode: course.CourseCode, instructorCode: RandomString(), DateTime.Now, DateTime.Now)));

@@ -17,7 +17,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.InstructorTests
         [Fact]
         public async Task InsertInstructor_Given_InstructorCode_AlreadyExists_ShouldThrow_SqlException()
         {
-            var existingInstructor = await GetSeededInstructorAsync();
+            var existingInstructor = await SeedAsync(new SeedInstructorRequest());
 
             var insertRequestWithExistingInstructorCode = new InsertInstructor(existingInstructor.InstructorCode, RandomString(), RandomString());
 

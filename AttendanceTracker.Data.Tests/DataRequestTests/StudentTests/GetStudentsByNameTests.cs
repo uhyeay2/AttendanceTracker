@@ -7,7 +7,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task GetStudentsByName_Given_NoFirstOrLastName_ShouldReturn_EmptyList()
         {
-            _ = await GetSeededStudentAsync();
+            await SeedAsync(new SeedStudentRequest());
 
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(null, null));
 
@@ -19,9 +19,9 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         {
             var lastNameToSearchBy = RandomString();
 
-            await GetSeededStudentAsync();
-            await GetSeededStudentAsync(lastName: lastNameToSearchBy);
-            await GetSeededStudentAsync(lastName: lastNameToSearchBy);
+            await SeedAsync(new SeedStudentRequest());
+            await SeedAsync(new SeedStudentRequest(lastName: lastNameToSearchBy));
+            await SeedAsync(new SeedStudentRequest(lastName: lastNameToSearchBy));
 
             // Expect only the two records w/ lastNameToSearchBy to be returned
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(lastName: lastNameToSearchBy));
@@ -40,9 +40,9 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         {
             var firstNameToSearchBy = RandomString();
 
-            await GetSeededStudentAsync();
-            await GetSeededStudentAsync(firstName: firstNameToSearchBy);
-            await GetSeededStudentAsync(firstName: firstNameToSearchBy);
+            await SeedAsync(new SeedStudentRequest());
+            await SeedAsync(new SeedStudentRequest(firstName: firstNameToSearchBy));
+            await SeedAsync(new SeedStudentRequest(firstName: firstNameToSearchBy));
 
             // Expect only the two records w/ firstNameToSearchBy to be returned
             var result = await _dataAccess.FetchListAsync(new GetStudentsByName(firstName: firstNameToSearchBy));

@@ -14,7 +14,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task IsCourseScheduledGuidExisting_Given_GuidIsExisting_ShouldReturn_True()
         {
-            var courseScheduled = await GetSeededCourseScheduledAsync();
+            var courseScheduled = await SeedAsync(new SeedCourseScheduledRequest());
 
             Assert.True(await _dataAccess.FetchAsync(new IsCourseScheduledGuidExisting(courseScheduled.Guid)));
         }

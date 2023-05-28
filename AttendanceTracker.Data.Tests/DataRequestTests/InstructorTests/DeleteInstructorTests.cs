@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.InstructorTests
         [Fact]
         public async Task DeleteInstructor_Given_InstructorIsDeleted_ShouldReturn_OneRowAffected()
         {
-            var existingInstructor = await GetSeededInstructorAsync();
+            var existingInstructor = await SeedAsync(new SeedInstructorRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteInstructor(existingInstructor.InstructorCode));
 

@@ -11,7 +11,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         {
             var courseCode = RandomString();
 
-            var subject = await GetSeededSubjectAsync();
+            var subject = await SeedAsync(new SeedSubjectRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new InsertCourse(courseCode, subject.SubjectCode, RandomString()));
 
@@ -23,9 +23,9 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task InsertCourse_Given_CourseCodeAlreadyTaken_ShouldThrow_SqlException()
         {
-            var subject = await GetSeededSubjectAsync();
+            var subject = await SeedAsync(new SeedSubjectRequest());
 
-            var courseAlreadyExisting = await GetSeededCourseAsync();
+            var courseAlreadyExisting = await SeedAsync(new SeedCourseRequest());
 
             var exception = await Record.ExceptionAsync(async () => await _dataAccess
                                         .ExecuteAsync(new InsertCourse(courseAlreadyExisting.CourseCode, subject.SubjectCode, RandomString())));
@@ -40,7 +40,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task InsertCourse_Given_CourseCodeIsNull_ShouldThrow_SqlException()
         {
-            var subject = await GetSeededSubjectAsync();
+            var subject = await SeedAsync(new SeedSubjectRequest());
 
             await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(new InsertCourse(courseCode: null!, subject.SubjectCode, RandomString())));
         }

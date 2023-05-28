@@ -16,7 +16,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task UpdateCourse_Given_CourseExists_ShouldReturn_RowsUpdated()
         {
-            var course = await GetSeededCourseAsync();
+            var course = await SeedAsync(new SeedCourseRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateCourse(course.CourseCode, course.Name));
 
@@ -28,7 +28,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         {
             var expectedName = "New Course Name";
 
-            var course = await GetSeededCourseAsync();
+            var course = await SeedAsync(new SeedCourseRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new UpdateCourse(course.CourseCode, expectedName));
 

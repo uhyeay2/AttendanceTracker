@@ -13,7 +13,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.InstructorTests
         [Fact]
         public async Task GetInstructorById_Given_InstructorExists_ShouldReturn_Instructor()
         {
-            var expected = await GetSeededInstructorAsync();
+            var expected = await SeedAsync(new SeedInstructorRequest());
 
             var actual = await _dataAccess.FetchAsync(new GetInstructorById(expected.Id));
 

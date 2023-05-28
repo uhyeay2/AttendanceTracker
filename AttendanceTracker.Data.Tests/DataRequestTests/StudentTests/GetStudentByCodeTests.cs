@@ -13,7 +13,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.StudentTests
         [Fact]
         public async Task GetStudentByCode_Given_StudentExists_ShouldReturn_Student()
         {
-            var expected = await GetSeededStudentAsync();
+            var expected = await SeedAsync(new SeedStudentRequest());
 
             var actual = await _dataAccess.FetchAsync(new GetStudentByCode(expected.StudentCode));
 

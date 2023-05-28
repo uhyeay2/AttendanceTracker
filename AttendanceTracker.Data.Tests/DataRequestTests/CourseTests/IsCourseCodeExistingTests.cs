@@ -13,7 +13,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
         [Fact]
         public async Task IsCourseCodeExisting_Given_CodeIsExisting_ShouldReturn_True()
         {
-            var course = await GetSeededCourseAsync();
+            var course = await SeedAsync(new SeedCourseRequest());
 
             Assert.True(await _dataAccess.FetchAsync(new IsCourseCodeExisting(course.CourseCode)));
         }

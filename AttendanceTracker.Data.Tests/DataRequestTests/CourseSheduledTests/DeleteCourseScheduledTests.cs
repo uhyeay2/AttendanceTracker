@@ -15,7 +15,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
         [Fact]
         public async Task DeleteCourseScheduled_Given_CourseScheduledIsDeleted_ShouldReturn_OneRowAffected()
         {
-            var existingCourseScheduled = await GetSeededCourseScheduledAsync();
+            var existingCourseScheduled = await SeedAsync(new SeedCourseScheduledRequest());
 
             var rowsAffected = await _dataAccess.ExecuteAsync(new DeleteCourseScheduled(existingCourseScheduled.Guid));
 
