@@ -4,10 +4,10 @@ namespace AttendanceTracker.Application.RequestHandlers.LoggingHandlers
 {
     public class LogResponseTimeRequest : IRequest
     {
-        public LogResponseTimeRequest(DateTime dateTimeRequestWasReceivedInUTC, string requestUrl, long responseTimeInMilliseconds)
+        public LogResponseTimeRequest(DateTime dateTimeRequestWasReceivedInUTC, string? requestUrl, long responseTimeInMilliseconds)
         {
             DateTimeRequestWasReceivedInUTC = dateTimeRequestWasReceivedInUTC;
-            RequestUrl = requestUrl;
+            RequestUrl = requestUrl ?? "No Request.Path Found";
             ResponseTimeInMilliseconds = responseTimeInMilliseconds;
         }
 
