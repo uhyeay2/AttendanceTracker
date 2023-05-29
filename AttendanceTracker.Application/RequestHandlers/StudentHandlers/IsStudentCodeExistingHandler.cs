@@ -9,11 +9,11 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
         public IsStudentCodeExistingRequest(string code) : base(code) { }
     }
 
-    internal class IsStudentCodeExistingHandler : DataHandler<IsStudentCodeExistingRequest, bool>
+    internal class IsStudentCodeExistingHandler : DataIsExistingHandler<IsStudentCodeExistingRequest>
     {
         public IsStudentCodeExistingHandler(IDataAccess dataAccess) : base(dataAccess) { }
 
-        public override async Task<bool> HandleRequestAsync(IsStudentCodeExistingRequest request) =>
-            await _dataAccess.FetchAsync(new IsStudentCodeExisting(request.Code));
+        protected override IDataRequest<bool> InitializeFetchRequest(IsStudentCodeExistingRequest request) =>
+            new IsStudentCodeExisting(request.Code);
     }
 }
