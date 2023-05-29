@@ -4,6 +4,14 @@ namespace AttendanceTracker.Application.RequestHandlers.InstructorHandlers
 {
     public class InsertInstructorRequest : IRequest<Instructor>, IValidatable
     {
+        public InsertInstructorRequest() { }
+
+        public InsertInstructorRequest(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
 
