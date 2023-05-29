@@ -33,8 +33,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
             return dto.Any() ? dto.Select(_ => _.AsStudent()) 
                 : throw new DoesNotExistException(typeof(Student), 
                     (request.PageNumber, nameof(request.PageNumber)), 
-                    (request.RecordsPerPage, nameof(request.RecordsPerPage))
-                );
+                    (request.RecordsPerPage, nameof(request.RecordsPerPage)));
         }
     }
 }

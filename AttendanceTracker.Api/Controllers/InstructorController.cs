@@ -18,6 +18,10 @@ namespace AttendanceTracker.Api.Controllers
         public async Task<Instructor> GetInstructorByInstructorCode(GetInstructorByInstructorCodeRequest request) =>
             await _orchestrator.GetResponseAsync<GetInstructorByInstructorCodeRequest, Instructor>(request);
 
+        [HttpGet("IsInstructorCodeExisting")]
+        public async Task<bool> IsInstructorCodeExisting(string instructorCode) =>
+            await _orchestrator.GetResponseAsync<IsInstructorCodeExistingRequest, bool>(new(instructorCode));
+
         [HttpPost("UpdateInstructor")]
         public async Task UpdateInstructor(UpdateInstructorRequest request) =>
             await _orchestrator.ExecuteRequestAsync(request);

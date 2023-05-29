@@ -16,7 +16,7 @@
         }
 
         [Fact]
-        public async Task GetSubjectByCode_Given_SubjectCodeExisting_ShouldReturn_SubjectCode()
+        public async Task GetSubjectByCode_Given_SubjectCodeExisting_ShouldReturn_Subject()
         {
             var existingSubject = await SeedAsync(new SeedSubjectRequest());
 

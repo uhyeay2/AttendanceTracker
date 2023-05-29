@@ -15,20 +15,20 @@ namespace AttendanceTracker.Api.Controllers
             await _orchestrator.ExecuteRequestAsync(new DeleteStudentRequest(studentCode));
 
         [HttpGet("GetAllStudentsPaginated")]
-        public async Task<IEnumerable<Student>> GetAllStudentsPaginated(GetAllStudentsPaginatedRequest request) =>
-            await _orchestrator.GetResponseAsync<GetAllStudentsPaginatedRequest, IEnumerable<Student>>(request);
+        public async Task<IEnumerable<Student>> GetAllStudentsPaginated(int pageNumber, int recordsPerPage) =>
+            await _orchestrator.GetResponseAsync<GetAllStudentsPaginatedRequest, IEnumerable<Student>>(new (pageNumber, recordsPerPage));
 
         [HttpGet("GetStudentByStudentCode")]
-        public async Task<Student> GetStudentByStudentCode(GetStudentByStudentCodeRequest request) => 
-            await _orchestrator.GetResponseAsync<GetStudentByStudentCodeRequest, Student>(request);
+        public async Task<Student> GetStudentByStudentCode(string studentCode) => 
+            await _orchestrator.GetResponseAsync<GetStudentByStudentCodeRequest, Student>(new(studentCode));
 
         [HttpGet("GetStudentsByName")]
         public async Task<IEnumerable<Student>> GetStudentsByName(GetStudentsByNameRequest request) => 
             await _orchestrator.GetResponseAsync<GetStudentsByNameRequest, IEnumerable<Student>>(request);
 
         [HttpGet("IsStudentCodeExisting")]
-        public async Task<bool> IsStudentCodeExisting(string subjectCode) =>
-            await _orchestrator.GetResponseAsync<IsStudentCodeExistingRequest, bool>(new(subjectCode));
+        public async Task<bool> IsStudentCodeExisting(string studentCode) =>
+            await _orchestrator.GetResponseAsync<IsStudentCodeExistingRequest, bool>(new(studentCode));
 
         [HttpPost("UpdateStudent")]
         public async Task UpdateStudent(UpdateStudentRequest request) =>

@@ -22,7 +22,7 @@
             return values.Select(v => $"@{v}");
         }
 
-        public static (string columns, string parameters) AggregateWithCommasAsColumnsAndSqlParameters(this string[] columnNames)
+        public static (string columns, string parameters) AggregateWithCommasAsColumnsAndSqlParameters(this IEnumerable<string> columnNames)
         {
             var columns = columnNames.AggregateWithCommas();
 

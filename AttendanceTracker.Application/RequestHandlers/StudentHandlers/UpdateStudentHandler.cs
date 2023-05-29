@@ -4,6 +4,15 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
     public class UpdateStudentRequest : RequiredCodeRequest
     {
+        public UpdateStudentRequest() { }
+
+        public UpdateStudentRequest(string studentCode, string? firstName = null, string? lastName = null, DateTime? dateOfBirth = null) : base(studentCode)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            DateOfBirth = dateOfBirth;
+        }
+
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
