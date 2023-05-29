@@ -2,7 +2,12 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
 {
-    public class GetCourseByCodeRequest : RequiredCodeRequest<Course> { }
+    public class GetCourseByCodeRequest : RequiredCodeRequest<Course>
+    {
+        public GetCourseByCodeRequest() { }
+
+        public GetCourseByCodeRequest(string code) : base(code) { }
+    }
 
     internal class GetCourseByCodeHandler : DataHandler<GetCourseByCodeRequest, Course>
     {

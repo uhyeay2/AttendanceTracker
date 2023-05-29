@@ -5,6 +5,14 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
 {
     public class InsertCourseRequest : IRequest<Course>, IValidatable
     {
+        public InsertCourseRequest() { }
+
+        public InsertCourseRequest(string subjectCode, string courseName)
+        {
+            SubjectCode = subjectCode;
+            CourseName = courseName;
+        }
+
         public string SubjectCode { get; set; } = null!;
         public string CourseName { get; set; } = null!;
 

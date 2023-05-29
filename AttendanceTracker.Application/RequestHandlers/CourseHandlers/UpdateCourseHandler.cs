@@ -4,6 +4,13 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseHandlers
 {
     public class UpdateCourseRequest : RequiredCodeRequest
     {
+        public UpdateCourseRequest() { }
+
+        public UpdateCourseRequest(string courseCode, string? name = null) : base(courseCode)
+        {
+            Name = name;
+        }
+
         public string? Name { get; set; }
     }
 

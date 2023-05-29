@@ -11,12 +11,16 @@ namespace AttendanceTracker.Api.Controllers
             await _orchestrator.GetResponseAsync<InsertCourseRequest, Course>(request);
 
         [HttpDelete("DeleteCourse")]
-        public async Task Deletetudent(DeleteCourseRequest request) =>
-            await _orchestrator.ExecuteRequestAsync(request);
+        public async Task DeleteCourse(string courseCode) =>
+            await _orchestrator.ExecuteRequestAsync(new DeleteCourseRequest(courseCode));
 
         [HttpGet("GetCourseByCourseCode")]
-        public async Task<Course> GetCourseByCourseCode(GetCourseByCodeRequest request) =>
-            await _orchestrator.GetResponseAsync<GetCourseByCodeRequest, Course>(request);
+        public async Task<Course> GetCourseByCourseCode(string courseCode) =>
+            await _orchestrator.GetResponseAsync<GetCourseByCodeRequest, Course>(new(courseCode));
+
+        [HttpGet("IsCourseCodeExisting")]
+        public async Task<bool> IsCourseCodeExisting(string courseCode) =>
+            await _orchestrator.GetResponseAsync<IsCourseCodeExistingRequest, bool>(new(courseCode));
 
         [HttpPost("UpdateCourse")]
         public async Task UpdateCourse(UpdateCourseRequest request) =>
