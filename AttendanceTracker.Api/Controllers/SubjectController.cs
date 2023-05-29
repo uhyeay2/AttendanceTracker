@@ -20,10 +20,10 @@ namespace AttendanceTracker.Api.Controllers
 
         [HttpGet("GetSubjectBySubjectCode")]
         public async Task<Subject> GetSubjectBySubjectCode(string subjectCode) =>
-            await _orchestrator.GetResponseAsync<GetSubjectByCodeRequest, Subject>(new GetSubjectByCodeRequest(subjectCode));
+            await _orchestrator.GetResponseAsync<GetSubjectByCodeRequest, Subject>(new(subjectCode));
 
         [HttpGet("IsSubjectCodeExisting")]
         public async Task<bool> IsSubjectCodeExisting(string subjectCode) =>
-            await _orchestrator.GetResponseAsync<IsSubjectCodeExistingRequest, bool>(new IsSubjectCodeExistingRequest(subjectCode));
+            await _orchestrator.GetResponseAsync<IsSubjectCodeExistingRequest, bool>(new(subjectCode));
     }
 }

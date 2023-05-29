@@ -1,5 +1,6 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.SubjectHandlers;
 using AttendanceTracker.Data.DataRequestObjects.SubjectRequests;
+using Moq;
 
 namespace AttendanceTracker.Application.Tests.HandlerTests.SubjectHandlerTests
 {
@@ -34,6 +35,16 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.SubjectHandlerTests
             SetupExecuteAsync<InsertSubject>(NoRowsUpdated);
 
             await Assert.ThrowsAsync<ExpectationFailedException>(async () => await _handler.HandleRequestAsync(new()));
+        }
+
+        [Fact]
+        public async Task InsertSubject_Given_SubjectCodeAlreadyExists_ShouldThrow_AlreadyExistsException()
+        {
+            _mockDataAccess.Setup(_ => _.ExecuteAsync(It.IsAny<InsertSubject>())).Throws(new Exception());
+
+            SetupFetchAsync<IsSubjectCodeExisting, bool>(true);
+
+            await Assert.ThrowsAsync<AlreadyExistsException>(async () => await _handler.HandleRequestAsync(new()));
         }
     }
 }

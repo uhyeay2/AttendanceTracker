@@ -4,6 +4,15 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
 {
     public class InsertStudentRequest : IRequest<Student>, IValidatable
     {
+        public InsertStudentRequest() { }
+
+        public InsertStudentRequest(string firstName, string lastName, DateTime dateOfBirth)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            DateOfBirth = dateOfBirth;
+        }
+
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }

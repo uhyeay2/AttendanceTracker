@@ -26,6 +26,10 @@ namespace AttendanceTracker.Api.Controllers
         public async Task<IEnumerable<Student>> GetStudentsByName(GetStudentsByNameRequest request) => 
             await _orchestrator.GetResponseAsync<GetStudentsByNameRequest, IEnumerable<Student>>(request);
 
+        [HttpGet("IsStudentCodeExisting")]
+        public async Task<bool> IsStudentCodeExisting(string subjectCode) =>
+            await _orchestrator.GetResponseAsync<IsStudentCodeExistingRequest, bool>(new(subjectCode));
+
         [HttpPost("UpdateStudent")]
         public async Task UpdateStudent(UpdateStudentRequest request) =>
             await _orchestrator.ExecuteRequestAsync(request);

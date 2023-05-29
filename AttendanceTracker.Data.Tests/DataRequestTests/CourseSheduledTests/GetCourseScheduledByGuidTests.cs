@@ -1,6 +1,6 @@
 ﻿using AttendanceTracker.Data.DataRequestObjects.CourseScheduledRequests;
 
-namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseSheduledTests
+namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
 {
     public class GetCourseScheduledByGuidTests : DataTest
     {

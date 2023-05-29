@@ -6,5 +6,6 @@ global using AttendanceTracker.Data.SqlGeneration;
 global using AttendanceTracker.Domain.Models;
 
 using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("AttendanceTracker.Api.Tests")]
 [assembly: InternalsVisibleTo("AttendanceTracker.Data.Tests")]
 [assembly: InternalsVisibleTo("AttendanceTracker.Tests.Shared")]

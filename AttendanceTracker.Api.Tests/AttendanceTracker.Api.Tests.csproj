@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AttendanceTracker.Api\AttendanceTracker.Api.csproj" />
+    <ProjectReference Include="..\AttendanceTracker.Tests.Shared\AttendanceTracker.Tests.Shared.csproj" />
   </ItemGroup>
 
 </Project>
