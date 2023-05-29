@@ -4,37 +4,45 @@ global using Microsoft.AspNetCore.Mvc;
 
 using AttendanceTracker.Api.Middleware;
 using AttendanceTracker.Application.Implementation;
+using System.Diagnostics.CodeAnalysis;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.InjectOrchestration(builder.Configuration.GetConnectionString("Default"));
-
-builder.Services.AddTransient<ResponseTimeLoggingMiddleware>();
-builder.Services.AddTransient<ExceptionHandlingMiddleware>();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+[ExcludeFromCodeCoverage]
+internal class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        builder.Services.InjectOrchestration(builder.Configuration.GetConnectionString("Default"));
+
+        builder.Services.AddTransient<ResponseTimeLoggingMiddleware>();
+        builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.UseMiddleware<ResponseTimeLoggingMiddleware>();
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.UseMiddleware<ResponseTimeLoggingMiddleware>();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.Run();
