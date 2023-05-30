@@ -1,8 +1,10 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.LoggingHandlers;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AttendanceTracker.Api.Middleware
 {
+    [ExcludeFromCodeCoverage]
     public class ResponseTimeLoggingMiddleware : IMiddleware
     {
         private readonly IOrchestrator _orchestrator;
