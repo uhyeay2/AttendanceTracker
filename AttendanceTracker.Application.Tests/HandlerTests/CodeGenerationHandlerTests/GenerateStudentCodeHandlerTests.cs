@@ -6,7 +6,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
 {
     public class GenerateStudentCodeHandlerTests
     {
-        private readonly GenerateStudentCodeHandler _handler = new(new RandomCharacterFactory());
+        private readonly GenerateStudentCodeHandler _handler = new(new RandomStringFactory(new RandomCharacterFactory()));
 
         [Fact]
         public void GenerateStudentCode_Should_GenerateCode_WithExpectedLength()

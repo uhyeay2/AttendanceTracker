@@ -6,7 +6,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.CodeGenerationHandler
 {
     public class GenerateCourseCodeHandlerTests
     {
-        private readonly GenerateCourseCodeHandler _handler = new(new RandomCharacterFactory());
+        private readonly GenerateCourseCodeHandler _handler = new(new RandomStringFactory(new RandomCharacterFactory()));
 
         public static readonly IEnumerable<object[]> TestSubjectCodes = new[] 
         {

@@ -16,18 +16,13 @@ namespace AttendanceTracker.Application.RequestHandlers.CodeGenerationHandlers
 
     internal class GenerateCourseCodeHandler : CodeGenerationHandler<GenerateCourseCodeRequest>
     {
-        public GenerateCourseCodeHandler(IRandomCharacterFactory randomCharactorFactory) : base(randomCharactorFactory) { }
+        public GenerateCourseCodeHandler(IRandomStringFactory randomStringFactory) : base(randomStringFactory) { }
 
         public override string HandleRequest(GenerateCourseCodeRequest request)
         {
-            var endingNumbers = new char[CourseCodeConstants.CountOfEndingNumbers];
-            
-            for (int i = 0; i < endingNumbers.Length; i++)
-            {
-                endingNumbers[i] = _randomCharacterFactory.GetRandomNumber();
-            }
+            var endingNumbers = _randomStringFactory.RandomStringNumbersOnly(CourseCodeConstants.CountOfEndingNumbers);
 
-            return $"{request.SubjectCode}-{new string(endingNumbers)}";
+            return $"{request.SubjectCode}-{endingNumbers}";
         }
     }
 }

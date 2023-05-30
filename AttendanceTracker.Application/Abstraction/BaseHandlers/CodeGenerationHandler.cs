@@ -2,9 +2,9 @@
 {
     internal abstract class CodeGenerationHandler<TRequest> : IHandler<TRequest, string> where TRequest : IRequest<string>
     {
-        protected readonly IRandomCharacterFactory _randomCharacterFactory;
+        protected readonly IRandomStringFactory _randomStringFactory;
 
-        public CodeGenerationHandler(IRandomCharacterFactory randomCharactorFactory) => _randomCharacterFactory = randomCharactorFactory;
+        public CodeGenerationHandler(IRandomStringFactory randomStringFactory) => _randomStringFactory = randomStringFactory;
 
         public abstract string HandleRequest(TRequest request);
     }
