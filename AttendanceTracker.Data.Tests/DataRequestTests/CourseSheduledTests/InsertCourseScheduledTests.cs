@@ -1,5 +1,4 @@
 ﻿using AttendanceTracker.Data.DataRequestObjects.CourseScheduledRequests;
-using AttendanceTracker.Domain.Extensions;
 using System.Data.SqlClient;
 
 namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
@@ -43,21 +42,25 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
         }
 
         [Fact]
-        public async Task InsertCourseScheduled_Given_CourseCodeNotExisting_ShouldThrow_SqlException()
+        public async Task InsertCourseScheduled_Given_CourseCodeNotExisting_ShouldReturn_NoRowsUpdated()
         {
             var instructor = await SeedAsync(new SeedInstructorRequest());
 
-            await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(
-                new InsertCourseScheduled(Guid.NewGuid(), courseCode: RandomString(), instructor.InstructorCode, DateTime.Now, DateTime.Now)));
+            var rowsAffected = await _dataAccess.ExecuteAsync(
+                                new InsertCourseScheduled(Guid.NewGuid(), courseCode: RandomString(), instructor.InstructorCode, DateTime.Now, DateTime.Now));
+
+            Assert.True(rowsAffected.NoRowsAreUpdated());
         }
 
         [Fact]
-        public async Task InsertCourseScheduled_Given_InstructorCodeNotExisting_ShouldThrow_SqlException()
+        public async Task InsertCourseScheduled_Given_InstructorCodeNotExisting_ShouldReturn_NoRowsUpdated()
         {
             var course = await SeedAsync(new SeedCourseRequest());
 
-            await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(
-                new InsertCourseScheduled(Guid.NewGuid(), courseCode: course.CourseCode, instructorCode: RandomString(), DateTime.Now, DateTime.Now)));
+            var rowsAffected = await _dataAccess.ExecuteAsync(
+                                new InsertCourseScheduled(Guid.NewGuid(), courseCode: course.CourseCode, instructorCode: RandomString(), DateTime.Now, DateTime.Now));
+
+            Assert.True(rowsAffected.NoRowsAreUpdated());
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿
-using AttendanceTracker.Data.DataRequestObjects.CourseScheduledRequests;
+﻿using AttendanceTracker.Data.DataRequestObjects.CourseScheduledRequests;
 
-namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseTests
+namespace AttendanceTracker.Data.Tests.DataRequestTests.CourseScheduledTests
 {
     public class IsCourseScheduledGuidExistingTests : DataTest
     {

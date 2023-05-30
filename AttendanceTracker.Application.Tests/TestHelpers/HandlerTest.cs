@@ -61,7 +61,12 @@ namespace AttendanceTracker.Application.Tests.TestHelpers
         protected void SetupGetResponse<TRequest, TResponse>(TResponse response) where TRequest : IRequest<TResponse> =>
             _mockOrchestrator.Setup(_ => _.GetResponse<TRequest, TResponse>(It.IsAny<TRequest>())).Returns(response);
 
-        #endregion
+        /// <summary>
+        /// Setup IOrchestrator.GetResponseAsync() given any Type of TRequest will return TResponse provided.
+        /// </summary>
+        protected void SetupGetResponseAsync<TRequest, TResponse>(TResponse response) where TRequest : IRequest<TResponse> =>
+            _mockOrchestrator.Setup(_ => _.GetResponseAsync<TRequest, TResponse>(It.IsAny<TRequest>())).Returns(Task.FromResult(response));
 
+        #endregion
     }
 }

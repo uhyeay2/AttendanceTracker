@@ -20,13 +20,13 @@
 
         public object? GetParameters() => this;
 
-        public string GetSql() => 
-            Insert.IntoTable(TableNames.CourseScheduled,
-                ("Guid", "@Guid"),
-                ("StartDate", "@StartDate"),
-                ("EndDate", "@EndDate"),
-                ("InstructorId", $"( {Select.FromTable(TableNames.Instructor, "Id", where: "InstructorCode = @InstructorCode")} )"),
-                ("CourseId", $"( {Select.FromTable(TableNames.Course, "Id", where: "CourseCode = @CourseCode")} )")
-            );
+        public string GetSql() =>
+        $@"
+            DECLARE @CourseId INT = ( {Select.FromTable(TableNames.Course, "Id", where: "CourseCode = @CourseCode")} )
+            DECLARE @InstructorId INT = ( {Select.FromTable(TableNames.Instructor, "Id", where: "InstructorCode = @InstructorCode")} )
+
+            IF @CourseId IS NOT NULL AND @InstructorId IS NOT NULL
+            {Insert.IntoTable(TableNames.CourseScheduled, "Guid", "CourseId", "InstructorId", "StartDate", "EndDate")}
+        ";
     }
 }

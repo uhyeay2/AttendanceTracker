@@ -29,34 +29,31 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseScheduledHandlers
         {
             var guid = Guid.NewGuid();
 
-            try
-            {
-                await _dataAccess.ExecuteAsync(new InsertCourseScheduled(guid, request.CourseCode, request.InstructorCode, request.StartDate, request.EndDate));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertCourseScheduled(guid, request.CourseCode, request.InstructorCode, request.StartDate, request.EndDate));
 
+            if (rowsAffected.AnyRowsAreUpdated())
+            {
                 return await _orchestrator.GetResponseAsync<GetCourseScheduledByGuidRequest, CourseScheduled>(new GetCourseScheduledByGuidRequest(guid));
             }
-            catch (Exception e)
+                
+            List<(object?, string)> codesNotExisting = new();
+
+            if (!await _dataAccess.FetchAsync(new IsCourseCodeExisting(request.CourseCode)))
             {
-                List<(object?, string)> codesNotExisting = new();
-
-                if (await _dataAccess.FetchAsync(new IsCourseCodeExisting(request.CourseCode)))
-                {
-                    codesNotExisting.Add((request.CourseCode, nameof(request.CourseCode)));
-                }
-
-                if (await _dataAccess.FetchAsync(new IsInstructorCodeExisting(request.InstructorCode)))
-                {
-                    codesNotExisting.Add((request.InstructorCode, nameof(request.InstructorCode)));
-                }
-
-                if (codesNotExisting.Any())
-                {
-                    throw new DoesNotExistException(typeof(CourseScheduled), codesNotExisting);
-                }
-
-                throw new ExpectationFailedException(nameof(InsertCourseScheduledRequest), e.Message);
-
+                codesNotExisting.Add((request.CourseCode, nameof(request.CourseCode)));
             }
+
+            if (!await _dataAccess.FetchAsync(new IsInstructorCodeExisting(request.InstructorCode)))
+            {
+                codesNotExisting.Add((request.InstructorCode, nameof(request.InstructorCode)));
+            }
+
+            if (codesNotExisting.Any())
+            {
+                throw new DoesNotExistException(typeof(CourseScheduled), codesNotExisting);
+            }
+
+            throw new ExpectationFailedException(nameof(InsertCourseScheduledRequest));
         }
     }
 }
