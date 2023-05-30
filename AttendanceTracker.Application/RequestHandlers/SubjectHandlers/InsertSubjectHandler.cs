@@ -30,26 +30,18 @@ namespace AttendanceTracker.Application.RequestHandlers.SubjectHandlers
 
         public override async Task<Subject> HandleRequestAsync(InsertSubjectRequest request)
         {
-            try
-            {
-                var rowsAffected = await _dataAccess.ExecuteAsync(new InsertSubject(request.SubjectCode, request.Name));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertSubject(request.SubjectCode, request.Name));
 
-                if (rowsAffected.AnyRowsAreUpdated())
-                {
-                    var dto = await _dataAccess.FetchAsync(new GetSubjectByCode(request.SubjectCode));
-
-                    return new Subject(dto.SubjectCode, dto.Name);
-                }
-            }
-            catch (Exception)
+            if (rowsAffected.AnyRowsAreUpdated())
             {
-                if (await _dataAccess.FetchAsync(new IsSubjectCodeExisting(request.SubjectCode)))
-                {
-                    throw new AlreadyExistsException(typeof(Subject), (request.SubjectCode, nameof(request.SubjectCode)));
-                }
+                var dto = await _dataAccess.FetchAsync(new GetSubjectByCode(request.SubjectCode));
+
+                return dto.AsSubject();
             }
 
-            throw new ExpectationFailedException(nameof(InsertSubjectRequest));
+            throw await _dataAccess.FetchAsync(new IsSubjectCodeExisting(request.SubjectCode)) ? 
+                new AlreadyExistsException(typeof(Subject), (request.SubjectCode, nameof(request.SubjectCode)))
+                : new ExpectationFailedException(nameof(InsertSubjectRequest));
         }
     }
 }

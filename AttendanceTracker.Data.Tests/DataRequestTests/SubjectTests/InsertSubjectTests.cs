@@ -16,13 +16,13 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.SubjectTests
         }
 
         [Fact]
-        public async Task InsertSubject_Given_SubjectCode_AlreadyExists_ShouldThrow_SqlException()
+        public async Task InsertSubject_Given_SubjectCode_AlreadyExists_ShouldReturn_NoRowsUpdated()
         {
             var existingSubject = await SeedAsync(new SeedSubjectRequest());
 
-            var insertRequestWithExistingSubjectCode = new InsertSubject(existingSubject.SubjectCode, RandomString(SubjectCodeConstants.MaxLength));
+            var rowsAffected = await _dataAccess.ExecuteAsync(new InsertSubject(existingSubject.SubjectCode, RandomString(SubjectCodeConstants.MaxLength)));
 
-            await Assert.ThrowsAsync<SqlException>(async () => await _dataAccess.ExecuteAsync(insertRequestWithExistingSubjectCode));
+            Assert.True(rowsAffected.NoRowsAreUpdated());
         }
 
         [Fact]

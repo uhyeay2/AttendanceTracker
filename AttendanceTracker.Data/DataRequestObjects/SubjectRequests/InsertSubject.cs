@@ -13,6 +13,10 @@
 
         public object? GetParameters() => new { SubjectCode, Name };
 
-        public string GetSql() => Insert.IntoTable(TableNames.Subject, "SubjectCode", "Name");
+        public string GetSql() => 
+        $@"
+            IF ( {Select.Exists(TableNames.Subject, where: "SubjectCode = @SubjectCode")} ) = 0
+            {Insert.IntoTable(TableNames.Subject, "SubjectCode", "Name")}
+        ";
     }
 }

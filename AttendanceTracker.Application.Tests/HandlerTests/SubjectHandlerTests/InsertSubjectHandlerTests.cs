@@ -30,9 +30,11 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.SubjectHandlerTests
         }
 
         [Fact]
-        public async Task InsertSubject_Given_NoRowsUpdated_ShouldThrow_ExpectationFailedException()
+        public async Task InsertSubject_Given_NoRowsUpdated_AndSubjectCodeNotExisting_ShouldThrow_ExpectationFailedException()
         {
             SetupExecuteAsync<InsertSubject>(NoRowsUpdated);
+
+            SetupFetchAsync<IsSubjectCodeExisting, bool>(false);
 
             await Assert.ThrowsAsync<ExpectationFailedException>(async () => await _handler.HandleRequestAsync(new()));
         }
@@ -40,7 +42,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.SubjectHandlerTests
         [Fact]
         public async Task InsertSubject_Given_SubjectCodeAlreadyExists_ShouldThrow_AlreadyExistsException()
         {
-            _mockDataAccess.Setup(_ => _.ExecuteAsync(It.IsAny<InsertSubject>())).Throws(new Exception());
+            SetupExecuteAsync<InsertSubject>(NoRowsUpdated);
 
             SetupFetchAsync<IsSubjectCodeExisting, bool>(true);
 
