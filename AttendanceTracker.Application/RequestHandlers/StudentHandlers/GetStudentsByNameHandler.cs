@@ -30,9 +30,11 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentHandlers
         {
             var results = await _dataAccess.FetchListAsync(new GetStudentsByName(request.FirstName, request.LastName));
 
-            return !results?.Any() ?? false ?
-                throw new DoesNotExistException(typeof(Student), (request.FirstName, nameof(request.FirstName)), (request.LastName, nameof(request.LastName)) )
-                : results!.Select(_ => new Student(_.StudentCode, _.FirstName, _.LastName, _.DateOfBirth));
+            return results.Any() 
+                ? results.Select(_ => new Student(_.StudentCode, _.FirstName, _.LastName, _.DateOfBirth))
+                : throw new DoesNotExistException(typeof(Student), 
+                                                 (request.FirstName, nameof(request.FirstName)), 
+                                                 (request.LastName, nameof(request.LastName)));
         }
     }
 }

@@ -7,6 +7,16 @@ namespace AttendanceTracker.Application.RequestHandlers.CourseScheduledHandlers
 {
     public class InsertCourseScheduledRequest : IRequest<CourseScheduled>, IValidatable
     {
+        public InsertCourseScheduledRequest() { }
+
+        public InsertCourseScheduledRequest(string courseCode, string instructorCode, DateTime startDate, DateTime endDate)
+        {
+            CourseCode = courseCode;
+            InstructorCode = instructorCode;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
+
         public string CourseCode { get; set; } = string.Empty;
         public string InstructorCode { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }

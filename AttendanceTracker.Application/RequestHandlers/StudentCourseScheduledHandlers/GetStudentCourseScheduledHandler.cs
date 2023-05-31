@@ -27,9 +27,9 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentCourseScheduledHa
                                                                                 (request.CourseScheduledGuid, nameof(request.CourseScheduledGuid)));
             }
 
-            var course = await _orchestrator.GetResponseAsync<GetCourseScheduledByGuidRequest, CourseScheduled>(new(courseScheduledDTO.Guid));
+            var courseScheduled = await _orchestrator.GetResponseAsync<GetCourseScheduledByGuidRequest, CourseScheduled>(new(courseScheduledDTO.Guid));
 
-            return new StudentCourseScheduled(student, course);
+            return new StudentCourseScheduled(student, courseScheduled);
         }
     }
 }

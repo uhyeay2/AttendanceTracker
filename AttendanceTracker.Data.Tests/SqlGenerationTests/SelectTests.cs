@@ -22,7 +22,6 @@ namespace AttendanceTracker.Data.Tests.SqlGenerationTests
             Assert.Equal(expected, Select.FromTable(table, withNoLock: withNoLock));
         }
 
-
         [Theory]
         [InlineData("Student", null, "SELECT * FROM [dbo].[Student] WITH(NOLOCK)")]
         [InlineData("Student", "StudentCode = @StudentCode", "SELECT * FROM [dbo].[Student] WITH(NOLOCK) WHERE StudentCode = @StudentCode")]
@@ -49,6 +48,32 @@ namespace AttendanceTracker.Data.Tests.SqlGenerationTests
         public void SelectExists_Given_WhereCondition_Should_GenerateExpectedQuery(string table, string where, string expected)
         {
             Assert.Equal(expected, Select.Exists(table, where));
+        }
+
+        [Theory]
+        [InlineData("Course", "LEFT JOIN Subject ON Subject.Id = Course.SubjectId", "Subject.Name, Subject.Id", true, "CourseCode = @CourseCode",
+                    "SELECT Subject.Name, Subject.Id FROM [dbo].[Course] WITH(NOLOCK) LEFT JOIN Subject ON Subject.Id = Course.SubjectId WHERE CourseCode = @CourseCode")]
+        [InlineData("Course", "LEFT JOIN Subject ON Subject.Id = Course.SubjectId", "Subject.Name, Subject.Id", false, "CourseCode = @CourseCode",
+                    "SELECT Subject.Name, Subject.Id FROM [dbo].[Course] LEFT JOIN Subject ON Subject.Id = Course.SubjectId WHERE CourseCode = @CourseCode")]
+        [InlineData("Course", "LEFT JOIN Subject ON Subject.Id = Course.SubjectId", "Subject.Name, Subject.Id", false, null,
+                    "SELECT Subject.Name, Subject.Id FROM [dbo].[Course] LEFT JOIN Subject ON Subject.Id = Course.SubjectId")]
+        [InlineData("Course", "LEFT JOIN Subject ON Subject.Id = Course.SubjectId", null, false, null,
+                    "SELECT * FROM [dbo].[Course] LEFT JOIN Subject ON Subject.Id = Course.SubjectId")]
+        public void JoinFromTable_GivenAllValues_ShouldReturn_ExpectedQuery(string table, string join, string columns, bool withNoLock, string? where, string expected)
+        {
+            Assert.Equal(expected, Select.JoinFromTable(table, join, columns, withNoLock, where));
+        }
+
+        [Theory]
+        [InlineData("Student", 1, 10, "Id", "Student.Name, Student.StudentCode", true, "Name LIKE '%son%'",
+                    "SELECT Student.Name, Student.StudentCode FROM [dbo].[Student] WITH(NOLOCK) WHERE Name LIKE '%son%' ORDER BY Id  OFFSET 0 * 10 ROWS FETCH NEXT 10 ROWS ONLY")]
+        [InlineData("Student", 2, 5, "Name", null, false, null,
+                    "SELECT * FROM [dbo].[Student] ORDER BY Name  OFFSET 1 * 5 ROWS FETCH NEXT 5 ROWS ONLY")]
+        [InlineData("Student", -1, -1, "Name", null, false, null,
+                    "SELECT * FROM [dbo].[Student] ORDER BY Name  OFFSET 0 * 10 ROWS FETCH NEXT 10 ROWS ONLY")]
+        public void PaginatedFromTable_GivenAllValues_ShouldReturn_ExpectedQuery(string table, int pageNumber, int recordsPerPage, string orderBy, string columns, bool withNoLock, string where, string expected)
+        {
+            Assert.Equal(expected, Select.PaginatedFromTable(table, pageNumber, recordsPerPage, orderBy, columns, withNoLock, where));
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using AttendanceTracker.Data.Implementation;
 using AttendanceTracker.Domain.Factories;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AttendanceTracker.Application.Implementation
 {
+    [ExcludeFromCodeCoverage]
     public static class DependencyInjection
     {
         public static IServiceCollection InjectOrchestration(this IServiceCollection services, string connectionString)

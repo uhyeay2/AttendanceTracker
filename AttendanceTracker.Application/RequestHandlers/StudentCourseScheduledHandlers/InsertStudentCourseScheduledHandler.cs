@@ -31,12 +31,12 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentCourseScheduledHa
                                                                                  (request.CourseScheduledGuid, nameof(request.CourseScheduledGuid)));
             }
 
-            if (await _dataAccess.FetchAsync(new IsStudentCodeExisting(request.StudentCode)))
+            if (!await _dataAccess.FetchAsync(new IsStudentCodeExisting(request.StudentCode)))
             {
                 throw new DoesNotExistException(typeof(Student), (request.StudentCode, nameof(request.StudentCode)));
             }
 
-            if (await _dataAccess.FetchAsync(new IsCourseScheduledGuidExisting(request.CourseScheduledGuid)))
+            if (!await _dataAccess.FetchAsync(new IsCourseScheduledGuidExisting(request.CourseScheduledGuid)))
             {
                 throw new DoesNotExistException(typeof(CourseScheduled), (request.CourseScheduledGuid, nameof(request.CourseScheduledGuid)));
             }

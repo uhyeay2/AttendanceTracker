@@ -2,7 +2,12 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.CourseScheduledHandlers
 {
-    public class DeleteCourseScheduledRequest : RequiredGuidRequest { }
+    public class DeleteCourseScheduledRequest : RequiredGuidRequest
+    {
+        public DeleteCourseScheduledRequest() { }
+
+        public DeleteCourseScheduledRequest(Guid guid) : base(guid) { }
+    }
 
     internal class DeleteCourseScheduledHandler : DataHandler<DeleteCourseScheduledRequest>
     {
