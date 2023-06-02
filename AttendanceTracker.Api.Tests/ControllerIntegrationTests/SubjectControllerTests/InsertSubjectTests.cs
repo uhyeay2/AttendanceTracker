@@ -47,6 +47,13 @@
         }
 
         [Theory]
+        [MemberData(nameof(TestCases.NullEmptyAndWhitespaceString), MemberType = typeof(TestCases))]
+        public async Task InsertSubject_Given_SubjectCode_IsNotProvided_ShouldThrow_ValidationException(string subjectCode)
+        {
+            await Assert.ThrowsAsync<ValidationFailedException>(async () => await _controller.InsertSubject(new(subjectCode, RandomString())));
+        }
+
+        [Theory]
         [InlineData("ZZZ", "Valid Request")]
         [InlineData("ZZZZ", "Should Get")]
         [InlineData("ZZZZZ", "Inserted And Returned")]
