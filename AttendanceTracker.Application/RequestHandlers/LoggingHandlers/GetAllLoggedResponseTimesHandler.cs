@@ -12,7 +12,8 @@ namespace AttendanceTracker.Application.RequestHandlers.LoggingHandlers
         {
             var logs =  await _dataAccess.FetchListAsync(new GetResponseTimeLogs());
         
-            return logs.Any() ? logs.OrderByDescending(_ => _.DateTimeRequestWasReceivedInUTC) : Enumerable.Empty<ResponseTimeLog>();
+            return logs.Any() ? logs.Select(_ => _.AsResponseTimeLog()).OrderByDescending(_ => _.DateTimeRequestWasReceivedInUTC) 
+                              : Enumerable.Empty<ResponseTimeLog>();
         }
     }
 }

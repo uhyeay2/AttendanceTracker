@@ -2,17 +2,17 @@
 {
     public class ResponseTimeLog
     {
-        public ResponseTimeLog(DateTime dateTimeRequestWasReceivedInUTC, string requestUrl, long responseTimeInMilliseconds)
+        public ResponseTimeLog(DateTime dateTimeRequestWasReceivedInUTC, string requestPath, long responseTimeInMilliseconds)
         {
             DateTimeRequestWasReceivedInUTC = dateTimeRequestWasReceivedInUTC;
-            RequestUrl = requestUrl;
+            RequestPath = requestPath;
             ResponseTimeInMilliseconds = responseTimeInMilliseconds;
         }
 
         public ResponseTimeLog() { }
 
         public DateTime DateTimeRequestWasReceivedInUTC { get; set; }
-        public string RequestUrl { get; set; } = null!;
+        public string RequestPath { get; set; } = null!;
         public long ResponseTimeInMilliseconds { get; set; }
     }
 }

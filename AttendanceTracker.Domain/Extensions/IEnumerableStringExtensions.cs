@@ -30,5 +30,15 @@
 
             return (columns, parameters);
         }
+
+        public static IEnumerable<string> WrapValuesWithApostrophes(this IEnumerable<string> values)
+        {
+            if (values == null || !values.Any())
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            return values.Select(v => $"'{v}'");
+        }
     }
 }
