@@ -1,10 +1,10 @@
 ﻿namespace AttendanceTracker.Data.DataRequestObjects.LogRequests
 {
-    public class GetAverageResponseTimeForAllRequests : IDataRequest<AverageResponseTimeForAllRequests_DTO>
+    public class GetResponseTimeDetails : IDataRequest<ResponseTimeDetails_DTO>
     {
-        public GetAverageResponseTimeForAllRequests() { }
+        public GetResponseTimeDetails() { }
 
-        public GetAverageResponseTimeForAllRequests(DateTime? startDate, DateTime? endDate)
+        public GetResponseTimeDetails(DateTime? startDate, DateTime? endDate)
         {
             StartDate = startDate;
             EndDate = endDate;

@@ -27,7 +27,7 @@ namespace AttendanceTracker.Api.Middleware
 
             var responseTime = stopWatch.ElapsedMilliseconds;
 
-            await _orchestrator.ExecuteRequestAsync(new LogResponseTimeRequest(dateTimeRequestWasReceivedInUTC, url, responseTime));
+            await _orchestrator.ExecuteRequestAsync(new InsertResponseTimeLogRequest(dateTimeRequestWasReceivedInUTC, url, responseTime));
         }
     }
 }

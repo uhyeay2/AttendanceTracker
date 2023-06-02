@@ -29,4 +29,8 @@
     <ProjectReference Include="..\AttendanceTracker.Data\AttendanceTracker.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HandlerTests\LoggingHandlerTests\" />
+  </ItemGroup>
+
 </Project>

@@ -9,5 +9,9 @@ namespace AttendanceTracker.Api.Controllers
         [HttpGet("GetAllLoggedResponseTimes")]
         public async Task<IEnumerable<ResponseTimeLog>> GetAllLoggedResponseTimes() => 
             await _orchestrator.GetResponseAsync<GetAllLoggedResponseTimesRequest, IEnumerable<ResponseTimeLog>>(new());
+
+        [HttpGet("GetResponseTimeDetails")]
+        public async Task<OverallResponseTimeDetails> GetResponseTimeDetails(GetResponseTimeDetailsRequest request) =>
+            await _orchestrator.GetResponseAsync<GetResponseTimeDetailsRequest, OverallResponseTimeDetails>(request);
     }
 }

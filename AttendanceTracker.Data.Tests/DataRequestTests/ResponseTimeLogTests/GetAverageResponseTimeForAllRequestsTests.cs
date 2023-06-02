@@ -19,7 +19,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.ResponseTimeLogTests
                 await _dataAccess.ExecuteAsync(new InsertResponseTimeLog(RandomDateDuringFirstHalfOfThisYear, requestTwoPath, Random.Shared.Next()));
             }
 
-            var results = await _dataAccess.FetchListAsync(new  GetAverageResponseTimeForAllRequests());
+            var results = await _dataAccess.FetchListAsync(new  GetResponseTimeDetails());
 
             var logsForDeleting = await _dataAccess.FetchListAsync(
                 new GetResponseTimesByRequestPath(new List<string> { requestOnePath, requestTwoPath }));
@@ -58,7 +58,7 @@ namespace AttendanceTracker.Data.Tests.DataRequestTests.ResponseTimeLogTests
                 await _dataAccess.ExecuteAsync(new InsertResponseTimeLog(expectedDateTime, requestTwoPath, Random.Shared.Next()));
             }
 
-            var results = await _dataAccess.FetchListAsync(new GetAverageResponseTimeForAllRequests(startDate: expectedDateTime, endDate: expectedDateTime));
+            var results = await _dataAccess.FetchListAsync(new GetResponseTimeDetails(startDate: expectedDateTime, endDate: expectedDateTime));
 
             var logsForDeleting = await _dataAccess.FetchListAsync(
                 new GetResponseTimesByRequestPath(new List<string> { requestOnePath, requestTwoPath }));

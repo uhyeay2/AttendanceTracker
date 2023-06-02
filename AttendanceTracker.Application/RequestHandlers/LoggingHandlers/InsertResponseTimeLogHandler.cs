@@ -2,9 +2,9 @@
 
 namespace AttendanceTracker.Application.RequestHandlers.LoggingHandlers
 {
-    public class LogResponseTimeRequest : IRequest
+    public class InsertResponseTimeLogRequest : IRequest
     {
-        public LogResponseTimeRequest(DateTime dateTimeRequestWasReceivedInUTC, string? requestUrl, long responseTimeInMilliseconds)
+        public InsertResponseTimeLogRequest(DateTime dateTimeRequestWasReceivedInUTC, string? requestUrl, long responseTimeInMilliseconds)
         {
             DateTimeRequestWasReceivedInUTC = dateTimeRequestWasReceivedInUTC;
             RequestUrl = requestUrl ?? "No Request.Path Found";
@@ -16,11 +16,11 @@ namespace AttendanceTracker.Application.RequestHandlers.LoggingHandlers
         public long ResponseTimeInMilliseconds { get; set; }
     }
 
-    internal class LogResponseTimeHandler : DataHandler<LogResponseTimeRequest>
+    internal class InsertResponseTimeLogHandler : DataHandler<InsertResponseTimeLogRequest>
     {
-        public LogResponseTimeHandler(IDataAccess dataAccess) : base(dataAccess) { }
+        public InsertResponseTimeLogHandler(IDataAccess dataAccess) : base(dataAccess) { }
 
-        public override async Task HandleRequestAsync(LogResponseTimeRequest request) =>
+        public override async Task HandleRequestAsync(InsertResponseTimeLogRequest request) =>
             await _dataAccess.ExecuteAsync(new InsertResponseTimeLog
                 (request.DateTimeRequestWasReceivedInUTC, request.RequestUrl, request.ResponseTimeInMilliseconds));
     }
