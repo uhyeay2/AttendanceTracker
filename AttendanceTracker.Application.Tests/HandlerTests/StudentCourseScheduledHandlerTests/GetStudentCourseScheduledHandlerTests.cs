@@ -1,6 +1,7 @@
-﻿using AttendanceTracker.Application.RequestHandlers.CourseScheduledHandlers;
-using AttendanceTracker.Application.RequestHandlers.StudentCourseScheduledHandlers;
+﻿using AttendanceTracker.Application.RequestHandlers.StudentCourseScheduledHandlers;
 using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
+using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
+using AttendanceTracker.Data.DataRequestObjects.InstructorRequests;
 using AttendanceTracker.Data.DataRequestObjects.StudentCourseScheduledRequests;
 using AttendanceTracker.Domain.Models;
 
@@ -15,7 +16,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentCourseSchedule
         [Fact]
         public async Task GetStudentCourseScheduled_Given_NoCourseScheduledWithStudentCodeAndGuidProvided_ShouldThrow_DoesNotExistException()
         {
-            SetupFetchAsync<GetStudentCourseScheduled, CourseScheduled_DTO>(null!);
+            SetupFetchAsync<GetStudentCourseScheduled, StudentCourseScheduled_DTO>(null!);
 
             await Assert.ThrowsAsync<DoesNotExistException>(async () => await _handler.HandleRequestAsync(new()));
         }
@@ -24,11 +25,18 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentCourseSchedule
         public async Task GetStudentCourseScheduled_Given_CourseScheduledExists_ShouldReturn_StudentAndCourseScheduledFetchedWithOrchestrator()
         {
             var expectedStudent = A.New<Student>();
-            var expectedCourseScheduled = A.New<CourseScheduled>();
-            
-            SetupFetchAsync<GetStudentCourseScheduled, CourseScheduled_DTO>(A.New<CourseScheduled_DTO>());
             SetupGetResponseAsync<GetStudentByStudentCodeRequest, Student>(expectedStudent);
-            SetupGetResponseAsync<GetCourseScheduledByGuidRequest, CourseScheduled>(expectedCourseScheduled);
+
+            var expectedCourseDTO = A.New<Course_DTO>();
+            SetupFetchAsync<GetCourseById, Course_DTO>(expectedCourseDTO);
+            
+            var expectedCourseScheduledDTO = A.New<StudentCourseScheduled_DTO>();
+            SetupFetchAsync<GetStudentCourseScheduled, StudentCourseScheduled_DTO>(expectedCourseScheduledDTO);
+
+            var expectedInstructorDTO = A.New<Instructor_DTO>();
+            SetupFetchAsync<GetInstructorById, Instructor_DTO>(expectedInstructorDTO);
+
+            var expectedCourseScheduledResult = expectedCourseScheduledDTO.AsCourseScheduled(expectedCourseDTO, expectedInstructorDTO);
 
             var result = await _handler.HandleRequestAsync(new());
 
@@ -37,7 +45,7 @@ namespace AttendanceTracker.Application.Tests.HandlerTests.StudentCourseSchedule
                 Assert.NotNull(result);
 
                 Assert.Equal(expectedStudent, result.Student);
-                Assert.Equal(expectedCourseScheduled, result.CourseScheduled);
+                Assert.Equivalent(expectedCourseScheduledResult, result.CourseScheduled);
             });
         }
     }

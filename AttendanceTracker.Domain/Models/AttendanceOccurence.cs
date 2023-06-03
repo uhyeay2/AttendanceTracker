@@ -4,7 +4,17 @@ namespace AttendanceTracker.Domain.Models
 {
     public class AttendanceOccurence
     {
-        public AttendanceOccurenceType OccurenceType { get; set; }
+        public AttendanceOccurence() { }
+
+        public AttendanceOccurence(Guid guid, DateTime dateOfOccurence, string notes, bool isExcused)
+        {
+            Guid = guid;
+            DateOfOccurence = dateOfOccurence;
+            Notes = notes;
+            IsExcused = isExcused;
+        }
+
+        public Guid Guid { get; set; }
 
         public DateTime DateOfOccurence { get; set; }
 

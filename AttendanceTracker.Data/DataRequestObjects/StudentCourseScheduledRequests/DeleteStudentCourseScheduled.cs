@@ -1,20 +1,10 @@
 ﻿namespace AttendanceTracker.Data.DataRequestObjects.StudentCourseScheduledRequests
 {
-    public class DeleteStudentCourseScheduled : IDataRequest
+    public class DeleteStudentCourseScheduled : StudentCourseScheduled_DataRequest
     {
-        public DeleteStudentCourseScheduled(string studentCode, Guid courseScheduledGuid)
-        {
-            StudentCode = studentCode;
-            CourseScheduledGuid = courseScheduledGuid;
-        }
+        public DeleteStudentCourseScheduled(string studentCode, Guid courseScheduledGuid) : base(studentCode, courseScheduledGuid) { }
 
-        public string StudentCode { get; set; }
-
-        public Guid CourseScheduledGuid { get; set; }
-
-        public object? GetParameters() => new {  StudentCode, CourseScheduledGuid };
-
-        public string GetSql() => Delete.FromTable(TableNames.StudentCourseScheduled,
+        public override string GetSql() => Delete.FromTable(TableNames.StudentCourseScheduled,
         where: @$"
             CourseScheduledId = ( {Select.FromTable(TableNames.CourseScheduled, "Id", where: "Guid = @CourseScheduledGuid")} )
             AND StudentId = ( {Select.FromTable(TableNames.Student, "Id", where: "StudentCode = @StudentCode")} )

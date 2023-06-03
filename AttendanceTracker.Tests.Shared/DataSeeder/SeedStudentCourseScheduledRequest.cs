@@ -2,7 +2,7 @@
 
 namespace AttendanceTracker.Tests.Shared.DataSeeder
 {
-    public class SeedStudentCourseScheduledRequest : DataSeederRequest<CourseScheduled_DTO>
+    public class SeedStudentCourseScheduledRequest : DataSeederRequest<StudentCourseScheduled_DTO>
     {
         public SeedStudentCourseScheduledRequest(string? studentCode = null, Guid? courseScheduledGuid = null)
         {
@@ -13,7 +13,7 @@ namespace AttendanceTracker.Tests.Shared.DataSeeder
         public string? StudentCode { get; set; }
         public Guid? CourseScheduledGuid { get; set; }
 
-        public override async Task<CourseScheduled_DTO> ExecuteAsync(DataSeeder dataSeeder)
+        public override async Task<StudentCourseScheduled_DTO> ExecuteAsync(DataSeeder dataSeeder)
         {
             if(string.IsNullOrWhiteSpace(StudentCode)) StudentCode = (await new SeedStudentRequest().ExecuteAsync(dataSeeder)).StudentCode;
 

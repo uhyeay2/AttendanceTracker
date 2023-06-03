@@ -13,7 +13,7 @@
         public string StudentCode { get; set; } = null!;
         public Guid CourseScheduledGuid { get; set; }
 
-        public bool IsValid(out List<string> validationFailures) =>
+        public virtual bool IsValid(out List<string> validationFailures) =>
             Validation.Initialize(out validationFailures)
                 .AddFailureIfNullOrWhiteSpace(StudentCode, nameof(StudentCode))
                 .AddFailureIfEmpty(CourseScheduledGuid, nameof(CourseScheduledGuid))

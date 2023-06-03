@@ -1,5 +1,7 @@
 ﻿using AttendanceTracker.Application.RequestHandlers.CourseScheduledHandlers;
 using AttendanceTracker.Application.RequestHandlers.StudentHandlers;
+using AttendanceTracker.Data.DataRequestObjects.CourseRequests;
+using AttendanceTracker.Data.DataRequestObjects.InstructorRequests;
 using AttendanceTracker.Data.DataRequestObjects.StudentCourseScheduledRequests;
 
 namespace AttendanceTracker.Application.RequestHandlers.StudentCourseScheduledHandlers
@@ -19,15 +21,23 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentCourseScheduledHa
         {
             var student = await _orchestrator.GetResponseAsync<GetStudentByStudentCodeRequest, Student>(new(request.StudentCode));
 
-            var courseScheduledDTO = await _dataAccess.FetchAsync(new GetStudentCourseScheduled(request.StudentCode, request.CourseScheduledGuid));
+            var dto = await _dataAccess.FetchAsync(new GetStudentCourseScheduled(request.StudentCode, request.CourseScheduledGuid));
 
-            if (courseScheduledDTO == null)
+            if (dto == null)
             {
-                throw new DoesNotExistException(typeof(StudentCourseScheduled), (request.StudentCode, nameof(request.StudentCode)),
+                throw new DoesNotExistException(typeof(StudentCourseScheduled), (request.StudentCode, nameof(request.StudentCode)), 
                                                                                 (request.CourseScheduledGuid, nameof(request.CourseScheduledGuid)));
             }
 
-            var courseScheduled = await _orchestrator.GetResponseAsync<GetCourseScheduledByGuidRequest, CourseScheduled>(new(courseScheduledDTO.Guid));
+            var fetchInstructorTask = _dataAccess.FetchAsync(new GetInstructorById(dto.InstructorId));
+            var fetchCourseTask = _dataAccess.FetchAsync(new GetCourseById(dto.CourseId));
+
+            await Task.WhenAll(fetchInstructorTask, fetchCourseTask);
+
+            var course = await fetchCourseTask;
+            var instructor = await fetchInstructorTask;
+
+            var courseScheduled = dto.AsCourseScheduled(course, instructor);
 
             return new StudentCourseScheduled(student, courseScheduled);
         }
