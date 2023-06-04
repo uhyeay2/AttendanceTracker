@@ -37,13 +37,50 @@ This Application is an Asp.Net Core Api built using Clean Architecture. The prim
 
 ### What Does This Application Allow A User To Do?
 
-As mentioned previously, the primary functionality for this application is to track Student/Instructor Attendance Occurences. However, there are several other features exposed by this Api. Here's a brief list of what you can do with the Api:
+As mentioned previously, the primary functionality for this application is to track Student/Instructor Attendance Occurences. However, this is many other features that were created to support that functionality. Below is a breakdown of the Controllers/Endpoints exposed by the Api for this application. This should help give an idea of what a user can do with this application.
 
-- Subjects: Create/Read/Delete
-- Courses: Create/Read/Update/Delete/IsExistingByCode
-- Students: Create/Read/Update/Delete
-- Instructors: Create/Read/Update/Delete
-- CoursesScheduled: Create/Read/Delete
+- Subject - A collection of related Courses.
+  - InsertSubject/
+  - DeleteSubject/
+  - GetAllSubjects/
+  - GetSubjectByCode/
+  - IsSubjectCodeExisting/
+- Course - A specific topic that belongs to a subject and could be taught by an Instructor. 
+  - InsertCourse/
+  - DeleteCourse/
+  - GetCourseByCourseCode/
+  - IsCourseCodeExisting/
+  - UpdateCourse/
+- Student - An individual who would attend a CourseScheduled to be taught by an Instructor.
+  - InsertStudent/
+  - DeleteStudent/
+  - GetAllStudentsPaginated/
+  - GetStudentByStudentCode/
+  - GetStudentsByName/
+  - IsStudentCodeExisting/
+  - UpdateStudent/
+- Instructor - An individual who would teach different Courses.
+  - InsertInstructor/
+  - DeleteInstructor/
+  - GetInstructorByInstructorCode/
+  - IsInstructorCodeExisting/
+  - UpdateInstructor/
+- CourseScheduled - A Course that an Instructor is Scheduled to teach between a specified time period.
+  - InsertCourseScheduled/
+  - DeleteCourseScheduled/
+  - GetCourseScheduledByGuid/
+- StudentCourseScheduled - A CourseScheduled to be taught by an Instructor that a Student has signed up for.
+  - InsertStudentCourseScheduled/
+  - DeleteStudentCourseScheduled/
+  - GetAllStudentCourseScheduledByStudentCode/
+  - GetStudentCourseScheduled/
+- StudentAttendanceOccurence - An Occurence where a Student has missed a day for a specific Course they have Scheduled to attend.
+  - InsertStudentAttendanceOccurence/
+  - DeleteStudentAttendanceOccurence/
+  - GetSTudentAttendanceOccurence/
+- Logs - At this time only Response Times are logged.
+  - GetAllLoggedResponseTimes/
+  - GetResponseTimeDetails/
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
@@ -89,6 +126,7 @@ This Application is structured following the Clean Architecture (or sometimes re
   - Sql Server Database Project (2019)
   - This holds the Database Schema that this Application depends on.
   - You can publish this Database Project to your own Database to create the necessary tables to run this Application.
+  - Post Deployment Scripts will seed tables with data.
 - AttendanceTracker.Data
   - Class Library (.Net 6)
   - This Class Library (or Port) encapsulates the Read/Write Access to the Database.
@@ -111,6 +149,7 @@ This Application is structured following the Clean Architecture (or sometimes re
   - Asp.Net Core Api (.Net 6)
   - This Api exposes functionality for the Applications different features.
   - Implements Global ExceptionHandling Middleware
+  - Logs Request Response Time via Middleware
   - The AttendanceTracker.Api project depends on AttendanceTracker.Domain and AttendanceTracker.Application
         
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
@@ -134,7 +173,8 @@ The Domain, as mentioned previously, is the core of the application. This projec
 - Extensions
   - Extension Methods are stored in this namespace to expose common functionality to any dependencies that may need it.
 - Factories
-  - At this time the only Factory stored here is the RandomCharacterFactory which implements IRandomCharacterFactory
+  - RandomCharacterFactory
+  - RandomStringFactory
 - Interfaces
   - This namespace would house interface or contracts essential across the application.
   - At this time, IValidatable and IRandomCharacterFactory are the only Interfaces stored in this project.
@@ -213,8 +253,10 @@ The Data Project encapsulates the Sql Transactions sent to the Database. This is
       - IntoTable() - Pass in the TableName and (ColumnName, ValueName)[] Array to generate an Insert Statement.
         - Overload for only passing in only ColumnNames when ParameterNames match ColumnNames.
       - SelectIntoTable() - SqlGeneration Similar to IntoTable() but allows you to select values from another table for insert transaction.
-    - Select - Sql Generation for Select Queries
+    - Select - Sql Generation for Select Queries      
       - FromTable() - Define Table to select from, optionally define columns, and optionally define where statement. Defaults to use WITH(NOLOCK)
+      - JoinFromTable() - Works similar to FromTable() but allows you to define joins.
+      - PaginatedFromTable() - Works similar to FromTable() but allows you to define how many records to take, and offset (by pageNumber-1 * recordsPerPage)
       - Exists() - Define Table and where statement, optionally define columns and defaults to use WITH(NOLOCK)
     - Update - Sql Generation For Update Commands
       - CoalesceTable() - Define Table and Where statement with (ColumnName, ValueName)[] Array of items to Coalesce.
