@@ -46,7 +46,7 @@ namespace AttendanceTracker.Application.RequestHandlers.StudentAttendanceOccuren
 
             if (await _dataAccess.FetchAsync(new IsStudentCourseScheduledExisting(request.StudentCode, request.CourseScheduledGuid)))
             {
-                throw new ExpectationFailedException(nameof(InsertStudentAttendanceOccurenceRequest));
+                throw new ExpectationFailedException(nameof(InsertStudentAttendanceOccurence));
             }
 
             throw new DoesNotExistException(typeof(StudentCourseScheduled), (request.StudentCode, nameof(request.StudentCode)),
