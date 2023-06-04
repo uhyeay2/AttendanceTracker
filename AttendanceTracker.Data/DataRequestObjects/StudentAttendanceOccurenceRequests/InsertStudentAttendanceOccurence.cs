@@ -36,7 +36,7 @@
                         JOIN {TableNames.CourseScheduled} ON {TableNames.CourseScheduled}.Id = {TableNames.StudentCourseScheduled}.CourseScheduledId
                     ", 
                     columns: $"{TableNames.StudentCourseScheduled}.Id",
-                    where: "StudentCode = @StudentCode")} )            
+                    where: "StudentCode = @StudentCode AND Guid = @CourseScheduledGuid")} )            
 
             IF (@StudentCourseScheduledId IS NOT NULL)
             BEGIN
