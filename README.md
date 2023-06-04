@@ -323,52 +323,76 @@ The Api Application is the outermost layer of the application. This is what expo
   - ExceptionHandlingMiddleware
     - This Middleware will wrap requests to globally catch any exceptions throw in the application
       - This is used to ensure the correct statuse codes are sent and appropriate information is attached to the content of the Api response.
+  - ResponseTimeLoggingMiddleware
+    - This Middleware will log the time a request is received, what the path is for the request, and how long it takes the request to be processed.
  - Controllers
+   - SubjectController
+     - InsertSubject/    
+       - Insert a new Subject into the database and return the Domain Object for the record inserted. 
+     - DeleteSubject/
+       - Delete a Subject from the database using the SubjectCode provided.
+     - GetAllSubjects/
+       - Fetch All Subjects from the Database and return as a collection of Subject Domain Objects.
+     - GetSubjectByCode/
+       - Fetch a Subject from the database using the SubjectCode provided and translate it into a Subject Domain Object.
+     - IsSubjectCodeExisting/
+       - Fetch true/false depending on if a Subject exists with the SubjectCode provided.
    - CourseController
-     - 'InsertCourse/'
+     - InsertCourse/
        - Generates a Unique CourseCode using the SubjectCode provided, and inserts a record into database. Returns the Course (Domain Object) inserted.
-     - 'DeleteCourse/'
-       - Delete the Instructor in database with the InstructorCode matching the one provided.
-     - 'GetCourseByCourseCode/'
+     - DeleteCourse/
+       - Delete the Course in database with the CourseCode matching the one provided.
+     - GetCourseByCourseCode/
        - Fetch a Course using CourseCode and transform the DTO into the Course Domain Object.
-     - 'UpdateCourse/'
+     - IsCourseCodeExisting/
+       - Fetch true/false depending on if a Course exists with the CourseCode provided.
+     - UpdateCourse/
        - Update the Course with the CourseCode provided using a Coalesce on the table for any other fields provided.
-   - CourseScheduledController
-     - 'InsertCourseScheduled/'
-       - Insert a CourseScheduled that references the Instructor and Courses found using the InstructorCode and CourseCode provided. Returns a CourseScheduled Domain Object.
-     - 'DeleteCourseScheduled/'
-       - Delete the CourseScheduled in database with a Guid matching the one provided.
-     - 'GetCourseScheduledByGuid/'
-       - Fetch a CourseScheduled with the Guid provided. Return as a DomainObject with the Instructor and Course related to this Scheduled Course as properties.
    - StudentController
-     - 'InsertStudent/' 
+     - InsertStudent/
        - Generates a Unique StudentCode and inserts a record into database. Returns the Student Domain Object for the record inserted.
-     - 'DeleteStudent/' 
-       - Delete the student in database with StudentCode matching the one provided.
-     - 'GetStudentByStudentCode/' 
-       - Fetch a Student from Database using StudentCode and translates that DTO into the Student Domain Object.
-     - 'GetStudentsByName/' 
+     - DeleteStudent/
+       - Delete the student in database with StudentCode matching the one provided
+     - GetAllStudentsPaginated/
+       - Returns a page of all the students in the Database as Student Domain Objects. Caller can specify the pageNumber and recordsPerPage.
+     - GetStudentByStudentCode/
+       - Fetch a Student from Database using StudentCode and return as Student Domain Object.
+     - GetStudentsByName/
        - Fetch an IEnumerable\<Student> using a LIKE query with the FirstName and/or LastName provided.
-     - 'UpdateStudent/' 
+     - IsStudentCodeExisting/
+       - Fetch true/false depending on if a Student exists with the StudentCode provided.
+     - UpdateStudent/
        - Update the Student with the StudentCode provided using a Coalesce on the table for any other fields provided.
    - InstructorController
-     - 'InsertInstructor/'
+     - InsertInstructor/
        - Generates a Unique InstructorCode and inserts a record into database. Returns the Instructor Domain Object for the record inserted.
-     - 'DeleteInstructor/'
+     - DeleteInstructor/
        - Delete the Instructor from Database using the InstructorCode matching the one provided.
-     - 'GetInstructorByInstructorCode/'
+     - GetInstructorByInstructorCode/
        - Fetch an Instructor from Database using the InstructorCode provided and transform the DTO into an Instructor Domain Object.
-     - 'UpdateInstructor/'
+     - IsInstructorCodeExisting/
+       - Fetch true/false depending on if an Instructor exists with the InstructorCode provided.
+     - UpdateInstructor/
        - Update the Instructor with the InstructorCode provided using a Coalesce on the table for any other fields provided.
-   - SubjectController
-     - 'InsertSubject/'
-       - Insert a new Subject into the database and return the Domain Object for the record inserted.
-     - 'DeleteSubject/'
-       - Delete a Subject from the database using the SubjectCode provided.
-     - 'GetSubjectBySubjectCode/'
-       - Fetch a Subject from the database using the SubjectCode provided and translate it into a Subject Domain Object.
-     - 'IsSubjectCodeExisting/'
-       - Return True/False depending on if the provided SubjectCode exists.
+   - CourseScheduledController
+     - InsertCourseScheduled/
+       - Insert a CourseScheduled that references the Instructor and Courses found using the InstructorCode and CourseCode provided. Returns a CourseScheduled Domain Object.
+     - DeleteCourseScheduled/
+       - Delete the CourseScheduled in database with a Guid matching the one provided.
+     - GetCourseScheduledByGuid/
+       - Fetch a CourseScheduled with the Guid provided. Return as a DomainObject with the Instructor and Course related to this Scheduled Course as properties.
+   - StudentCourseScheduledController
+     - InsertStudentCourseScheduled/
+     - DeleteStudentCourseScheduled/
+     - GetAllStudentCourseScheduledByStudentCode/
+     - GetStudentCourseScheduled/
+   - StudentAttendanceOccurenceController
+     - InsertStudentAttendanceOccurence/
+     - DeleteStudentAttendanceOccurence/
+     - GetSTudentAttendanceOccurence/
+   - LogsController
+     - GetAllLoggedResponseTimes/
+     - GetResponseTimeDetails/
    
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
