@@ -77,7 +77,7 @@ As mentioned previously, the primary functionality for this application is to tr
 - StudentAttendanceOccurence - An Occurence where a Student has missed a day for a specific Course they have Scheduled to attend.
   - InsertStudentAttendanceOccurence/
   - DeleteStudentAttendanceOccurence/
-  - GetSTudentAttendanceOccurence/
+  - GetStudentAttendanceOccurence/
 - Logs - At this time only Response Times are logged.
   - GetAllLoggedResponseTimes/
   - GetResponseTimeDetails/
@@ -383,16 +383,25 @@ The Api Application is the outermost layer of the application. This is what expo
        - Fetch a CourseScheduled with the Guid provided. Return as a DomainObject with the Instructor and Course related to this Scheduled Course as properties.
    - StudentCourseScheduledController
      - InsertStudentCourseScheduled/
+       - Insert a record to signify that a Student has signed up to attend a CourseScheduled to be taught by an Instructor using StudentCode and CourseScheduled Guid.
      - DeleteStudentCourseScheduled/
+       - Remove the record that signifies that a Student has signed up for a CourseScheduled.
      - GetAllStudentCourseScheduledByStudentCode/
+       - Fetch a collection of CourseScheduled that the Student has signed up for using StudentCode.
      - GetStudentCourseScheduled/
+       - Fetch a specific CourseScheduled (and Student) that a Student is signed up for using StudentCode and CourseScheduledGuid.
    - StudentAttendanceOccurenceController
      - InsertStudentAttendanceOccurence/
+       - Insert an AttendanceOccurence for a specific Student on a specific date using the StudentCode and the CourseScheduledGuid for the Course the Student missed time for.
      - DeleteStudentAttendanceOccurence/
-     - GetSTudentAttendanceOccurence/
+       - Delete an AttendanceOccurence for a Student/Date/CourseScheduled using the AttendanceOccurence Guid.
+     - GetStudentAttendanceOccurence/
+       - Fetch a specific Attendance Occurence (also Student & CourseScheduled) using the AttendanceOccurence Guid. 
    - LogsController
      - GetAllLoggedResponseTimes/
+       - Fetch every logged Request that has been logged (Request Path, Date, and ResponseTime)
      - GetResponseTimeDetails/
+       - Fetch the number of times each request is called, as well as their average, min, and max response time. Also return the overall count/response times for all requests together.
    
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
 
@@ -428,9 +437,17 @@ An Instructor would be an individual who teaches a course. When an Instructor is
 
 ### CourseScheduled
 
-A CourseScheduled can be defined as a Course that an Instructor will teach within a specified date range. When a CourseScheduled is inserted, a CourseCode and InstructorCode are provided to identify who will be teaching what course, as well as the StartTime/EndTime. You can also fetch and delete CourseScheduled records.
+A CourseScheduled can be defined as a Course that an Instructor will teach within a specified date range. When a CourseScheduled is inserted, a CourseCode and InstructorCode are provided to identify who will be teaching what course, as well as the StartTime/EndTime. You can also fetch and delete CourseScheduled records. Once a CourseScheduled has been created, Students can begin to sign up for them.
 
 #### [Return To Table Of Contents](https://github.com/uhyeay2/AttendanceTracker/blob/main/README.md#table-of-contents)
+
+### StudentCourseScheduled
+
+A StudentCourseScheduled is a reference to a Specific Student that has signed up to attend a CourseScheduled to be taught by an instructor. The same student cannot sign up for the same CourseScheduled. However, they could retake the same Course at another time using a different CourseScheduled Guid. Once a StudentCourseScheduled has been created, then a StudentAttendanceOccurence can be created on any days that the Student misses class time.
+
+### StudentAttendanceOccurence
+
+A StudentAttendanceOccurence is created whenever a Student misses any time for a CourseScheduled that they have signed up to attend. This would record the Student, the CourseScheduled that they are missing time for, what day is impacted, whether or not the occurence is excused, and Notes related to the occurence.
 
 ## Testing
 
@@ -485,7 +502,7 @@ This xUnit Test Project is broken up into the following:
 
 ### AttendanceTracker.Api.Tests
 
-The Api is the outermost layer of the application. This is what is exposing functionality to the user. With the pattern that this project uses, the Controller methods really don't have any logic of their own. They call the IOrchestrator for their requests to be handled, and that has been unit tested in the Application.Tests project, meanwhile the Data transactions were integration tested with the database already. So I decided for the Api.Tests project to implement integration testing that ensures everything connects from one piece to the other without any issues. This testing is light, and I would consider to be kind of smoke testing that tests all the pieces together instead of individually testing one piece.
+The Api is the outermost layer of the application. This is what is exposing functionality to the user. With the pattern that this project uses, the Controller methods really don't have any logic of their own. They call the IOrchestrator for their requests to be handled, and that has been unit tested in the Application.Tests project, meanwhile the Data transactions were integration tested with the database already. So I decided for the Api.Tests project to implement integration testing that ensures everything connects from end to end without any issues.
 
 This xUnit Test Project is broken up into the following:
 
