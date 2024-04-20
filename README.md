@@ -107,7 +107,7 @@ This Application was built using the following frameworks/nuget packages:
   - Test Projects for this application are created using xUnit
 - Moq
   - Dependency In AttendenceTracker.Application.Tests 
-  - Integration Tests are set up by Mocking Dependencies using the popular Moq Framework
+  - Unit Tests are set up by Mocking Dependencies using the popular Moq Framework
 - Genfu 
   - Dependency In AttendenceTracker.Application.Tests
   - This tool is helpful for Generating Fake Data to use in Unit Tests.
